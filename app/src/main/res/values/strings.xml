@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Filmapp</string>
+    <string name="activity_signin">Sign in</string>
+
+
+        <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+        <string name="facebook_application_id" translatable="false">408207383041716</string>
+        <string name="facebook_login_protocol_scheme" translatable="false">fb408207383041716</string>
+        <!-- Twitter consumer key and secret -->
+        <string name="twitter_consumer_key" translatable="false">VVbSrdyrOmhyVEUsjm0E4S9LC</string>
+        <string name="twitter_consumer_secret" translatable="false">YTgxjOmN4RkAQlS3nBuUGfO73sVlYzdoBxM0VsqFQl8ksAiBAX</string>
+    <string name="activity_account">Account</string>
+    <string name="logout">Logout</string>
+    <string name="notloggedin">You are not logged in!</string>
+
+
+</resources>

@@ -1,0 +1,168 @@
+
+buildscript {
+    
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.google.gms:google-services:4.1.0'
+        
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+// Define versions in a single place
+ext {
+
+    app = [
+            versionMajor: 2,
+            versionMinor: 6,
+            versionPatch: 1
+
+    ]
+
+
+    // Sdk and tools
+    minSdkVersion = 19
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.3'
+
+    // App dependencies
+    supportLibraryVersion = '27.1.1'
+    playServicesVersion = '11.8.0'
+    libraryVersion = "2.1.1"
+
+    sourceCompatibilityVersion = JavaVersion.VERSION_1_8
+    targetCompatibilityVersion = JavaVersion.VERSION_1_8
+
+    //dagger
+    daggerVersion = '2.16'
+
+
+    dagger = [
+            core    : "com.google.dagger:dagger:${daggerVersion}",
+            compiler: "com.google.dagger:dagger-compiler:${daggerVersion}",
+            android : [
+                    core     : "com.google.dagger:dagger-android:${daggerVersion}",
+                    support  : "com.google.dagger:dagger-android-support:${daggerVersion}",
+                    processor: "com.google.dagger:dagger-android-processor:${daggerVersion}"
+            ]
+    ]
+    //butterKnife
+    butterKnifeVersion = '8.8.1'
+    butterKnife = [
+            core    : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            compiler: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
+
+    ]
+    //rx
+    rxJavaVersion = '2.1.0'
+    rxAndroidVersion = '2.0.1'
+    rxbindingVersion = "2.0.0"
+    rx = [
+            rxJava:                        "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid:                     "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxBinding:                     "com.jakewharton.rxbinding2:rxbinding:${rxbindingVersion}",
+            rxBindingsupport:              "com.jakewharton.rxbinding2:rxbinding-support-v4:${rxbindingVersion}",
+            rxBindingappcompat:            "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rxbindingVersion}"
+    ]
+
+    //AutoValue
+    autoValueVersion = '1.6.2'
+    autoValueGsonVersion = '0.4.6'
+    autoValueParcelVersion = '0.2.6'
+    autoValue = [
+            autoValueAnnotations:  "com.jakewharton.auto.value:auto-value-annotations:${autoValueVersion}",
+            autoValue:             "com.google.auto.value:auto-value:${autoValueVersion}",
+            autoValueGson:         "com.ryanharter.auto.value:auto-value-gson:${autoValueGsonVersion}",
+            autoValueParcel:       "com.ryanharter.auto.value:auto-value-parcel:${autoValueParcelVersion}"
+
+
+    ]
+
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    gsonVersion = '2.3'
+    okHttpVersion = '3.9.0'
+    retrofitVersion = "2.3.0"
+    androidAnnotationsVersion = '21.0.3'
+    arrowVersion = '1.0.0'
+    frescoVersion = '1.3.0'
+    picassoVersion = "2.5.2"
+    glideVersion = "4.5.0"
+    //Testing
+    robolectricVersion = '3.1.1'
+    jUnitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '2.8.47'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.0'
+    testingSupportLibVersion = '0.1'
+
+    //Development
+    leakCanaryVersion = '1.3.1'
+    utilsVersion = "1.0.10"
+    timberVersion = "4.5.1"
+    retrofit = [
+            retrofit:             "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            converterGson:        "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            adapterRxjava:        "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            converterMoshi:       "com.squareup.retrofit2:converter-moshi:${retrofitVersion}",
+
+            javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}"
+
+    ]
+
+    okhttp = [
+            okhttp:               "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            logInterceptor:       "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+           // picassoDownloader:    "com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2",
+
+
+    ]
+
+    image = [
+           // picasso:               "com.squareup.picasso:picasso:${picassoVersion}",
+            glide:                 "com.github.bumptech.glide:glide:${glideVersion}"
+            //fresco:                 "com.facebook.fresco:fresco:${frescoVersion}"
+
+
+
+    ]
+    dev= [
+            leakCanary:     "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+            utils:          "com.mirhoseini.com.shamildev.retro.data.utils:com.shamildev.retro.data.utils:${utilsVersion}",
+            timber:         "com.jakewharton.timber:timber:${timberVersion}"
+    ]
+
+
+    test = [
+            junit:              "junit:junit:${jUnitVersion}",
+            assertj:            "org.assertj:assertj-core:${assertJVersion}",
+            mockito:            "org.mockito:mockito-core:${mockitoVersion}",
+            robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
+            mockwebserver:       "com.squareup.okhttp3:mockwebserver:${okHttpVersion}"
+    ]
+
+
+
+
+}

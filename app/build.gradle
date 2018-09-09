@@ -1,0 +1,146 @@
+apply plugin: 'com.android.application'
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+        maven { url "https://jitpack.io" }
+    }
+}
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.shamildev.retro"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                includeCompileClasspath = true
+//            }
+//        }
+    }
+//
+    dexOptions {
+        javaMaxHeapSize "4g"
+        preDexLibraries = false
+    }
+    buildTypes {
+        debug {
+            // ext.alwaysUpdateBuildId = false
+
+            multiDexEnabled true
+            signingConfig signingConfigs.debug
+
+        }
+        release {
+            minifyEnabled false
+            multiDexEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes.each{
+        it.buildConfigField 'String', 'MOVIE_DB_API_TOKEN', MovieDBApiToken
+        it.buildConfigField 'String', 'YOUTUBE_API_TOKEN', YouTubeApiToken
+        it.buildConfigField 'String', 'FACEBOOK_API_TOKEN', FacebookAppId
+
+    }
+
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':data')
+    implementation project(path: ':firebase')
+    implementation project(path: ':domain')
+    implementation project(path: ':cache')
+
+
+
+    // Android Official Libraries
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation "com.android.support:customtabs:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:palette-v7:$rootProject.supportLibraryVersion"
+
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:preference-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:animated-vector-drawable:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:support-v13:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:percent:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+
+
+
+    //RX
+    implementation rootProject.rx.rxJava
+    implementation rootProject.rx.rxAndroid
+    implementation rootProject.rx.rxBinding
+    implementation rootProject.rx.rxBindingsupport
+    implementation rootProject.rx.rxBindingappcompat
+    //GLIDE
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
+
+    //BUTTERKNIFE
+    implementation rootProject.butterKnife.core
+    annotationProcessor rootProject.butterKnife.compiler
+    //DAGGER
+    implementation 'com.google.dagger:dagger:2.16'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+    implementation 'com.google.dagger:dagger-android:2.16'
+    implementation 'com.google.dagger:dagger-android-support:2.16' // if you use the support libraries
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
+
+
+
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
+    implementation 'com.firebaseui:firebase-ui-database:4.1.0'
+    // Required only if Facebook login support is required
+    // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
+   implementation 'com.facebook.android:facebook-android-sdk:4.35.0'
+    // Required only if Twitter login support is required
+    // Find the latest Twitter SDK releases here: https://goo.gl/E5wZvQ
+    implementation 'com.twitter.sdk.android:twitter-core:3.3.0'
+
+
+
+
+    implementation 'me.everything:overscroll-decor-android:1.0.4'
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:8.0.1'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'me.relex:circleindicator:1.2.2@aar'
+    implementation 'com.flaviofaria:kenburnsview:1.0.7'
+    implementation 'com.github.Commit451:ElasticDragDismissLayout:1.0.4'
+    implementation 'com.roughike:bottom-bar:2.3.1'
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+
+    //DEV
+    implementation rootProject.dev.timber
+
+}
+apply plugin: 'com.google.gms.google-services'

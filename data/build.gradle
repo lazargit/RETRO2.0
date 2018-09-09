@@ -1,0 +1,111 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+
+
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+
+
+    }
+
+}
+
+dependencies {
+    implementation project(path: ':cache')
+    implementation project(path: ':firebase')
+    implementation project(":domain")
+
+    implementation rootProject.rx.rxJava
+    implementation rootProject.rx.rxAndroid
+
+    //DAGGER
+//    implementation                    rootProject.dagger.core
+//    annotationProcessor               rootProject.dagger.compiler
+    implementation 'com.google.dagger:dagger:2.16'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+
+
+    implementation 'com.google.dagger:dagger-android:2.16'
+    implementation 'com.google.dagger:dagger-android-support:2.16' // if you use the support libraries
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
+
+//
+//    implementation "com.google.dagger:dagger:$daggerVersion"
+//    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+//    implementation "com.google.dagger:dagger-android:$daggerVersion"
+//    implementation "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
+//    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+   // implementation             "com.google.auto.value:auto-value-annotations:1.6.2"
+   // annotationProcessor        "com.google.auto.value:auto-value:1.6.2"
+
+
+    //AUTO-VALUE
+//    annotationProcessor        rootProject.autoValue.autoValueAnnotations
+//    implementation        rootProject.autoValue.autoValueGson
+//    annotationProcessor   rootProject.autoValue.autoValue
+//    annotationProcessor   rootProject.autoValue.autoValueParcel
+//    annotationProcessor   rootProject.autoValue.autoValueGson
+
+
+    implementation             "com.google.auto.value:auto-value-annotations:1.6.2"
+    annotationProcessor        "com.google.auto.value:auto-value:1.6.2"
+
+    //AUTO-VALUE
+   // compileOnly                rootProject.autoValue.autoValueAnnotations
+   // annotationProcessor                rootProject.autoValue.autoValueGson
+   // implementation             rootProject.autoValue.autoValue
+   // annotationProcessor        rootProject.autoValue.autoValueParcel
+   // annotationProcessor        rootProject.autoValue.autoValueGson
+
+   // implementation                rootProject.autoValue.autoValueAnnotations
+    //implementation                rootProject.autoValue.autoValueGson
+   // annotationProcessor        rootProject.autoValue.autoValue
+   // annotationProcessor        rootProject.autoValue.autoValueParcel
+   // annotationProcessor        rootProject.autoValue.autoValueGson
+    //RETROFIT
+    implementation rootProject.retrofit.retrofit
+    implementation rootProject.retrofit.converterGson
+   // implementation rootProject.retrofit.converterMoshi
+    implementation 'com.squareup.moshi:moshi:1.6.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
+    implementation rootProject.retrofit.adapterRxjava
+
+
+//
+//    implementation rootProject.retrofit.retrofit
+//    implementation rootProject.retrofit.converterGson
+//    implementation rootProject.retrofit.converterMoshi
+//    implementation rootProject.retrofit.adapterRxjava
+    //OK-HTTP
+    implementation rootProject.okhttp.okhttp
+    implementation rootProject.okhttp.logInterceptor
+
+
+
+   implementation project(path: ':cache')
+
+    //DEV
+    implementation rootProject.dev.timber
+}
