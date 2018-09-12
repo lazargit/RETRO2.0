@@ -61,7 +61,8 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
 
     @OnClick(R.id.button)
     public void onClickSignIn(Button button) {
-        navigator.navigateToSignIn(application);
+      //  navigator.navigateToSignIn(application);
+        navigator.navigateToFirebaseUiSignIn(application);
     }
 
     @OnClick(R.id.button2)
@@ -69,6 +70,10 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
         navigator.navigateToAccount(application);
     }
 
+    @OnClick(R.id.button3)
+    public void onClickCustomSignin(Button button) {
+        navigator.navigateToSignIn(application);
+    }
 
 
 

@@ -43,7 +43,10 @@ public final class USECASE_authUser implements UseCaseFlowable<ParamsBasic,AppUs
 
         final int cacheTime = ((Params) params).cacheTime;
         final String language = ((Params) params).language;
-
+        final String token = ((Params) params).token;
+        if(token!=null){
+            return this.baseRepository.signInWithFacebook(token);
+        }
         return  this.baseRepository.signInWithEmailAndPassword();
 
 
@@ -60,12 +63,15 @@ public final class USECASE_authUser implements UseCaseFlowable<ParamsBasic,AppUs
     public static final class Params implements ParamsBasic {
 
 
-
+        private  String token;
         private int cacheTime = 0;
         private String language;
 
         public Params(int cacheTime) {
             this.cacheTime = cacheTime;
+        }
+        public Params(String token) {
+            this.token = token;
         }
         public Params(int cacheTime,String language ) {
             this.cacheTime = cacheTime;
@@ -79,7 +85,9 @@ public final class USECASE_authUser implements UseCaseFlowable<ParamsBasic,AppUs
         public static Params withEmailAndPassword(String language, int cacheTime) {
             return new Params(cacheTime,language);
         }
-
+        public static Params withFacebook(String token) {
+            return new Params(token);
+        }
 
 
     }

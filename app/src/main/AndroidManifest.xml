@@ -32,6 +32,11 @@
             android:label="@string/activity_account">
         </activity>
 
+        <activity
+            android:name=".ui.firebaseui.FirebaseUiSignInActivity"
+            android:label="@string/activity_account">
+        </activity>
+
     </application>
 
 </manifest>

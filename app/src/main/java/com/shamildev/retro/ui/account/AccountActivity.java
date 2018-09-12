@@ -39,7 +39,7 @@ public class AccountActivity extends BaseActivitySupport {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        printhashkey();
+      //  printhashkey();
 
 
         //mCallbackManager = CallbackManager.Factory.create();

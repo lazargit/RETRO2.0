@@ -17,6 +17,8 @@ import com.shamildev.retro.firebase.core.FirebaseModule;
 import com.shamildev.retro.retroimage.core.RetroImageModule;
 import com.shamildev.retro.ui.account.AccountActivity;
 import com.shamildev.retro.ui.account.AccountActivityModule;
+import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivity;
+import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivityModule;
 import com.shamildev.retro.ui.signin.SignInActivity;
 import com.shamildev.retro.ui.signin.SignInActivityModule;
 import com.shamildev.retro.ui.splash.SplashActivity;
@@ -104,6 +106,11 @@ public abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = AccountActivityModule.class)
     abstract AccountActivity accountActivityInjector();
+
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = FirebaseUiSignInActivityModule.class)
+    abstract FirebaseUiSignInActivity firebaseUiSignInActivityInjector();
 
 
 

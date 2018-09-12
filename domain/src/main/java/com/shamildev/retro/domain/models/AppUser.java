@@ -17,7 +17,7 @@ public class AppUser implements DomainObject {
     private String email;
     private String uid;
     private Boolean isLoggedIn;
-
+    private String fbtoken;
 
 
     private String photoUrl;
@@ -147,5 +147,13 @@ public class AppUser implements DomainObject {
                 ", photoUrl='" + photoUrl + '\'' +
                 ", sigin_provider='" + sigin_provider + '\'' +
                 '}';
+    }
+
+    public void setFBToken(String token) {
+        fbtoken = token;
+    }
+
+    public String getFbtoken() {
+        return fbtoken;
     }
 }

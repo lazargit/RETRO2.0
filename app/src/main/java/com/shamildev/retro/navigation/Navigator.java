@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.shamildev.retro.domain.models.Movie;
 import com.shamildev.retro.domain.models.ResultWrapper;
 import com.shamildev.retro.ui.account.AccountActivity;
+import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivity;
 import com.shamildev.retro.ui.signin.SignInActivity;
 
 
@@ -32,6 +33,15 @@ public final class Navigator {
 
         if (context != null) {
             Intent intent = SignInActivity.getCallingIntent(context);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+    }
+
+    public void navigateToFirebaseUiSignIn(Context context) {
+
+        if (context != null) {
+            Intent intent = FirebaseUiSignInActivity.getCallingIntent(context);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }

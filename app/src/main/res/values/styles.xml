@@ -9,7 +9,6 @@
     </style>
 
 
-
     <!-- Custom Class Styles -->
     <style name="TextField" parent="android:Widget.Holo.Light.TextView">
         <item name="fontPath">fonts/ClanPro-Book.ttf</item>
@@ -20,5 +19,14 @@
         <item name="android:textStyle">bold</item>
 
     </style>
+
+
+    <style name="LoginTheme" parent="FirebaseUI">
+        <item name="android:windowBackground">@drawable/signinbg</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
 
 </resources>

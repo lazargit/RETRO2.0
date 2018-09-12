@@ -13,7 +13,7 @@ public interface BaseRepository {
     Flowable<AppUser> checkUser();
     Flowable<AppUser> signInWithEmailAndPassword();
     Flowable<AppUser> signIn(String token);
-    Flowable<String> signInWithFacebook();
+    Flowable<AppUser> signInWithFacebook(String token);
     Completable signOut();
 
 

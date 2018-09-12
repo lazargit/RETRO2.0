@@ -64,6 +64,7 @@ public abstract class BaseActivitySupport extends AppCompatActivity implements H
         fragmentManager
                 .beginTransaction()
                 .add(containerViewId,fragment)
+                .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
     }
 

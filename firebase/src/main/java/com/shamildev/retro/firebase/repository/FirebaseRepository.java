@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shamildev.retro.domain.error.BaseError;
@@ -168,8 +170,56 @@ public final class FirebaseRepository implements BaseRepository {
     }
 
     @Override
-    public Flowable<String> signInWithFacebook() {
-        return null;
+    public Flowable<AppUser> signInWithFacebook(String token) {
+         return Flowable.create(e -> {
+            try {
+                AuthCredential credential = FacebookAuthProvider.getCredential(token);
+                if (mFUser == null) {
+
+                    mAuth.signInWithCredential(credential)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                                        String photoPath=null;
+                                        if(currentUser.getPhotoUrl() != null){
+                                            photoPath = currentUser.getPhotoUrl().getPath();
+                                        }
+                                        // Sign in success, update UI with the signed-in user's information
+                                        appUser.setFirebaseUser(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName(),currentUser.getProviderId(), photoPath);
+                                        Log.e("FACEBOOK",currentUser.toString());
+                                        e.onNext(appUser);
+                                        e.onComplete();
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        e.onComplete();
+                                    }
+                                }
+                            });
+
+
+
+                }else{
+                    // firebaseMapper.map(appUser,user);
+                    String photoPath = null;
+                    if(mFUser.getPhotoUrl() != null){
+                        photoPath = mFUser.getPhotoUrl().getPath();
+                    }
+
+                    Log.e("TAG",appUser.toString());
+                    appUser.setFirebaseUser(mFUser.getUid(), mFUser.getEmail(), mFUser.getDisplayName(),mFUser.getProviderId(),photoPath);
+                    e.onNext(appUser);
+                    e.onComplete();
+                }
+
+
+            } catch (Exception t) {
+                e.onError(t);
+            }
+
+
+        }, BackpressureStrategy.BUFFER);
     }
 
     @Override
