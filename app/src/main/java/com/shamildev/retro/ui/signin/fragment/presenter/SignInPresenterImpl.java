@@ -2,6 +2,7 @@ package com.shamildev.retro.ui.signin.fragment.presenter;
 
 
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.domain.core.AppConfig;
 import com.shamildev.retro.domain.core.DataConfig;
 import com.shamildev.retro.domain.models.AppUser;
+import com.shamildev.retro.navigation.Navigator;
 import com.shamildev.retro.ui.common.presenter.BasePresenter;
 import com.shamildev.retro.ui.signin.fragment.model.SignInModel;
 import com.shamildev.retro.ui.signin.fragment.view.SignInView;
@@ -47,12 +49,9 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
     private AppConfig appConfig;
     private CallbackManager mCallBackManager;
 
-    @Inject
-    Application application;
-
-
-    @Inject
-    AppUser appUser;
+    @Inject Application application;
+    @Inject Navigator navigator;
+    @Inject AppUser appUser;
 
 
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -73,8 +72,6 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
         this.dataConfig = dataConfig;
         this.appConfig = appConfig;
         this.mAuth = FirebaseAuth.getInstance();
-
-
     }
 
 
@@ -82,7 +79,6 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
     public void onStart(@Nullable Bundle savedInstanceState) {
         this.model.initData();
 
-        FacebookSdk.sdkInitialize(application);
     }
 
     @Override
@@ -102,68 +98,30 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
 
     @Override
     public void login() {
+        view.loadDialog();
         model.signInUser();
     }
 
     @Override
     public void fbLogin(String token) {
-
         Log.d("facebook#", "facebook:login ");
-        model.signInUser(token);
-       // view.loginFb();
-
-//        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-//            @Override
-//            public void onSuccess(LoginResult loginResult) {
-//                Log.d("facebook#", "facebook:onSuccess:## " + loginResult.getAccessToken().getToken());
-//                //
-//               // presenter.fbLogin(loginResult.getAccessToken().getToken());
-//                model.signInUser(loginResult.getAccessToken().getToken());
-//
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                Log.d("facebook#", "facebook:onCancel");
-//                // ...
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error) {
-//                Log.d("facebook#", "facebook:onError"+error.getMessage(), error);
-//                // ...
-//            }
-//        });
-
-
-        // Callback registration
-
-//
-
-
-//        view.getFbLoginButton()
-//                .registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-//                    @Override
-//                    public void onSuccess(LoginResult loginResult) {
-//                        Log.e("FACEBOOK#", "check user " + loginResult.getAccessToken().getToken());
-//                        model.signInUser(loginResult.getAccessToken().getToken());
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//                        Log.e("FACEBOOK#", "onCancel ");
-//                       // Toast.makeText(getApplicationContext(), R.string.cancel_login, Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onError(FacebookException error) {
-//                        Log.e("FACEBOOK#", "onError"+error.getMessage());
-//                        // toast(R.string.error_login);
-//                       // Toast.makeText(getApplicationContext(), R.string.error_login, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-        // model.signInUser();
+        view.loadDialog();
+        model.signInUser();
     }
+
+    @Override
+    public void firebaseLogin() {
+        view.loadDialog();
+        model.signInUser();
+    }
+
+    @Override
+    public void firebaseLogin(String email, String password) {
+        model.signInUserWithEmailAndPassword(email,password);
+    }
+
+
+
 
     @Override
     public void logout() {
@@ -174,12 +132,15 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
     public void logoutSuccesfull() {
         toast("Logout Succesfull !!" + FirebaseAuth.getInstance().getCurrentUser());
 
-
+        view.removeDialog();
     }
 
     @Override
     public void signSuccesfull() {
         toast("Sign Succesfull !!");
+        if(mAuth.getCurrentUser()!=null){
+            navigator.navigateToAccount(application);
+        }
     }
 
 

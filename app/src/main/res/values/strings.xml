@@ -7,6 +7,15 @@
     <string name="activity_account">Account</string>
     <string name="logout">Logout</string>
     <string name="notloggedin">You are not logged in!</string>
+    <string name="email">Email</string>
+    <string name="passoword">Passoword</string>
+    <string name="login">Login</string>
+    <string name="no_account">Not account yet ? create one</string>
+    <string name="activity_home">Home</string>
+    <string name="activity_register">Register</string>
+    <string name="create_an_account">create a new account</string>
+    <string name="username">username</string>
+    <string name="register">create account</string>
 
 
 </resources>

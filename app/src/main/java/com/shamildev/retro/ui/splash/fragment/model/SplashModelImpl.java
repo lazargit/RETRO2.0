@@ -4,10 +4,12 @@ import android.util.Log;
 
 import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.domain.core.AppConfig;
+import com.shamildev.retro.domain.core.DataConfig;
 import com.shamildev.retro.domain.core.usecase.UseCaseHandler;
 import com.shamildev.retro.domain.interactor.usecases.base.USECASE_authUser;
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetGenre;
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetTMDBConfiguration;
+import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_InitTables;
 import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.domain.models.Configuration;
 import com.shamildev.retro.domain.models.ResultWrapper;
@@ -33,33 +35,33 @@ public class SplashModelImpl extends SplashModel{
 
 
     private final USECASE_authUser usecase_authUser;
-    @Inject
-    protected AppConfig appConfig;
-
-
-
-    private  UseCaseHandler useCaseHandler;
+    private final USECASE_InitTables usecase_initTables;
     private final USECASE_GetTMDBConfiguration usecase_getTMDBConfiguration;
     private final USECASE_GetGenre usecase_getGenre;
+    private  UseCaseHandler useCaseHandler;
+
     private  SplashPresenter pres;
     private HashMap<String,ResultWrapper> map = new HashMap<>();
     private final ArrayList<String> mListTopic = new ArrayList<String>();
 
 
-    @Inject
-    AppUser appUser;
+    @Inject protected AppConfig appConfig;
+    @Inject protected DataConfig dataConfig;
+    @Inject protected AppUser appUser;
 
     @Inject
     public SplashModelImpl(
                            UseCaseHandler useCaseHandler,
                            USECASE_GetGenre getGenre,
                            USECASE_GetTMDBConfiguration getTMDBConfiguration,
-                           USECASE_authUser usecase_authUser
+                           USECASE_authUser usecase_authUser,
+                           USECASE_InitTables usecase_initTables
                        ) {
         this.useCaseHandler = useCaseHandler;
         this.usecase_getGenre = getGenre;
         this.usecase_getTMDBConfiguration = getTMDBConfiguration;
         this.usecase_authUser = usecase_authUser;
+        this.usecase_initTables = usecase_initTables;
 
 //        this.mListTopic.add(AppConfig.NOWPLAYINGKEY);
 //        this.mListTopic.add(AppConfig.NOWPLAYINGTVKEY);
@@ -121,6 +123,28 @@ public class SplashModelImpl extends SplashModel{
 //
 //            }
 //        });
+    }
+
+    @Override
+    public void initTables() {
+                useCaseHandler.execute(usecase_initTables, USECASE_InitTables.Params.with(dataConfig.language()),
+                        new DisposableSubscriber<String>() {
+                            @Override
+                            public void onNext(String s) {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable t) {
+                                presenter.onError(t);
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+
+                        });
     }
 
 

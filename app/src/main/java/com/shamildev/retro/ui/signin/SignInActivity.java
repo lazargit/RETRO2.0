@@ -1,5 +1,6 @@
 package com.shamildev.retro.ui.signin;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +28,16 @@ import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.ui.common.BaseActivitySupport;
 import com.shamildev.retro.ui.signin.fragment.view.SignInFragment;
 import com.shamildev.retro.ui.splash.fragment.view.SplashFragment;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,54 +48,38 @@ import javax.inject.Inject;
  * Created by Schamil Lazar.
  */
 
-public class SignInActivity extends BaseActivitySupport {
+public class SignInActivity extends BaseActivitySupport implements SignInFragment.OnMessageListener{
 
 
     private int RC_SIGN_IN = 123;
     private CallbackManager mCallbackManager;
-
-//    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//    setSupportActionBar(toolbar);
-
-    //I rather using a list, this way handling providers is separeted from the login methods
-//    List<AuthUI.IdpConfig> providers = Arrays.asList(
-//            new AuthUI.IdpConfig.EmailBuilder().build(),
-//            new AuthUI.IdpConfig.TwitterBuilder().build(),
-//            new AuthUI.IdpConfig.FacebookBuilder().build());
-
     @Inject
     AppUser appUser;
+    TwitterAuthClient mTwitterAuthClient;
+    ProgressDialog dialog;
+
+    public static Intent getCallingIntent(Context context) {
+        Intent intent = new Intent(context, SignInActivity.class);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
-        mCallbackManager = CallbackManager.Factory.create();
+        facebookLoginCall();
 
-        LoginManager.getInstance().registerCallback(mCallbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        AccessToken accessToken = loginResult.getAccessToken();
-                        Log.d("Success", "Login"+accessToken.getToken()+" "+loginResult.getRecentlyDeniedPermissions().toString());
-                        SignInFragment signInFragment = (SignInFragment) getFragmentByTag("SignInFragment");
-                        //signInFragment.test(accessToken.getToken());
-                        appUser.setFBToken(accessToken.getToken());
-                    }
+        TwitterConfig config = new TwitterConfig.Builder(this)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig(BuildConfig.TWITTER_API_TOKEN, BuildConfig.TWITTER_API_SECRET_TOKEN))
+                .debug(true)
+                .build();
+        Twitter.initialize(config);
 
-                    @Override
-                    public void onCancel() {
-                        Log.d("Cancel", "Login");
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        Log.d("Error", "Login"+exception);
-                    }
-                });
-
-
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        Log.d("Success", "accessToken not isExpired "+isLoggedIn);
         setContentView(R.layout.activity_signin);
 
         if (savedInstanceState == null) {
@@ -108,8 +104,74 @@ public class SignInActivity extends BaseActivitySupport {
     }
 
 
+
+    private void twitterLoginCall() {
+        mTwitterAuthClient= new TwitterAuthClient();
+        mTwitterAuthClient.authorize(this, new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> twitterSessionResult) {
+                Log.d("Success", "TWITTER "+twitterSessionResult.data.getAuthToken().token+" "+twitterSessionResult.data.getAuthToken().secret);
+                appUser.setTwtoken(twitterSessionResult.data.getAuthToken().token,twitterSessionResult.data.getAuthToken().secret);
+                signInFragment();
+
+            }
+            @Override
+            public void failure(TwitterException e) {
+                Log.d("Success", "TWITTER ERROR "+e.getMessage());
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void signInFragment() {
+        SignInFragment signInFragment = (SignInFragment) getFragmentById(R.id.fragmentContainer);
+        if(signInFragment!=null){
+            signInFragment.test();
+        }
+    }
+
+    private void facebookLoginCall() {
+        //onLoadDialog("lade..");
+        mCallbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(mCallbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        AccessToken accessToken = loginResult.getAccessToken();
+                        Log.d("Success", "Login"+accessToken.getToken()+" "+loginResult.getRecentlyDeniedPermissions().toString());
+                        appUser.setFBToken(accessToken.getToken());
+                        signInFragment();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.d("Cancel", "Login");
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        Log.d("Error", "Login"+exception);
+                    }
+                });
+    }
+
+
     public void loginFacebook(){
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"));
+    }
+    public void loginTwitter(){
+        twitterLoginCall();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.e("BACKPRESSED ", "getBackStackEntryCount "+getSupportFragmentManager().getBackStackEntryCount());
+        moveTaskToBack(true);
+        if(getSupportFragmentManager().getBackStackEntryCount() > 1) {
+           // triggerFragmentBackPress(getSupportFragmentManager().getBackStackEntryCount());
+        } else {
+            finish();
+        }
     }
 
 
@@ -120,30 +182,10 @@ public class SignInActivity extends BaseActivitySupport {
 
         if(mCallbackManager.onActivityResult(requestCode, resultCode, data)) {
             Log.e("onActivityResult", "Login"+data);
-
-
             return;
+        }else{
+            mTwitterAuthClient.onActivityResult(requestCode, resultCode, data);
         }
-
-//        if (requestCode == RC_SIGN_IN) {
-//            IdpResponse response = IdpResponse.fromResultIntent(data);
-//
-//            if (resultCode == RESULT_OK) {
-//                // Successfully signed in
-//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//                Log.e("SIGNIN FACEBOOK OK ", ">> "+response.getEmail()+" user "+user.getPhotoUrl().getPath()+" name "+user.getDisplayName());
-//                // ...
-//            } else {
-//                Log.e("SIGNIN FACEBOOK ", ">> "+response.getError().getErrorCode());
-//                // Sign in failed. If response is null the user canceled the
-//                // sign-in flow using the back button. Otherwise check
-//                // response.getError().getErrorCode() and handle the error.
-//                // ...
-//            }
-//        }
-
-
-
     }
 
     @Override
@@ -152,9 +194,16 @@ public class SignInActivity extends BaseActivitySupport {
     }
 
 
-    public static Intent getCallingIntent(Context context) {
-        Intent intent = new Intent(context, SignInActivity.class);
-        return intent;
+    @Override
+    public void onLoadDialog(String msg) {
+    dialog = ProgressDialog.show(this, "",
+                msg, true);
     }
 
+    @Override
+    public void onRemoveDialog() {
+        if(dialog.isShowing()){
+            dialog.dismiss();
+        }
+    }
 }

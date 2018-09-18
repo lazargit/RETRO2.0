@@ -17,4 +17,6 @@ public interface SignInView extends MVPView {
     Button getButton_twitter_signin();
     void loginFb();
 
+    void loadDialog();
+    void removeDialog();
 }

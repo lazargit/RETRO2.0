@@ -1,6 +1,11 @@
 package com.shamildev.retro.domain.models;
 
 import com.shamildev.retro.domain.core.DomainObject;
+import com.shamildev.retro.domain.util.Pair;
+
+
+
+
 
 
 /**
@@ -18,11 +23,14 @@ public class AppUser implements DomainObject {
     private String uid;
     private Boolean isLoggedIn;
     private String fbtoken;
-
-
+    private Pair<String,String> twtoken ;
     private String photoUrl;
     private String sigin_provider;
-
+    private SignInType signintype;
+    public enum SignInType            // Enum-Typ
+    {
+        email, facebook, twitter;  // Enumerationskonstanten
+    }
 
     public AppUser(String name, String language) {
         this.name = name;
@@ -151,9 +159,22 @@ public class AppUser implements DomainObject {
 
     public void setFBToken(String token) {
         fbtoken = token;
+        signintype = SignInType.facebook;
     }
 
     public String getFbtoken() {
         return fbtoken;
+    }
+
+    public void setTwtoken(String token, String secret) {
+        twtoken = new Pair<>(token,secret);
+        signintype = SignInType.twitter;
+    }
+    public Pair<String, String> getTwtoken() {
+        return twtoken;
+    }
+
+    public SignInType getSignintype() {
+        return signintype;
     }
 }

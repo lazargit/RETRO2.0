@@ -59,7 +59,15 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
     @Override
     public void onStart(@Nullable Bundle savedInstanceState) {
         Log.e("BasePresenter", "onStart!!!! " + this.appConfig.isFirstStart());
-        model.initConfiguration();
+
+        if(this.appConfig.isFirstStart()){
+            this.model.initTables();
+        }else{
+            this.model.initConfiguration();
+        }
+
+
+        //model.initConfiguration();
 
         retroImage
                 .load("https://media.giphy.com/media/l0Iyn2ZHQCM3tSqR2/giphy.gif")

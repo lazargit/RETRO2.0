@@ -11,9 +11,11 @@ import io.reactivex.Flowable;
 public interface BaseRepository {
     Flowable<AppUser> initUser();
     Flowable<AppUser> checkUser();
-    Flowable<AppUser> signInWithEmailAndPassword();
+    Flowable<AppUser> signInWithEmailAndPassword(String email, String password);
+    Flowable<AppUser> registerWithEmailAndPassword(String email, String password);
     Flowable<AppUser> signIn(String token);
-    Flowable<AppUser> signInWithFacebook(String token);
+    Flowable<AppUser> signInWithFacebook();
+    Flowable<AppUser> signInWithTwitter();
     Completable signOut();
 
 

@@ -26,31 +26,12 @@ import java.util.Arrays;
  */
 
 public class AccountActivity extends BaseActivitySupport {
-    private static final int RC_SIGN_IN = 123;
-
-
-//
-//    private CallbackManager mCallbackManager;
-//    public CallbackManager getmCallbackManager() {
-//        return mCallbackManager;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
       //  printhashkey();
-
-
-        //mCallbackManager = CallbackManager.Factory.create();
-       // LoginButton loginButton = findViewById(R.id.button_fblogin);
-        //loginButton.setReadPermissions(Arrays.asList("email"));
-        // If using in a fragment
-        //loginButton.setFragment(this);
-      //  LoginManager.setReadPermissions("email", "public_profile");
-//        LoginManager.getInstance().logInWithReadPermissions(
-//                this,
-//                Arrays.asList("email","public_profile"));
 
         if (savedInstanceState == null) {
             addFragment(R.id.fragmentContainer, new AccountFragment());
@@ -92,10 +73,6 @@ public class AccountActivity extends BaseActivitySupport {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
-        // Pass the activity result back to the Facebook SDK
-
-        //mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 }

@@ -41,17 +41,19 @@ public final class USECASE_authUser implements UseCaseFlowable<ParamsBasic,AppUs
     @Override
     public Flowable<AppUser> execute(ParamsBasic params) {
 
-        final int cacheTime = ((Params) params).cacheTime;
-        final String language = ((Params) params).language;
-        final String token = ((Params) params).token;
-        if(token!=null){
-            return this.baseRepository.signInWithFacebook(token);
+        final AppUser.SignInType type = ((Params) params).type;
+
+        if(type == AppUser.SignInType.facebook){
+            return this.baseRepository.signInWithFacebook();
         }
-        return  this.baseRepository.signInWithEmailAndPassword();
+        if(type == AppUser.SignInType.twitter){
+            return this.baseRepository.signInWithTwitter();
+        }
+        if(type == AppUser.SignInType.email){
+            return this.baseRepository.signInWithEmailAndPassword(((Params) params).email,((Params) params).password);
+        }
 
-
-
-
+        return Flowable.empty();
     }
 
 
@@ -62,31 +64,27 @@ public final class USECASE_authUser implements UseCaseFlowable<ParamsBasic,AppUs
 
     public static final class Params implements ParamsBasic {
 
-
-        private  String token;
-        private int cacheTime = 0;
-        private String language;
-
-        public Params(int cacheTime) {
-            this.cacheTime = cacheTime;
-        }
-        public Params(String token) {
-            this.token = token;
-        }
-        public Params(int cacheTime,String language ) {
-            this.cacheTime = cacheTime;
-            this.language = language;
-        }
+        private  String password;
+        private  String email;
+        private  AppUser.SignInType type;
 
 
-        public static Params with(int cacheTime) {
-            return new Params(cacheTime);
+        public Params(AppUser.SignInType type) {
+            this.type = type;
         }
-        public static Params withEmailAndPassword(String language, int cacheTime) {
-            return new Params(cacheTime,language);
+
+        public Params(AppUser.SignInType type, String email, String password) {
+            this.type = type;
+            this.email = email;
+            this.password = password;
         }
-        public static Params withFacebook(String token) {
-            return new Params(token);
+
+        public static Params with(AppUser.SignInType type) {
+            return new Params(type);
+        }
+
+        public static Params withEmailAndPassword(AppUser.SignInType type,String email, String password) {
+            return new Params(type,email,password);
         }
 
 

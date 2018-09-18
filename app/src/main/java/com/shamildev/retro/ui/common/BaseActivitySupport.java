@@ -63,8 +63,10 @@ public abstract class BaseActivitySupport extends AppCompatActivity implements H
         Log.d("resplace",">>"+fragment.getClass().getSimpleName());
         fragmentManager
                 .beginTransaction()
+
                 .add(containerViewId,fragment)
                 .addToBackStack(fragment.getClass().getSimpleName())
+
                 .commit();
     }
 
@@ -109,6 +111,13 @@ public abstract class BaseActivitySupport extends AppCompatActivity implements H
     protected Fragment getFragmentByTag(String tag) {
         Log.d("getFragmentByTag",">>"+tag);
         return fragmentManager.findFragmentByTag(tag);
+
+
+
+    }
+    protected Fragment getFragmentById(@IdRes int containerViewId) {
+        Log.d("getFragmentById",">>"+containerViewId);
+        return fragmentManager.findFragmentById(containerViewId);
 
 
 

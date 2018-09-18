@@ -1,8 +1,13 @@
 package com.shamildev.retro.ui.signin.fragment.view;
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +35,12 @@ import butterknife.OnClick;
 public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> implements SignInView {
 
 
+    OnMessageListener onMessageListener;
+    public interface OnMessageListener{
+        void onLoadDialog(String msg);
+        void onRemoveDialog();
+    }
+
     @Inject
     Navigator navigator;
 
@@ -56,21 +67,40 @@ public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> im
     Button mButton_twitter_signin;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        AppCompatActivity activity = (AppCompatActivity) context;
+        try {
+           onMessageListener = (OnMessageListener) context;
+        }catch (ClassCastException e){
+                throw new ClassCastException(activity.toString()+" must override onMessageListener");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_signin, container, false);
     }
 
     @OnClick(R.id.button_signin)
     public void onClickSignIn(Button button) {
+        String email = mTextInputEditText_email.getText().toString();
+        String password = mTextInputEditText_password.getText().toString();
+
+        presenter.firebaseLogin(email,password);
 
     }
     @OnClick(R.id.button_facebook_signin)
     public void onClickFacebookSignIn(Button button) {
         ((SignInActivity)getActivity()).loginFacebook();
     }
+    @OnClick(R.id.button_twitter_signin)
+    public void onClickTwitterSignIn(Button button) {
+        ((SignInActivity)getActivity()).loginTwitter();
+    }
 
-    public void test(String token){
-     //   presenter.fbLogin(token);
+    public void test(){
+        presenter.firebaseLogin();
     }
 
     @Override
@@ -81,40 +111,9 @@ public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> im
             presenter.fbLogin(appUser.getFbtoken());
         }
 
-//        callbackManager = CallbackManager.Factory.create();
-//        LoginManager.getInstance().registerCallback(callbackManager,
-//                new FacebookCallback<LoginResult>() {
-//                    @Override
-//                    public void onSuccess(LoginResult loginResult) {
-//                        Log.e("FACEBOOK#", "onSuccess " + loginResult.getAccessToken().getToken());
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//                        Log.e("FACEBOOK#", "onCancel ");
-//                    }
-//
-//                    @Override
-//                    public void onError(FacebookException exception) {
-//                        Log.e("FACEBOOK#", "onError"+exception.getMessage());
-//                    }
-//                });
 
     }
-    //
-//    @Override
-//    public ImageSliderView getImageSliderView() {
-//        return img_slider;
-//    }
-//    @Override
-//    public ImageSliderView getImageSliderView2() {
-//        return img_slider2;
-//    }
-//
-//    @Override
-//    public RetroImageView getCustomImageView() {
-//        return customImageView;
-//    }
+
 
 
     @Override
@@ -142,5 +141,16 @@ public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> im
     @Override
     public void loginFb() {
 
+    }
+
+    @Override
+    public void loadDialog() {
+       // onMessageListener.onLoadDialog("Loading. Please wait...");
+
+    }
+
+    @Override
+    public void removeDialog() {
+        onMessageListener.onRemoveDialog();
     }
 }

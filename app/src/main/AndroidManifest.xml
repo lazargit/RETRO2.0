@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -18,24 +19,16 @@
         <activity android:name="com.shamildev.retro.ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.signin.SignInActivity"
-            android:label="@string/activity_signin">
-        </activity>
-        <activity
-            android:name=".ui.account.AccountActivity"
-            android:label="@string/activity_account">
-        </activity>
 
-        <activity
-            android:name=".ui.firebaseui.FirebaseUiSignInActivity"
-            android:label="@string/activity_account">
-        </activity>
+        <activity android:name=".ui.signin.SignInActivity" android:label="@string/activity_signin"/>
+        <activity android:name=".ui.account.AccountActivity" android:label="@string/activity_account"/>
+        <activity android:name=".ui.firebaseui.FirebaseUiSignInActivity" android:label="@string/activity_account"/>
+        <activity android:name=".ui.home.HomeActivity"  android:label="@string/activity_home"/>
+        <activity android:name=".ui.register.RegisterActivity"  android:label="@string/activity_register"/>
 
     </application>
 

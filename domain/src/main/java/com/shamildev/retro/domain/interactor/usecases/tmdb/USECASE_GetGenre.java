@@ -55,12 +55,8 @@ public final class USECASE_GetGenre implements UseCaseFlowable<ParamsBasic,List<
 
 
     public static final class Params implements ParamsBasic {
-
-
-
         private int cacheTime = 0;
         private String language;
-
         public Params(int cacheTime) {
             this.cacheTime = cacheTime;
         }

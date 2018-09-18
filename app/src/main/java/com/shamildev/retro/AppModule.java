@@ -19,6 +19,10 @@ import com.shamildev.retro.ui.account.AccountActivity;
 import com.shamildev.retro.ui.account.AccountActivityModule;
 import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivity;
 import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivityModule;
+import com.shamildev.retro.ui.home.HomeActivity;
+import com.shamildev.retro.ui.home.HomeActivityModule;
+import com.shamildev.retro.ui.register.RegisterActivity;
+import com.shamildev.retro.ui.register.RegisterActivityModule;
 import com.shamildev.retro.ui.signin.SignInActivity;
 import com.shamildev.retro.ui.signin.SignInActivityModule;
 import com.shamildev.retro.ui.splash.SplashActivity;
@@ -99,8 +103,17 @@ public abstract class AppModule {
     abstract SplashActivity splashActivityInjector();
 
     @PerActivity
+    @ContributesAndroidInjector(modules = HomeActivityModule.class)
+    abstract HomeActivity homeActivityInjector();
+
+
+    @PerActivity
     @ContributesAndroidInjector(modules = SignInActivityModule.class)
     abstract SignInActivity signInActivityInjector();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = RegisterActivityModule.class)
+    abstract RegisterActivity registerActivityInjector();
 
 
     @PerActivity

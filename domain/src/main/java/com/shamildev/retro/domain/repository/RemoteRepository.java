@@ -25,48 +25,47 @@ public interface RemoteRepository {
 
 
     Flowable<Configuration> getTestService();
-
     Flowable<Configuration> fetchConfiguration();
-//    Flowable<List<Genre>> fetchGenre(Constants.MEDIA_TYPE mediaType);
-//    Flowable<GuestSession> fetchGuestSession();
-//
-//
-//    //MOVIE
-//    Flowable<Movie> fetchMovie(@NonNull Long movieId, String appendToResponse, String includeImageLanguage);
-//
-//    Flowable<Images> fetchImages(@NonNull Long movieId);
-//
-//    Flowable<Credits> fetchCredits(@NonNull Long movieId);
-//
-//    Flowable<MovieWrapper> fetchRecommendations(@NonNull Long movieId, int page);
-//
-//    Flowable<MovieWrapper> fetchSimilarMovies(@NonNull Long movieId, int page);
-//
-//    Flowable<ResultWrapper> fetchUpcomingMovies(int page);
-//
-//    Flowable<ResultWrapper> fetchNowPlayingMovies(int page);
-//
-//    Flowable<ResultWrapper> fetchTopRatedMovies(int page);
-//
-//    //TVSHOW
-//    Flowable<TVShow> fetchTVShow(Long id, String appendToResponse, String includeImageLanguage);
-//    Flowable<ResultWrapper> fetchNowPlayingTVShow(int page);
-//
-//
-//
+    Flowable<List<Genre>> fetchGenre(Constants.MEDIA_TYPE mediaType);
+    Flowable<GuestSession> fetchGuestSession();
+    /*
+    *MOVIE
+    */
+    Flowable<Movie> fetchMovie(@NonNull Long movieId, String appendToResponse, String includeImageLanguage);
+
+    Flowable<Images> fetchImages(@NonNull Long movieId);
+
+    Flowable<Credits> fetchCredits(@NonNull Long movieId);
+
+    Flowable<MovieWrapper> fetchRecommendations(@NonNull Long movieId, int page);
+
+    Flowable<MovieWrapper> fetchSimilarMovies(@NonNull Long movieId, int page);
+
+    Flowable<ResultWrapper> fetchUpcomingMovies(int page);
+
+    Flowable<ResultWrapper> fetchNowPlayingMovies(int page);
+
+    Flowable<ResultWrapper> fetchTopRatedMovies(int page);
+
+   /*
+    * TVSHOW
+    */
+    Flowable<TVShow> fetchTVShow(Long id, String appendToResponse, String includeImageLanguage);
+    Flowable<ResultWrapper> fetchNowPlayingTVShow(int page);
+
 //    /*
 //     *
 //     *SEARCH
 //     */
-//   // <V extends DomainObject> Flowable<V> fetchMultiSearch(String quary);
-//    Flowable<ResultWrapper> fetchMultiSearch(String quary, int page);
-//
-//    Flowable<ResultWrapper> fetchPopularPerson(int page);
-//
-//    Flowable<ResultWrapper> fetchDiscover(@NonNull Map<String, Object> map, int page);
-//
-//
-//    // Single<ResponseMovieDetails> gethMovieWithId(@Nonnull Integer movieId, String language, String appendToResponse);
+    // <V extends DomainObject> Flowable<V> fetchMultiSearch(String quary);
+       Flowable<ResultWrapper> fetchMultiSearch(String quary, int page);
+
+      Flowable<ResultWrapper> fetchPopularPerson(int page);
+
+      Flowable<ResultWrapper> fetchDiscover(@NonNull Map<String, Object> map, int page);
+
+
+      //Single<ResponseMovieDetails> gethMovieWithId(@Nonnull Integer movieId, String language, String appendToResponse);
 
 
 }

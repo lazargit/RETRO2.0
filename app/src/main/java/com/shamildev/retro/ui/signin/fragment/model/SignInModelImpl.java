@@ -75,38 +75,16 @@ public class SignInModelImpl extends SignInModel {
 
     }
 
+
+
     @Override
     public void signInUser() {
-//        useCaseHandler.execute(signInUser,SignInUser.Params.justVoid(), new DisposableSubscriber<AppUser>() {
-//            @Override
-//            public void onNext(AppUser appUser) {
-//                Log.e(TAG,"USER sign in  "+appUser.toString());
-//                presenter.toast("User after  :"+appUser.getLoggedIn());
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable t) {
-//                presenter.onError(t);
-//
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//                presenter.signSuccesfull();
-//            }
-//        });
-
-    }
-
-    @Override
-    public void signInUser(String token) {
-//        Log.e("facebook#","USER sign  "+token);
-        useCaseHandler.execute( this.usecase_authUser,USECASE_authUser.Params.withFacebook(token), new DisposableSubscriber<AppUser>() {
+        useCaseHandler.execute( this.usecase_authUser,USECASE_authUser.Params.with(appUser.getSignintype()), new DisposableSubscriber<AppUser>() {
             @Override
             public void onNext(AppUser appUser) {
                 Log.e(TAG,"USER sign in  "+appUser.toString());
-                presenter.toast("User after  :"+appUser.isLoggedIn());
+              //  presenter.toast("User after  :"+appUser.isLoggedIn());
+                presenter.signSuccesfull();
 
 
             }
@@ -125,5 +103,52 @@ public class SignInModelImpl extends SignInModel {
 
     }
 
+    @Override
+    public void signInUserWithEmailAndPassword(String email, String password) {
+        useCaseHandler.execute( this.usecase_authUser,USECASE_authUser.Params.withEmailAndPassword(AppUser.SignInType.email,email,password), new DisposableSubscriber<AppUser>() {
+            @Override
+            public void onNext(AppUser appUser) {
+                Log.e(TAG,"USER sign in with email "+appUser.toString());
+                presenter.toast("User after  :"+appUser.isLoggedIn());
 
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                presenter.onError(t);
+
+            }
+
+            @Override
+            public void onComplete() {
+                presenter.signSuccesfull();
+            }
+        });
+    }
+
+
+    @Override
+    public void createUserWithEmailAndPassword(String email, String password) {
+        useCaseHandler.execute( this.usecase_authUser,USECASE_authUser.Params.withEmailAndPassword(AppUser.SignInType.email,email,password), new DisposableSubscriber<AppUser>() {
+            @Override
+            public void onNext(AppUser appUser) {
+                Log.e(TAG,"USER sign in with email "+appUser.toString());
+                presenter.toast("User after  :"+appUser.isLoggedIn());
+
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                presenter.onError(t);
+
+            }
+
+            @Override
+            public void onComplete() {
+                presenter.signSuccesfull();
+            }
+        });
+    }
 }

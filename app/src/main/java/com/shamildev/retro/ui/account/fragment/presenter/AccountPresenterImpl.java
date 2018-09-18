@@ -19,6 +19,7 @@ import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.domain.core.AppConfig;
 import com.shamildev.retro.domain.core.DataConfig;
 import com.shamildev.retro.domain.models.AppUser;
+import com.shamildev.retro.navigation.Navigator;
 import com.shamildev.retro.ui.account.fragment.model.AccountModel;
 import com.shamildev.retro.ui.account.fragment.view.AccountView;
 import com.shamildev.retro.ui.common.presenter.BasePresenter;
@@ -38,18 +39,14 @@ public final class AccountPresenterImpl extends BasePresenter<AccountView, Accou
 
     private final String TAG = getClass().getName();
     private final FirebaseAuth mAuth;
-
     private NetworkManager networkManager;
     private DataConfig dataConfig;
     private AppConfig appConfig;
 
 
-    @Inject
-    Application application;
-
-
-    @Inject
-    AppUser appUser;
+    @Inject Application application;
+    @Inject AppUser appUser;
+    @Inject Navigator navigator;
 
 
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -77,10 +74,9 @@ public final class AccountPresenterImpl extends BasePresenter<AccountView, Accou
 
     @Override
     public void onStart(@Nullable Bundle savedInstanceState) {
-        this.model.initData();
-
-
-
+                if(mAuth.getCurrentUser()==null){
+                    navigator.navigateToSignIn(application);
+                }
     }
 
     @Override
