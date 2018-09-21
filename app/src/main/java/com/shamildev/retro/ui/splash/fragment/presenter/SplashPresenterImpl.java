@@ -92,7 +92,7 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
         } else {
 
         }
-        Log.d("onError", t.getMessage());
+
     }
 
     @Override
