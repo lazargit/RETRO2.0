@@ -129,7 +129,6 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
     @Override
     public void setBgTeaser(ResultWrapper wrapper) {
         MediaItem mediaItem = (MediaItem) wrapper.results().get(0);
-        Log.e("TAG","IMAGES LOAD FAILED."+mediaItem.itemTitle());
         retroImage
                 .load(mediaItem)
                 .Poster()
