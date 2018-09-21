@@ -11,7 +11,7 @@ Retrofit2<br>
 Glide<br>
 Realm<br>
 Youtubeplayer<br> 
-Firebase (soon) <br>
+Firebase  <br>
 
 a playground to practice, 
 project still in work.
