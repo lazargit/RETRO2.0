@@ -404,7 +404,7 @@ public class ImageSliderView extends RelativeLayout {
 //
 //
 //            view_image_slider_page.addView(textView);
-            Log.e("TAG", "instantiateItem");
+
 
 
             retroImage.load(images.get(position))
