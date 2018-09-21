@@ -69,7 +69,7 @@ public abstract class DataConfig {
         builder.baseUrl(arg);
         return builder.build();
     }
-    public  DataConfig setLanguage(String arg) {
+    public DataConfig setLanguage(String arg) {
         Builder builder = getBuilder();
         builder.language(arg);
         return builder.build();

@@ -181,14 +181,12 @@ public class ProcessData {
 
     }
 
-    public static List<MediaItem> createHomeGalleryList(HashMap<String, ResultWrapper> map) {
+    public static List<MediaItem> createHomeGalleryList(HashMap<String, ResultWrapper> map, String nowplayingkey,int take) {
 
-
-        ResultWrapper resultWrapper = map.get(AppConfig.NOWPLAYINGKEY);
-
-        return Observable.fromIterable(resultWrapper.results())
+        return Observable.fromIterable(map.get(nowplayingkey).results())
                 .cast(MediaItem.class)
                 .filter(item -> item.itemBackdropPath() != null && item.itemBackdropPath() != "")
+                .take(take)
                 // .doOnNext(System.out::print)
                 .doOnNext(item -> System.out.println("--->" + item.itemTitle() + " #" + item.itemBackdropPath()))
 

@@ -2,10 +2,12 @@ package com.shamildev.retro.domain.core;
 
 import com.shamildev.retro.domain.models.Configuration;
 import com.shamildev.retro.domain.models.Genre;
+import com.shamildev.retro.domain.models.ResultWrapper;
 import com.shamildev.retro.domain.models.User;
 import com.shamildev.retro.domain.util.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -28,6 +30,7 @@ public class AppConfig {
 
     private List<Genre> genres;
     private List<DomainObject> watchList = new ArrayList<>();
+    private HashMap<String, ResultWrapper> preloadDataMap;
 
     public static final String NOWPLAYINGKEY = "nowplaying";
     public static final String NOWPLAYINGTVKEY = "nowplayingtv";
@@ -40,6 +43,7 @@ public class AppConfig {
 
 
     private final Pair<Integer, Integer> screenSizes;
+    private List<MediaItem> homeGalleryList;
 
 
     public AppConfig(Pair<Integer, Integer> screenSizes, Boolean firststart) {
@@ -78,6 +82,14 @@ public class AppConfig {
         this.watchList = items;
     }
 
+    public HashMap<String, ResultWrapper> getPreloadDataMap() {
+        return preloadDataMap;
+    }
+
+    public void setPreloadDataMap(HashMap<String, ResultWrapper> preloadDataMap) {
+        this.preloadDataMap = preloadDataMap;
+    }
+
     public List<DomainObject> getWatchList() {
         return watchList;
     }
@@ -98,5 +110,13 @@ public class AppConfig {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setHomeGalleryList(List<MediaItem> homeGalleryList) {
+        this.homeGalleryList = homeGalleryList;
+    }
+
+    public List<MediaItem> getHomeGalleryList() {
+        return homeGalleryList;
     }
 }

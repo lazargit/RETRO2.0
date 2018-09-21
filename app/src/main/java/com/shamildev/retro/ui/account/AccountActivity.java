@@ -27,11 +27,18 @@ import java.util.Arrays;
 
 public class AccountActivity extends BaseActivitySupport {
 
+
+    public static Intent getCallingIntent(Context context) {
+        Intent intent = new Intent(context, AccountActivity.class);
+        return intent;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-      //  printhashkey();
+        //printhashkey();
 
         if (savedInstanceState == null) {
             addFragment(R.id.fragmentContainer, new AccountFragment());
@@ -58,10 +65,6 @@ public class AccountActivity extends BaseActivitySupport {
     }
 
 
-    public static Intent getCallingIntent(Context context) {
-        Intent intent = new Intent(context, AccountActivity.class);
-        return intent;
-    }
 
 
     @Override

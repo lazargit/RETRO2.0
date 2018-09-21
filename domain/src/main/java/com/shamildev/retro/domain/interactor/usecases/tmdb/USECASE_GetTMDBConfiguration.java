@@ -130,7 +130,7 @@ public final class USECASE_GetTMDBConfiguration implements UseCaseFlowable<Param
 
 
         public static USECASE_GetTMDBConfiguration.Params withCacheTime(int cacheTime) {
-            return new USECASE_GetTMDBConfiguration.Params(cacheTime);
+            return new Params(cacheTime);
         }
 
 

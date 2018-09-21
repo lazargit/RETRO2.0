@@ -49,8 +49,6 @@ public final class HomePresenterImpl extends BasePresenter<HomeView, HomeModel> 
         super(view, model);
         //       this.networkManager = networkManager;
         //      this.networkManager.add(toString(), this::refreshData);
-//            this.bootstrap = bootstrap;
-//            this.bootstrap.setUp(this);
         this.dataConfig = dataConfig;
         this.appConfig = appConfig;
 
@@ -60,9 +58,14 @@ public final class HomePresenterImpl extends BasePresenter<HomeView, HomeModel> 
 
     @Override
     public void onStart(@Nullable Bundle savedInstanceState) {
-        model.initConfiguration();
+        Log.e("HOME ",">>> "+this.appConfig.getPreloadDataMap().get(AppConfig.NOWPLAYINGKEY).results().size());
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void onError(Throwable t) {

@@ -12,6 +12,7 @@ import com.shamildev.retro.domain.models.ResultWrapper;
 import com.shamildev.retro.navigation.Navigator;
 import com.shamildev.retro.retroimage.views.RetroImageView;
 import com.shamildev.retro.ui.common.view.BaseViewFragment;
+import com.shamildev.retro.ui.common.view.BaseViewFragmentV4;
 import com.shamildev.retro.ui.home.fragment.presenter.HomePresenter;
 import com.shamildev.retro.ui.splash.fragment.presenter.SplashPresenter;
 import com.shamildev.retro.ui.splash.fragment.view.SplashView;
@@ -28,7 +29,7 @@ import butterknife.OnClick;
 
  * A fragment implementation of {@link SplashView}.
  */
-public final class HomeFragment extends BaseViewFragment<HomePresenter> implements HomeView {
+public final class HomeFragment extends BaseViewFragmentV4<HomePresenter> implements HomeView {
 
 
     @Inject

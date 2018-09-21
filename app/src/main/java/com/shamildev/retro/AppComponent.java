@@ -7,7 +7,7 @@ import dagger.android.AndroidInjector;
 
 
 /**
- * Created by Shamil Lazar on 13.12.2017.
+ * Created by Shamil Lazar.
  */
 
 

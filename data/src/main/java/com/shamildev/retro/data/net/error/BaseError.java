@@ -25,9 +25,7 @@ public class BaseError extends IOException {
          Boolean success = false;
         if(responseCode == ERROR_CODE_401){
 
-
             try {
-
                 JSONObject obj = new JSONObject(rawJson);
                 message = obj.getString("status_message");
                 statusCode = obj.getInt("status_code");

@@ -6,7 +6,7 @@ import com.shamildev.retro.domain.core.DomainObject;
 import io.reactivex.annotations.Nullable;
 
 /**
- * Created by Schamil Mischijew on 10.12.2017.
+ * Created by Shamil Lazar.
  */
 
 @AutoValue

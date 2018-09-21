@@ -37,7 +37,7 @@ public abstract class SplashActivityModule {
      * {@link BaseActivityModule#ACTIVITY_FRAGMENT_MANAGER} into the
      * {@link com.shamildev.retro.ui.common.BaseActivity}.
      *
-     * @param activity the SplashActivity
+     * @param activity the WatchlistActivity
      * @return the activity
      */
     @Binds

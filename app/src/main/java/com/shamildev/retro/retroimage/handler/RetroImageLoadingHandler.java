@@ -97,8 +97,6 @@ public class RetroImageLoadingHandler {
 
 
     private void imageLoadSuccessful(Drawable resource, Object obj) {
-        //   Log.e("TAG","imageLoadSuccessful "+map.size()+" # "+obj.hashCode());
-
         if (this.imageView != null) {
             if (this.imageView.isShowProgressBar()) {
                 this.imageView.getProgressBar().setVisibility(View.GONE);
@@ -145,7 +143,6 @@ public class RetroImageLoadingHandler {
                 case PROFILE:
                     if (item.itemPosterPath() != null)
                         path = this.imageRequest.getConfigurations().baseUrl() + tmdbConfigurationSizes + item.itemPosterPath();
-                    Log.e("TAG", "MEDIAITEM.....TYPE" + this.imageRequest.getImageType() + " ,,,,,,,,,, " + this.imageRequest.getImageSizeSetting() + " ");
                     break;
                 case LOGO:
 
@@ -180,7 +177,7 @@ public class RetroImageLoadingHandler {
 
     public RequestBuilder<Drawable> loadFile(Object obj) {
 
-        Log.e("TAG", "LOAD FILE.....> " + prepareRequest(obj) + " " + obj.hashCode());
+        Log.e("TAG", "LOAD FILE.....>># " + prepareRequest(obj) + " " + obj.hashCode());
 
 
         return
@@ -199,7 +196,7 @@ public class RetroImageLoadingHandler {
 
                             @Override
                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                Log.e("TAG", "glide load file>>>>.." + isFirstResource + "##" + resource.getMinimumWidth());
+                                Log.e("TAG", "glide load file>>>>.*." + isFirstResource + "##" + resource.getMinimumWidth());
                                 imageLoadSuccessful(resource, obj);
                                 return false;
                             }

@@ -20,7 +20,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by Shamil Lazar on 19.12.2017.
+ * Created by Shamil Lazar.
  */
 
 

@@ -72,7 +72,6 @@ public abstract class BaseActivitySupport extends AppCompatActivity implements H
 
 
     protected  void replaceFragment(@IdRes int containerViewId, Fragment fragment, String tag) {
-        Log.d("replaceFragment",">>"+fragment.getClass().getSimpleName());
 
         fragmentManager
                 .beginTransaction()

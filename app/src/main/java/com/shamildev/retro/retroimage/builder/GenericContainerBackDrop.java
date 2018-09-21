@@ -51,7 +51,7 @@ public class GenericContainerBackDrop<T> {
      * @return the obj
      */
     public T w780() {
-        this.imageRequest.setImageSizeSetting(HIGH);
+        this.imageRequest.setImageSizeSetting(MEDIUM);
         return obj;
     }
 
@@ -59,7 +59,7 @@ public class GenericContainerBackDrop<T> {
      * @return the obj
      */
     public T w1280() {
-        this.imageRequest.setImageSizeSetting(MEDIUM);
+        this.imageRequest.setImageSizeSetting(HIGH);
         return obj;
     }
 

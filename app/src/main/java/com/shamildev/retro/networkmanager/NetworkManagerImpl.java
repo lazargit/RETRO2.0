@@ -1,4 +1,5 @@
-package com.shamildev.retro;
+package com.shamildev.retro.networkmanager;
+
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,7 +17,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 /**
- * Created by Schamil  on 15.11.2017.
+ * Created by Schamil Lazar.
  */
 
 

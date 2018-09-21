@@ -10,6 +10,8 @@ import com.shamildev.retro.ui.splash.fragment.presenter.SplashPresenter;
 
 public abstract class SplashModel extends BaseModel<SplashPresenter> {
 
+     public abstract void initUser();
+     public abstract void initGenres();
      public abstract void initConfiguration();
      public abstract void initTables();
 

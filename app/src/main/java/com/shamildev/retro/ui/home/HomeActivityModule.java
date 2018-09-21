@@ -1,6 +1,7 @@
 package com.shamildev.retro.ui.home;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.shamildev.retro.di.scope.PerActivity;
 import com.shamildev.retro.di.scope.PerFragment;
@@ -42,5 +43,5 @@ public abstract class HomeActivityModule {
      */
     @Binds
     @PerActivity
-    abstract Activity activity(HomeActivity activity);
+    abstract AppCompatActivity activity(HomeActivity activity);
 }

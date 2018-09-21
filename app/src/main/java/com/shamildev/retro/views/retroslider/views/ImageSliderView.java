@@ -160,21 +160,22 @@ public class ImageSliderView extends RelativeLayout {
         this.itemList = itemList;
         this.retroImage = retroImage;
         this.mProgessBar.setVisibility(VISIBLE);
-        retroImage.load(itemList)
-                .Backdrop()
-                .w1280()
-                .preload(new RetroImageRequestListener() {
-                    @Override
-                    public boolean onLoadFailed() {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady() {
-                        setPager(itemList);
-                        return false;
-                    }
-                });
+        setPager(itemList);
+//        retroImage.load(itemList)
+//                .Backdrop()
+//                .w780()
+//                .preload(new RetroImageRequestListener() {
+//                    @Override
+//                    public boolean onLoadFailed() {
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady() {
+//                        setPager(itemList);
+//                        return false;
+//                    }
+//                });
 
 
 //        ParallaxPageTransformer pageTransformer = new ParallaxPageTransformer()
@@ -408,7 +409,7 @@ public class ImageSliderView extends RelativeLayout {
 
             retroImage.load(images.get(position))
                     .Backdrop()
-                    .w1280()
+                    .w780()
                     .into(retroImageView, new RetroImageRequestListener() {
                         @Override
                         public boolean onLoadFailed() {

@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -16,18 +14,11 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.shamildev.retro.BuildConfig;
-import com.shamildev.retro.MainActivity;
 import com.shamildev.retro.R;
 import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.ui.common.BaseActivitySupport;
 import com.shamildev.retro.ui.signin.fragment.view.SignInFragment;
-import com.shamildev.retro.ui.splash.fragment.view.SplashFragment;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
@@ -37,10 +28,8 @@ import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import java.util.Arrays;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -48,7 +37,7 @@ import javax.inject.Inject;
  * Created by Schamil Lazar.
  */
 
-public class SignInActivity extends BaseActivitySupport implements SignInFragment.OnMessageListener{
+public class SignInActivity extends BaseActivitySupport implements SignInFragment.OnMessageListener {
 
 
     private int RC_SIGN_IN = 123;
@@ -79,7 +68,7 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        Log.d("Success", "accessToken not isExpired "+isLoggedIn);
+        Log.d("Success", "accessToken not isExpired " + isLoggedIn);
         setContentView(R.layout.activity_signin);
 
         if (savedInstanceState == null) {
@@ -100,24 +89,23 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
 //                RC_SIGN_IN);
 
 
-
     }
 
 
-
     private void twitterLoginCall() {
-        mTwitterAuthClient= new TwitterAuthClient();
+        mTwitterAuthClient = new TwitterAuthClient();
         mTwitterAuthClient.authorize(this, new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> twitterSessionResult) {
-                Log.d("Success", "TWITTER "+twitterSessionResult.data.getAuthToken().token+" "+twitterSessionResult.data.getAuthToken().secret);
-                appUser.setTwtoken(twitterSessionResult.data.getAuthToken().token,twitterSessionResult.data.getAuthToken().secret);
+                Log.d("Success", "TWITTER " + twitterSessionResult.data.getAuthToken().token + " " + twitterSessionResult.data.getAuthToken().secret);
+                appUser.setTwtoken(twitterSessionResult.data.getAuthToken().token, twitterSessionResult.data.getAuthToken().secret);
                 signInFragment();
 
             }
+
             @Override
             public void failure(TwitterException e) {
-                Log.d("Success", "TWITTER ERROR "+e.getMessage());
+                Log.d("Success", "TWITTER ERROR " + e.getMessage());
                 e.printStackTrace();
             }
         });
@@ -125,7 +113,7 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
 
     private void signInFragment() {
         SignInFragment signInFragment = (SignInFragment) getFragmentById(R.id.fragmentContainer);
-        if(signInFragment!=null){
+        if (signInFragment != null) {
             signInFragment.test();
         }
     }
@@ -138,7 +126,7 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         AccessToken accessToken = loginResult.getAccessToken();
-                        Log.d("Success", "Login"+accessToken.getToken()+" "+loginResult.getRecentlyDeniedPermissions().toString());
+                        Log.d("Success", "Login" + accessToken.getToken() + " " + loginResult.getRecentlyDeniedPermissions().toString());
                         appUser.setFBToken(accessToken.getToken());
                         signInFragment();
                     }
@@ -150,40 +138,40 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
 
                     @Override
                     public void onError(FacebookException exception) {
-                        Log.d("Error", "Login"+exception);
+                        Log.d("Error", "Login" + exception);
                     }
                 });
     }
 
 
-    public void loginFacebook(){
+    public void loginFacebook() {
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"));
     }
-    public void loginTwitter(){
+
+    public void loginTwitter() {
         twitterLoginCall();
     }
 
     @Override
     public void onBackPressed() {
-        Log.e("BACKPRESSED ", "getBackStackEntryCount "+getSupportFragmentManager().getBackStackEntryCount());
+        Log.e("BACKPRESSED ", "getBackStackEntryCount " + getSupportFragmentManager().getBackStackEntryCount());
         moveTaskToBack(true);
-        if(getSupportFragmentManager().getBackStackEntryCount() > 1) {
-           // triggerFragmentBackPress(getSupportFragmentManager().getBackStackEntryCount());
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            // triggerFragmentBackPress(getSupportFragmentManager().getBackStackEntryCount());
         } else {
             finish();
         }
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(mCallbackManager.onActivityResult(requestCode, resultCode, data)) {
-            Log.e("onActivityResult", "Login"+data);
+        if (mCallbackManager.onActivityResult(requestCode, resultCode, data)) {
+            Log.e("onActivityResult", "Login" + data);
             return;
-        }else{
+        } else {
             mTwitterAuthClient.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -196,13 +184,13 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
 
     @Override
     public void onLoadDialog(String msg) {
-    dialog = ProgressDialog.show(this, "",
+        dialog = ProgressDialog.show(this, "",
                 msg, true);
     }
 
     @Override
     public void onRemoveDialog() {
-        if(dialog.isShowing()){
+        if (dialog.isShowing()) {
             dialog.dismiss();
         }
     }

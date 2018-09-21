@@ -1,6 +1,8 @@
 package com.shamildev.retro.data.repository;
 
 
+import android.util.Log;
+
 import com.shamildev.retro.data.entity.mapper.EntityMapperHolder;
 import com.shamildev.retro.data.net.TMDBServices;
 import com.shamildev.retro.domain.core.DataConfig;
@@ -81,6 +83,9 @@ public final class TMDBRepository implements RemoteRepository {
 
     @Override
     public Flowable<List<Genre>> fetchGenre(Constants.MEDIA_TYPE mediaType) {
+
+        Log.e("FETCH GENRE","language: "+dataConfig.language());
+
         return Flowable.create(emitter ->
                         tmdbServices
                                 .fetchGenre(mediaType.toString(), dataConfig.authClientSecret(), dataConfig.language())  // fetch Genre from API

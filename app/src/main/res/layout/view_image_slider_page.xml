@@ -7,16 +7,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <!--<com.shamildev.retro.retroimage.views.RetroImageView-->
-    <!--android:id="@+id/image_imgpageslider"-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:layout_height="fill_parent"-->
-    <!--android:adjustViewBounds="true"-->
-    <!--android:layout_gravity="center"-->
-    <!--app:showFX="true"-->
-    <!--android:scaleType="fitXY" >-->
+    <com.shamildev.retro.retroimage.views.RetroImageView
+    android:id="@+id/image_imgpageslider"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:adjustViewBounds="true"
+    android:layout_gravity="center"
+    app:showFX="true"
+    android:scaleType="fitXY" >
 
-    <!--</com.shamildev.retro.retroimage.views.RetroImageView>-->
+   </com.shamildev.retro.retroimage.views.RetroImageView>
     <RelativeLayout
         android:id="@+id/view"
         android:layout_width="match_parent"

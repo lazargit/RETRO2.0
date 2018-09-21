@@ -16,6 +16,8 @@
     <string name="create_an_account">create a new account</string>
     <string name="username">username</string>
     <string name="register">create account</string>
+    <string name="activity_watchlist">Watchlist</string>
+    <string name="activity_search">Search</string>
 
 
 </resources>

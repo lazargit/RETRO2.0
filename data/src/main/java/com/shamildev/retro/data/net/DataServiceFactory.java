@@ -101,7 +101,7 @@ public final class DataServiceFactory {
 
     private HttpLoggingInterceptor httpLoggingInterceptor() {
         return new HttpLoggingInterceptor(message -> Timber.i(message))
-                .setLevel(HttpLoggingInterceptor.Level.BODY);
+                .setLevel(HttpLoggingInterceptor.Level.BASIC);
 
 
     }

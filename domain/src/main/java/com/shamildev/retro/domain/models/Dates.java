@@ -5,7 +5,7 @@ import com.shamildev.retro.domain.core.DomainObject;
 
 
 /**
- * Created by Shamil Lazar on 16.12.2017.
+ * Created by Shamil Lazar.
  */
 
 @AutoValue

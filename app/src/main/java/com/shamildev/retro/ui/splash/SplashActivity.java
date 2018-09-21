@@ -12,8 +12,6 @@ import com.shamildev.retro.ui.splash.fragment.view.SplashFragment;
 public class SplashActivity extends BaseActivity {
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -4,10 +4,6 @@ import com.shamildev.retro.domain.core.DomainObject;
 import com.shamildev.retro.domain.util.Pair;
 
 
-
-
-
-
 /**
  * Created by Shamil Lazar
  */
@@ -23,13 +19,14 @@ public class AppUser implements DomainObject {
     private String uid;
     private Boolean isLoggedIn;
     private String fbtoken;
-    private Pair<String,String> twtoken ;
+    private Pair<String, String> twtoken;
     private String photoUrl;
     private String sigin_provider;
     private SignInType signintype;
-    public enum SignInType            // Enum-Typ
+
+    public enum SignInType
     {
-        email, facebook, twitter;  // Enumerationskonstanten
+        email, facebook, twitter
     }
 
     public AppUser(String name, String language) {
@@ -100,7 +97,7 @@ public class AppUser implements DomainObject {
         setTmdb_expires_at(user.tmdb_expires_at());
     }
 
-    public void setFirebaseUser(String uid, String email, String name,String providerId, String photoUrl) {
+    public void setFirebaseUser(String uid, String email, String name, String providerId, String photoUrl) {
 
         setUid(uid);
         setEmail(email);
@@ -109,6 +106,7 @@ public class AppUser implements DomainObject {
         setPhotoUrl(photoUrl);
         setLoggedIn(true);
     }
+
     public void removetFirebaseUser() {
         setUid(null);
         setEmail(null);
@@ -116,9 +114,11 @@ public class AppUser implements DomainObject {
         setSigin_provider(null);
         setLoggedIn(false);
     }
+
     private Boolean getLoggedIn() {
         return isLoggedIn;
     }
+
     public Boolean isLoggedIn() {
         return getLoggedIn();
     }
@@ -130,9 +130,11 @@ public class AppUser implements DomainObject {
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
+
     public String getPhotoUrl() {
         return photoUrl;
     }
+
     public String getSigin_provider() {
         return sigin_provider;
     }
@@ -167,9 +169,10 @@ public class AppUser implements DomainObject {
     }
 
     public void setTwtoken(String token, String secret) {
-        twtoken = new Pair<>(token,secret);
+        twtoken = new Pair<>(token, secret);
         signintype = SignInType.twitter;
     }
+
     public Pair<String, String> getTwtoken() {
         return twtoken;
     }

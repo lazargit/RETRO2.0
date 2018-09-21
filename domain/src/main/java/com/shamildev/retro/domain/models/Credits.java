@@ -10,7 +10,7 @@ import java.util.List;
 import io.reactivex.annotations.Nullable;
 
 /**
- * Created by Schamil Mischijew on 03.11.2017.
+ * Created by Shamil Lazar.
  */
 
 @AutoValue

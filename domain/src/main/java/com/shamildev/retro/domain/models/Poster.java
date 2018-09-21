@@ -4,7 +4,7 @@ import com.google.auto.value.AutoValue;
 import com.shamildev.retro.domain.core.DomainObject;
 
 /**
- * Created by Schamil Mischijew on 10.12.2017.
+ * Created by Shamil Lazar.
  */
 
 @AutoValue

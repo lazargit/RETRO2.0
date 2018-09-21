@@ -10,7 +10,7 @@ import java.io.Serializable;
 import io.reactivex.annotations.Nullable;
 
 /**
- * Created by Schamil Mischijew on 03.11.2017.
+ * Created by Shamil Lazar.
  */
 
 @AutoValue

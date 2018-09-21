@@ -7,7 +7,7 @@ import javax.inject.Scope;
 import javax.inject.Singleton;
 
 /**
- * Created by Schamil Mischijew on 30.10.2017.
+ * Created by Schamil Lazar
  */
 
 @Scope

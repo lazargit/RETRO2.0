@@ -1,7 +1,7 @@
 package com.shamildev.retro.di.scope;
 
 /**
- * Created by Shamil Lazar on 13.12.2017.
+ * Created by Schamil Lazar.
  */
 
 import java.lang.annotation.Retention;

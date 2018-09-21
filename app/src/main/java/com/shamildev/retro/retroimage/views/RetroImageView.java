@@ -14,7 +14,7 @@ import com.shamildev.retro.R;
 
 
 /**
- * Created by Shamil Lazar on 08.05.2018.
+ * Created by Shamil Lazar .
  */
 
 public class RetroImageView extends RelativeLayout {

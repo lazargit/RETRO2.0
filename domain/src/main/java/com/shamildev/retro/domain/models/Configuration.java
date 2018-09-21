@@ -10,12 +10,11 @@ import java.util.List;
 import io.reactivex.annotations.Nullable;
 
 /**
- * Created by Schamil  on 14.11.2017.
+ * Created by Shamil Lazar.
  */
 
 @AutoValue
-public abstract class Configuration implements DomainObject, DomainObjectStorable{
-
+public abstract class Configuration implements DomainObject, DomainObjectStorable {
 
 
     public abstract String baseUrl();
@@ -37,8 +36,6 @@ public abstract class Configuration implements DomainObject, DomainObjectStorabl
 
     @Nullable
     public abstract Long lastUpdate();
-
-
 
 
     public static Builder builder() {
@@ -67,21 +64,17 @@ public abstract class Configuration implements DomainObject, DomainObjectStorabl
         public abstract Builder lastUpdate(Long lastUpdate);
 
 
-
-
         public abstract Configuration build();
-
 
 
     }
 
 
-
     @Override
     public String toString() {
-        return baseUrl()+"\n#:"
-                +secureBaseUrl()+"\n#:"
-                +lastUpdate()+"--"+ DateUtil.convertToDateTime(lastUpdate())+"\n#:";
+        return baseUrl() + "\n#:"
+                + secureBaseUrl() + "\n#:"
+                + lastUpdate() + "--" + DateUtil.convertToDateTime(lastUpdate()) + "\n#:";
 
 
     }
