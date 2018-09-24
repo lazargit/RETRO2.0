@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.GlideException;
 import com.shamildev.retro.R;
 import com.shamildev.retro.domain.core.MediaItem;
 import com.shamildev.retro.retroimage.core.RetroImage;
@@ -160,7 +162,7 @@ public class ImageSliderView extends RelativeLayout {
         this.itemList = itemList;
         this.retroImage = retroImage;
         this.mProgessBar.setVisibility(VISIBLE);
-        setPager(itemList);
+        setPager(itemList,retroImage);
 //        retroImage.load(itemList)
 //                .Backdrop()
 //                .w780()
@@ -198,13 +200,13 @@ public class ImageSliderView extends RelativeLayout {
     }
 
 
-    private void setPager(List<MediaItem> itemList) {
+    private void setPager(List<MediaItem> itemList, RetroImage retroImage) {
 
 
         this.mProgessBar.setVisibility(GONE);
         mPager.setClipToPadding(false);
         mPager.setOffscreenPageLimit(itemList.size() - 1);
-        mPager.setAdapter(new ImageSliderAdapter(getContext(), itemList));
+        mPager.setAdapter(new ImageSliderAdapter(getContext(), itemList,retroImage));
         mCircleIndicator.setViewPager(mPager);
 
         if (mPagefx == FX_FADEOUT) {
@@ -346,15 +348,19 @@ public class ImageSliderView extends RelativeLayout {
 
     public class ImageSliderAdapter extends PagerAdapter {
 
+        private final RetroImage retroimage;
         private List<MediaItem> images;
         private LayoutInflater inflater;
         private Context context;
 
-        public ImageSliderAdapter(Context context, List<MediaItem> images) {
+        public ImageSliderAdapter(Context context, List<MediaItem> images,RetroImage retroImage) {
             this.context = context;
             this.images = images;
+            this.retroimage = retroImage;
             inflater = LayoutInflater.from(context);
         }
+
+
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
@@ -373,8 +379,8 @@ public class ImageSliderView extends RelativeLayout {
             MediaItem mediaItem = images.get(position);
 
 
-            View myImageLayout = inflater.inflate(R.layout.view_image_slider_page, view, false);
-            //   RetroImageView myImage =  myImageLayout.findViewById(R.id.image_imgpageslider);
+              View myImageLayout = inflater.inflate(R.layout.view_image_slider_page, view, false);
+            // RetroImageView myImage =  myImageLayout.findViewById(R.id.image_imgpageslider);
 
             RelativeLayout view_image_slider_page = myImageLayout.findViewById(R.id.view);
 
@@ -405,20 +411,23 @@ public class ImageSliderView extends RelativeLayout {
 //
 //            view_image_slider_page.addView(textView);
 
+            Log.e("instantiateItem",">>>>>>>>>>>>>>>> "+images.get(position).itemTitle());
 
 
-            retroImage.load(images.get(position))
+
+            retroimage.load(images.get(position))
                     .Backdrop()
                     .w780()
                     .into(retroImageView, new RetroImageRequestListener() {
                         @Override
-                        public boolean onLoadFailed() {
+                        public boolean onLoadFailed(GlideException e) {
+                            Log.e("onLoadFailed",">>>>>>>>>>>>>>>> "+position);
                             return false;
                         }
 
                         @Override
-                        public boolean onResourceReady() {
-
+                        public boolean onResourceReady(Drawable resource) {
+                            Log.e("onResourceReady",">>>>>>>>>>>>>>>> "+position);
                             return false;
                         }
                     });

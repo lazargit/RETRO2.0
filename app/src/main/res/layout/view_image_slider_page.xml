@@ -13,6 +13,7 @@
     android:layout_height="fill_parent"
     android:adjustViewBounds="true"
     android:layout_gravity="center"
+        app:showProgressBar="false"
     app:showFX="true"
     android:scaleType="fitXY" >
 

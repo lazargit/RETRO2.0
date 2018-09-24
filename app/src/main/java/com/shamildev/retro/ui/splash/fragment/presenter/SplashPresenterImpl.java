@@ -2,16 +2,17 @@ package com.shamildev.retro.ui.splash.fragment.presenter;
 
 
 import android.app.Application;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.shamildev.retro.data.net.NetworkManager;
+import com.bumptech.glide.load.engine.GlideException;
+import com.shamildev.retro.R;
 import com.shamildev.retro.data.net.error.TMDBError;
 import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.domain.core.AppConfig;
 import com.shamildev.retro.domain.core.DataConfig;
-import com.shamildev.retro.domain.core.DomainObject;
 import com.shamildev.retro.domain.core.MediaItem;
 import com.shamildev.retro.domain.helper.ProcessData;
 import com.shamildev.retro.domain.models.Configuration;
@@ -23,15 +24,10 @@ import com.shamildev.retro.ui.common.presenter.BasePresenter;
 import com.shamildev.retro.ui.splash.fragment.model.SplashModel;
 import com.shamildev.retro.ui.splash.fragment.view.SplashView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -112,13 +108,13 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
                 .w780()
                 .preload(new RetroImageRequestListener() {
                     @Override
-                    public boolean onLoadFailed() {
+                    public boolean onLoadFailed(GlideException e) {
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady() {
-                        navigator.navigateToHome(application);
+                    public boolean onResourceReady(Drawable resource) {
+                         navigator.navigateToHome(application);
                         return false;
                     }
                 });
@@ -135,18 +131,46 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
                 .w780()
                 .into(view.getSplashBg(),new RetroImageRequestListener() {
                     @Override
-                    public boolean onLoadFailed() {
+                    public boolean onLoadFailed(GlideException e) {
                         Log.e("TAG","IMAGES LOAD FAILED.");
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady() {
+                    public boolean onResourceReady(Drawable resource) {
                         Log.e("TAG","ALL IMAGES PRELOADED...!");
 
                         return false;
                     }
                 });
+    }
+
+    @Override
+    public void setTestPerson(ResultWrapper wrapper) {
+        MediaItem mediaItem = (MediaItem) wrapper.results().get(13);
+
+        retroImage
+                .load(R.drawable.placeholderuserphoto)
+
+                .into(view.getPersonImage(),new RetroImageRequestListener() {
+                    @Override
+                    public boolean onLoadFailed(GlideException e) {
+                        Log.e("TAG","IMAGE PROFILE LOAD FAILED.");
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource) {
+                        Log.e("TAG","IMAGE PROFILE LOAD...!");
+
+                        return false;
+                    }
+                });
+
+        view.getProfileView()
+                .src(mediaItem,retroImage);
+
+
     }
 
     @Override

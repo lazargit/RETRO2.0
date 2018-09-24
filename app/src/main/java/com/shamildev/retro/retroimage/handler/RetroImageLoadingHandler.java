@@ -1,5 +1,10 @@
 package com.shamildev.retro.retroimage.handler;
 
+import android.annotation.SuppressLint;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -14,7 +19,10 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+
 import com.shamildev.retro.domain.core.MediaItem;
+import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
+import com.shamildev.retro.retroimage.bitmap.ConvolutionMatrix;
 import com.shamildev.retro.retroimage.core.RetroImageRequest;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 import com.shamildev.retro.retroimage.views.RetroImageView;
@@ -23,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Shamil Lazar on 28.07.2018.
@@ -39,7 +49,9 @@ public class RetroImageLoadingHandler {
 
     private RetroImageRequest imageRequest;
     private RetroImageView customImageView;
-    private Map<Object, String> map;
+    private Map<Object, Object> map;
+    private Bitmap bitmap;
+    private CircleImageView imageCircleView;
 
 
     public RetroImageLoadingHandler(RetroImageRequest imageRequest, RequestManager requestManager, RetroImageRequestListener imageRequestListener) {
@@ -52,12 +64,11 @@ public class RetroImageLoadingHandler {
 
     public void startLoad(View imageView) {
 
-
         if (!imageRequest.getItems().isEmpty()) {
             for (Object obj : imageRequest.getItems()) {
-                if (!prepareRequest(obj).isEmpty()) {
+               // if (!prepareRequest(obj).isEmpty()) {
                     this.map.put(obj, prepareRequest(obj));
-                }
+               // }
 
             }
         }
@@ -70,17 +81,23 @@ public class RetroImageLoadingHandler {
                     if (imageView instanceof RetroImageView) {
 
                         this.imageView = (RetroImageView) imageView;
-                        if (this.imageView.isShowProgressBar()) {
-                            this.imageView.getProgressBar().setVisibility(View.VISIBLE);
-                        }
-
-                        //this.imageView.getProgressBar().setVisibility(View.VISIBLE);
                         if (this.imageView.getImageCircle()) {
-                            loadFile(o).apply(RequestOptions.circleCropTransform()).into(this.imageView.getImageView());
+                            loadFile(o)
+                                    .apply(RequestOptions.circleCropTransform())
+                                    .preload();
+
+                            // .into(this.imageView.getImageView());
                         } else {
-                            loadFile(o).into(this.imageView.getImageView());
+                            loadFile(o)
+                                    .into(this.imageView.getImageView());
                         }
 
+                        //  this.imageView.getImageView().setImageBitmap(applySmoothEffect(BitmapFactory.decodeResource(getResources(), R.drawable.beautiful),5));
+                    }else if (imageView instanceof CircleImageView) {
+                        this.imageCircleView = (CircleImageView) imageView;
+                        loadFile(o)
+                                .apply(RequestOptions.circleCropTransform())
+                                .preload();
                     } else {
                         loadFile(o).preload();
                     }
@@ -104,7 +121,7 @@ public class RetroImageLoadingHandler {
         }
         removeFromMap(obj);
         if (map.isEmpty()) {
-            imageRequestListener.onResourceReady();
+            imageRequestListener.onResourceReady(resource);
         }
     }
 
@@ -116,7 +133,7 @@ public class RetroImageLoadingHandler {
 
         }
         removeFromMap(obj);
-        imageRequestListener.onLoadFailed();
+        imageRequestListener.onLoadFailed(e);
     }
 
     private void removeFromMap(Object obj) {
@@ -124,7 +141,7 @@ public class RetroImageLoadingHandler {
     }
 
 
-    private String prepareRequest(Object obj) {
+    private Object prepareRequest(Object obj) {
         if (obj instanceof MediaItem) {
             MediaItem item = (MediaItem) obj;
             String tmdbConfigurationSizes = this.imageRequest.getTMDBConfigurationSizes(this.imageRequest.getImageType(), this.imageRequest.getImageSizeSetting());
@@ -167,23 +184,34 @@ public class RetroImageLoadingHandler {
             if (match.matches()) {
                 return urlPath;
             } else {
-                throw new IllegalStateException("illegal path for gif file");
+                throw new IllegalStateException("illegal url path for image loading");
             }
 
-        }
+        }else if(obj instanceof Drawable){
+
+        }else if(obj instanceof Integer){
+            return obj;
+         }
         return null;
     }
 
 
+    @SuppressLint("CheckResult")
     public RequestBuilder<Drawable> loadFile(Object obj) {
 
         Log.e("TAG", "LOAD FILE.....>># " + prepareRequest(obj) + " " + obj.hashCode());
 
 
+
+
+
         return
                 imageRequest.requestManager
+
                         .load(prepareRequest(obj))
+
                         .transition(DrawableTransitionOptions.withCrossFade())
+
                         .listener(new RequestListener<Drawable>() {
 
                             @Override
@@ -197,6 +225,7 @@ public class RetroImageLoadingHandler {
                             @Override
                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                 Log.e("TAG", "glide load file>>>>.*." + isFirstResource + "##" + resource.getMinimumWidth());
+
                                 imageLoadSuccessful(resource, obj);
                                 return false;
                             }
@@ -206,5 +235,14 @@ public class RetroImageLoadingHandler {
 
     }
 
-
+    public Bitmap applySmoothEffect(Bitmap src, double value) {
+        //create convolution matrix instance
+        ConvolutionMatrix convMatrix = new ConvolutionMatrix(3);
+        convMatrix.setAll(1);
+        convMatrix.Matrix[1][1] = value;
+        // set weight of factor and offset
+        convMatrix.Factor = value + 8;
+        convMatrix.Offset = 1;
+        return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
+    }
 }

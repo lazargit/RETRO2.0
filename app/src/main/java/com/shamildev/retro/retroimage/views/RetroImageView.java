@@ -22,9 +22,6 @@ public class RetroImageView extends RelativeLayout {
     private ImageView imageView;
     private ProgressBar progressBar;
     private boolean mShowFX=false;
-    private int mFXValue;
-    private float mFXduartion;
-    private float mFXinterpolator;
     private int scaleType=0;
     private  boolean mShowProgressBar=true;
     private boolean mCircle=false;
@@ -63,40 +60,24 @@ public class RetroImageView extends RelativeLayout {
             } finally {
                 a.recycle();
             }
-
-
-            Log.e("RetroImageView","attr  "+mCircle);
         }
 
-        if(mCircle) {
-           // View inflate = inflate(getContext(), R.layout.view_profile_image, this);
-            View inflate = inflate(getContext(), R.layout.view_retro_image, this);
-            this.imageView =  inflate.findViewById(R.id.image_custom);
-        }else{
             if(mShowFX){
                 inflate(getContext(), R.layout.view_retro_imagefx, this);
             }else{
                 inflate(getContext(), R.layout.view_retro_image, this);
 
             }
-            this.imageView =  findViewById(R.id.image_custom);
-            this.imageView.setScaleType(this.scaleType(scaleType));
-        }
 
+
+        this.imageView =  findViewById(R.id.image_custom);
+        this.progressBar =  findViewById(R.id.progressbar_image);
+        this.imageView.setScaleType(this.scaleType(scaleType));
+        if(!mShowProgressBar) this.progressBar.setVisibility(GONE);
 
     }
 
 
-    /*
-      <enum name="CENTER" value="0"/>
-            <enum name="CENTER_CROP" value="1"/>
-            <enum name="CENTER_INSIDE" value="2"/>
-            <enum name="FIT_CENTER" value="3"/>
-            <enum name="FIT_END" value="4"/>
-            <enum name="FIT_START" value="5"/>
-            <enum name="FIT_XY" value="6"/>
-            <enum name="MATRIY" value="7"/>
-     */
     private ImageView.ScaleType scaleType(int scaleType) {
 
         switch (scaleType){
@@ -108,7 +89,7 @@ public class RetroImageView extends RelativeLayout {
             case 5: return ImageView.ScaleType.FIT_START;
             case 6: return ImageView.ScaleType.FIT_XY;
             case 7: return ImageView.ScaleType.MATRIX;
-            default: return ImageView.ScaleType.CENTER;
+            default: return ImageView.ScaleType.CENTER_CROP;
 
         }
 

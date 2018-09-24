@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+
+    <!--<ImageView-->
+
+        <!--android:id="@+id/image_circle"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="@drawable/circle_shape"/>-->
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/placeholderuserphoto"
+        app:civ_border_width="1dp"
+        android:layout_gravity="center"
+        app:civ_border_color="#e6e5e5"/>
+
+
+    <!--<com.shamildev.retro.retroimage.views.RetroImageView-->
+        <!--android:id="@+id/retroimage_view"-->
+        <!--android:layout_width="73dp"-->
+        <!--android:layout_height="73dp"-->
+        <!--app:showProgressBar="false"-->
+        <!--android:layout_gravity="center"-->
+        <!--app:circle="true">-->
+
+    <!--</com.shamildev.retro.retroimage.views.RetroImageView>-->
+
+    <ImageView
+        android:id="@+id/image_ring"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_ring"/>
+
+
+</FrameLayout>

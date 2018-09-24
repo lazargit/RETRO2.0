@@ -51,5 +51,15 @@
 
     </declare-styleable>
 
+    <declare-styleable name="RetroProfileImageView">
+
+        <attr name="size" format="enum">
+            <enum name="small" value="0"/>
+            <enum name="medium" value="1"/>
+            <enum name="high" value="1"/>
+        </attr>
+
+    </declare-styleable>
+
 
 </resources>

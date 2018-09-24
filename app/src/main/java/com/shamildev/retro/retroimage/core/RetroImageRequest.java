@@ -1,5 +1,6 @@
 package com.shamildev.retro.retroimage.core;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -82,8 +83,18 @@ public class RetroImageRequest {
         this.configurations = configurations;
         this.requestManager = requestManager;
     }
+    public RetroImageRequest(RetroImage retroImage, Drawable item, RequestManager requestManager) {
+        this.retroImage = retroImage;
+        this.requestManager = requestManager;
+        this.items.add(item);
 
+    }
+    public RetroImageRequest(RetroImage retroImage, Integer item, RequestManager requestManager) {
+        this.retroImage = retroImage;
+        this.requestManager = requestManager;
+        this.items.add(item);
 
+    }
     protected int getSetting() {
         return setting;
     }

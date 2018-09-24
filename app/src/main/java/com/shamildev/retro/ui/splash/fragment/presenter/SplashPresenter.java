@@ -25,4 +25,6 @@ public interface SplashPresenter extends Presenter {
     void setBgTeaser(ResultWrapper wrapper);
 
     void configRetroImage(Configuration configuration);
+
+    void setTestPerson(ResultWrapper wrapper);
 }

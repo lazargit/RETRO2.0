@@ -4,6 +4,8 @@ import com.shamildev.retro.retroimage.core.RetroImageRequest;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 import com.shamildev.retro.retroimage.views.RetroImageView;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 //VARINAT 1 FOR CLOSE LOADEXPRESSION
 //
@@ -29,6 +31,10 @@ public class RetroImageCloseVariant1 {
 
 
     public void into(RetroImageView customImageView, RetroImageRequestListener imageRequestListener){
+        imageRequest.loadImage(imageRequestListener,customImageView);
+
+    }
+    public void into(CircleImageView customImageView, RetroImageRequestListener imageRequestListener){
         imageRequest.loadImage(imageRequestListener,customImageView);
 
     }

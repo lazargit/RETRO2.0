@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.shamildev.retro.R;
+import com.shamildev.retro.domain.core.MediaItem;
 import com.shamildev.retro.domain.models.ResultWrapper;
 import com.shamildev.retro.navigation.Navigator;
 import com.shamildev.retro.retroimage.views.RetroImageView;
+import com.shamildev.retro.retroimage.views.RetroProfileImageView;
 import com.shamildev.retro.ui.common.view.BaseViewFragment;
 import com.shamildev.retro.ui.splash.fragment.presenter.SplashPresenter;
 
@@ -38,7 +40,13 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
 
 
     @BindView(R.id.splashbg)
-    RetroImageView splashbg;
+    RetroImageView mSplashbg;
+
+    @BindView(R.id.retroimg_person)
+    RetroImageView mRetroimg_person;
+
+    @BindView(R.id.retroprofile_imageview)
+    RetroProfileImageView mRetroProfileImageView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -48,7 +56,17 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
 
     @Override
     public RetroImageView getSplashBg() {
-        return splashbg;
+        return mSplashbg;
+    }
+
+    @Override
+    public RetroImageView getPersonImage() {
+        return mRetroimg_person;
+    }
+
+    @Override
+    public RetroProfileImageView getProfileView() {
+        return mRetroProfileImageView;
     }
 
     @Override

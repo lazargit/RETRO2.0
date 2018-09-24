@@ -1,5 +1,6 @@
 package com.shamildev.retro.retroimage.core;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
 import com.bumptech.glide.RequestManager;
@@ -59,6 +60,8 @@ public class RetroImage {
         return new GenericContainerImageType<>(new RetroImageCloseVariant1(this.imageRequest), this.imageRequest);
     }
 
+
+
     public RetroImageCloseVariant1 load(@NonNull String urlPath) {
         this.imageRequest = new RetroImageRequest(this, urlPath, configurations, this.requestManager);
         return new RetroImageCloseVariant1(this.imageRequest);
@@ -68,4 +71,14 @@ public class RetroImage {
         this.imageRequest = new RetroImageRequest(this, urlPath, configurations, this.requestManager);
         return new RetroImageCloseVariant2(this.imageRequest);
     }
+
+    public RetroImageCloseVariant1 load(Drawable drawable) {
+        this.imageRequest = new RetroImageRequest(this, drawable, this.requestManager);
+        return new RetroImageCloseVariant1(this.imageRequest);
+    }
+    public RetroImageCloseVariant1 load(Integer drawable) {
+        this.imageRequest = new RetroImageRequest(this, drawable, this.requestManager);
+        return new RetroImageCloseVariant1(this.imageRequest);
+    }
+
 }

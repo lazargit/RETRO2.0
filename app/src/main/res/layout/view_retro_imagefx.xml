@@ -12,7 +12,7 @@
         android:adjustViewBounds="true"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:visibility="invisible"/>
+        />
 
 
 
@@ -22,5 +22,5 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:visibility="invisible" />
+         />
 </FrameLayout>

@@ -34,7 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
                 app:showImageFX="false"
-                app:pagefx="Slide"
+                app:pagefx="FadeOut"
+
                 app:showCircleIndicator="false"
                 app:showTitle="true">
             </com.shamildev.retro.views.retroslider.views.ImageSliderView>

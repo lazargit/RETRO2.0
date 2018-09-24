@@ -2,13 +2,21 @@ package com.shamildev.retro.retroimage.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.load.engine.GlideException;
 import com.shamildev.retro.R;
+import com.shamildev.retro.domain.core.MediaItem;
+import com.shamildev.retro.retroimage.core.RetroImage;
+import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Shamil Lazar on 08.05.2018.
@@ -22,14 +30,12 @@ public class RetroProfileImageView extends RelativeLayout {
 
 
     private boolean mShowFX;
-    private int mFXValue;
-    private float mFXduartion;
-    private float mFXinterpolator;
-    private int scaleType;
 
+    private int size = 1;
 
-
-    private  boolean mShowProgressBar;
+    private ImageView image_circle;
+    private RetroImageView retroimage_view;
+    private CircleImageView profileimage_view;
 
 
     public RetroProfileImageView(Context context) {
@@ -53,87 +59,71 @@ public class RetroProfileImageView extends RelativeLayout {
     }
 
     private void init(AttributeSet attrs) {
-        inflate(getContext(), R.layout.view_retro_image,this);
+
 
         if(attrs!= null){
             TypedArray a = getContext().getTheme().obtainStyledAttributes(
                     attrs,
-                    R.styleable.RetroImageView,  0, 0);
+                    R.styleable.RetroProfileImageView,  0, 0);
 
             try {
-                mShowFX = a.getBoolean(R.styleable.RetroImageView_showFX, false);
-                mShowProgressBar = a.getBoolean(R.styleable.RetroImageView_showProgressBar, true);
-                scaleType = a.getInteger(R.styleable.RetroImageView_scaleType,0);
-
-
-
-
+                size = a.getInteger(R.styleable.RetroProfileImageView_size,1);
 
             } finally {
                 a.recycle();
             }
 
 
-            Log.e("mShowProgressBar","mShowProgressBar "+mShowProgressBar);
-            if(mShowFX){
-                this.imageView =  findViewById(R.id.image_customFX);
-                this.imageView.setVisibility(VISIBLE);
-                findViewById(R.id.image_custom).setVisibility(GONE);
-            }else{
-                this.imageView =  findViewById(R.id.image_custom);
-            }
-
-
-
-
-            this.imageView.setScaleType(this.scaleType(scaleType));
-
-
+            inflate(getContext(), R.layout.view_retro_profile, this);
+           // this.image_circle =  findViewById(R.id.image_circle);
+          //  this.retroimage_view =  findViewById(R.id.retroimage_view);
+            this.profileimage_view =  findViewById(R.id.profile_image);
+           // this.retroimage_view.setVisibility(INVISIBLE);
         }
 
+
+        //this.retroimage_view.getImageView().setImageDrawable(getResources().getDrawable(R.drawable.placeholderuserphoto));
+
     }
 
+    public RetroImageView getImageView() {
+        return retroimage_view;
+    }
 
-    /*
-      <enum name="CENTER" value="0"/>
-            <enum name="CENTER_CROP" value="1"/>
-            <enum name="CENTER_INSIDE" value="2"/>
-            <enum name="FIT_CENTER" value="3"/>
-            <enum name="FIT_END" value="4"/>
-            <enum name="FIT_START" value="5"/>
-            <enum name="FIT_XY" value="6"/>
-            <enum name="MATRIY" value="7"/>
-     */
-    private ImageView.ScaleType scaleType(int scaleType) {
+    public void src(MediaItem mediaItem, RetroImage retroImg){
 
-        switch (scaleType){
-            case 0: return ImageView.ScaleType.CENTER;
-            case 1: return ImageView.ScaleType.CENTER_CROP;
-            case 2: return ImageView.ScaleType.CENTER_INSIDE;
-            case 3: return ImageView.ScaleType.FIT_CENTER;
-            case 4: return ImageView.ScaleType.FIT_END;
-            case 5: return ImageView.ScaleType.FIT_START;
-            case 6: return ImageView.ScaleType.FIT_XY;
-            case 7: return ImageView.ScaleType.MATRIX;
-            default: return ImageView.ScaleType.CENTER;
+        if (mediaItem!=null) {
 
+
+
+            retroImg
+                    .load(mediaItem)
+                    .Profile()
+                    .w185()
+                    .preload(new RetroImageRequestListener() {
+                        @Override
+                        public boolean onLoadFailed(GlideException e) {
+                            Log.e("TAG","IMAGE PROFILE LOAD FAILED.");
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource) {
+                            Log.e("TAG","IMAGE PROFILE LOAD...!");
+                            profileimage_view.setImageDrawable(resource);
+                          //  retroimage_view.setVisibility(View.VISIBLE);
+                            return false;
+                        }
+                    });
+
+        } else {
+            throw new IllegalStateException("no mediaItem found !");
         }
 
+
+
     }
 
-    public ImageView getImageView() {
-        return imageView;
-    }
-
-    public ProgressBar getProgressBar() {
-        return progressBar;
-    }
-    public void setmShowFX(boolean mShowFX) {
-        this.mShowFX = mShowFX;
-    }
-    public boolean isShowProgressBar() {
-        return mShowProgressBar;
-    }
 
 }
 

@@ -207,7 +207,7 @@ public class SplashModelImpl extends SplashModel{
         if(this.mListTopic.size()>0) {
             fetchTopics(this.mListTopic);
         }else{
-            presenter.finishPreload(map);
+           // presenter.finishPreload(map);
         }
     }
 
@@ -220,6 +220,10 @@ public class SplashModelImpl extends SplashModel{
                 map.put(mListTopic.get(0),wrapper);
                 if(topic.equals(AppConfig.NOWPLAYINGKEY)){
                     presenter.setBgTeaser(wrapper);
+
+                }
+                if(topic.equals(AppConfig.POPULARPERSONKEY)){
+                    presenter.setTestPerson(wrapper);
 
                 }
             }
