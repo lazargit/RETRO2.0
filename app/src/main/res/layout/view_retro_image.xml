@@ -10,7 +10,8 @@
         android:layout_height="fill_parent"
         android:adjustViewBounds="true"
         android:layout_gravity="center"
-        android:src="@drawable/london_flat"
+
+
         android:scaleType="fitXY"/>
 
 

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -21,6 +23,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import com.shamildev.retro.domain.core.MediaItem;
+import com.shamildev.retro.glide.RetroGlide;
 import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
 import com.shamildev.retro.retroimage.bitmap.ConvolutionMatrix;
 import com.shamildev.retro.retroimage.core.RetroImageRequest;
@@ -82,11 +85,17 @@ public class RetroImageLoadingHandler {
 
                         this.imageView = (RetroImageView) imageView;
                         if (this.imageView.getImageCircle()) {
-                            loadFile(o)
-                                    .apply(RequestOptions.circleCropTransform())
-                                    .preload();
 
-                            // .into(this.imageView.getImageView());
+
+
+                            loadFile(o)
+
+
+                                    .apply(RequestOptions.circleCropTransform())
+
+                                    //.preload();
+
+                                    .into(this.imageView.getImageView());
                         } else {
                             loadFile(o)
                                     .into(this.imageView.getImageView());
@@ -205,12 +214,18 @@ public class RetroImageLoadingHandler {
 
 
 
+
         return
                 imageRequest.requestManager
 
+
                         .load(prepareRequest(obj))
 
-                        .transition(DrawableTransitionOptions.withCrossFade())
+
+
+
+
+                        .transition(DrawableTransitionOptions.withCrossFade(2000))
 
                         .listener(new RequestListener<Drawable>() {
 

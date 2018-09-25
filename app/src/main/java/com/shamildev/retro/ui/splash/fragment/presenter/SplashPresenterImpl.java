@@ -150,7 +150,7 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
         MediaItem mediaItem = (MediaItem) wrapper.results().get(13);
 
         retroImage
-                .load(R.drawable.placeholderuserphoto)
+                .load(R.drawable.circle_shape)
 
                 .into(view.getPersonImage(),new RetroImageRequestListener() {
                     @Override
@@ -166,6 +166,10 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
                         return false;
                     }
                 });
+
+
+        view.getProfileCircleView()
+                .src(mediaItem,retroImage);
 
         view.getProfileView()
                 .src(mediaItem,retroImage);

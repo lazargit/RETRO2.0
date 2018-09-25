@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -13,7 +12,6 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.load.engine.GlideException;
 import com.shamildev.retro.R;
 import com.shamildev.retro.domain.core.MediaItem;
-import com.shamildev.retro.glide.RetroGlide;
 import com.shamildev.retro.retroimage.core.RetroImage;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 
@@ -23,7 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Shamil Lazar on 08.05.2018.
  */
 
-public class RetroProfileImageView extends RelativeLayout {
+public class RetroProfileCircleImageView extends RelativeLayout {
 
     private ImageView imageView;
     private ProgressBar progressBar;
@@ -39,17 +37,17 @@ public class RetroProfileImageView extends RelativeLayout {
     private CircleImageView profileimage_view;
 
 
-    public RetroProfileImageView(Context context) {
+    public RetroProfileCircleImageView(Context context) {
         super(context);
         init(null);
     }
 
-    public RetroProfileImageView(Context context, Boolean mShowFX) {
+    public RetroProfileCircleImageView(Context context, Boolean mShowFX) {
         super(context);
         this.mShowFX = mShowFX;
         init(null);
     }
-    public RetroProfileImageView(Context context, AttributeSet attrs) {
+    public RetroProfileCircleImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
@@ -75,10 +73,10 @@ public class RetroProfileImageView extends RelativeLayout {
             }
 
 
-            inflate(getContext(), R.layout.view_retro_profile, this);
+            inflate(getContext(), R.layout.view_retro_circleimageview, this);
            // this.image_circle =  findViewById(R.id.image_circle);
-            this.retroimage_view =  findViewById(R.id.retroimage_view);
-         //   this.profileimage_view =  findViewById(R.id.profile_image);
+           // this.retroimage_view =  findViewById(R.id.retroimage_view);
+            this.profileimage_view =  findViewById(R.id.profile_image);
            // this.retroimage_view.setVisibility(INVISIBLE);
         }
 
@@ -101,7 +99,7 @@ public class RetroProfileImageView extends RelativeLayout {
                     .load(mediaItem)
                     .Profile()
                     .w185()
-                    .into(this.retroimage_view,new RetroImageRequestListener() {
+                    .preload(new RetroImageRequestListener() {
                         @Override
                         public boolean onLoadFailed(GlideException e) {
                             Log.e("TAG","IMAGE PROFILE LOAD FAILED.");
@@ -111,7 +109,7 @@ public class RetroProfileImageView extends RelativeLayout {
                         @Override
                         public boolean onResourceReady(Drawable resource) {
                             Log.e("TAG","IMAGE PROFILE LOAD...!");
-                           // profileimage_view.setImageDrawable(resource);
+                           profileimage_view.setImageDrawable(resource);
                           //  retroimage_view.setVisibility(View.VISIBLE);
                             return false;
                         }

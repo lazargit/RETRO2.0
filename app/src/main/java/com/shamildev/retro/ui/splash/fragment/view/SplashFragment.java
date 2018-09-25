@@ -1,17 +1,22 @@
 package com.shamildev.retro.ui.splash.fragment.view;
 
 import android.app.Application;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.bumptech.glide.Glide;
 import com.shamildev.retro.R;
 import com.shamildev.retro.domain.core.MediaItem;
 import com.shamildev.retro.domain.models.ResultWrapper;
+import com.shamildev.retro.glide.RetroGlide;
 import com.shamildev.retro.navigation.Navigator;
 import com.shamildev.retro.retroimage.views.RetroImageView;
+import com.shamildev.retro.retroimage.views.RetroProfileCircleImageView;
 import com.shamildev.retro.retroimage.views.RetroProfileImageView;
 import com.shamildev.retro.ui.common.view.BaseViewFragment;
 import com.shamildev.retro.ui.splash.fragment.presenter.SplashPresenter;
@@ -38,7 +43,6 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
     Application application;
 
 
-
     @BindView(R.id.splashbg)
     RetroImageView mSplashbg;
 
@@ -47,6 +51,11 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
 
     @BindView(R.id.retroprofile_imageview)
     RetroProfileImageView mRetroProfileImageView;
+
+
+    @BindView(R.id.retroprofile_circleimageview)
+    RetroProfileCircleImageView mRetroProfileCircleImageView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -67,6 +76,15 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
     @Override
     public RetroProfileImageView getProfileView() {
         return mRetroProfileImageView;
+    }
+
+    @Override
+    public RetroProfileCircleImageView getProfileCircleView() {
+
+
+
+
+        return mRetroProfileCircleImageView;
     }
 
     @Override

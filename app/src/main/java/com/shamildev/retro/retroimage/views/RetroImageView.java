@@ -2,6 +2,7 @@ package com.shamildev.retro.retroimage.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ public class RetroImageView extends RelativeLayout {
     private int scaleType=0;
     private  boolean mShowProgressBar=true;
     private boolean mCircle=false;
+    private Drawable mPlaceHolder;
 
 
     public RetroImageView(Context context) {
@@ -55,6 +57,7 @@ public class RetroImageView extends RelativeLayout {
             try {
                 mCircle = a.getBoolean(R.styleable.RetroImageView_circle, false);
                 mShowFX = a.getBoolean(R.styleable.RetroImageView_showFX, false);
+                mPlaceHolder = a.getDrawable(R.styleable.RetroImageView_placeholder);
                 mShowProgressBar = a.getBoolean(R.styleable.RetroImageView_showProgressBar, true);
                 scaleType = a.getInteger(R.styleable.RetroImageView_scaleType,0);
             } finally {
@@ -73,7 +76,11 @@ public class RetroImageView extends RelativeLayout {
         this.imageView =  findViewById(R.id.image_custom);
         this.progressBar =  findViewById(R.id.progressbar_image);
         this.imageView.setScaleType(this.scaleType(scaleType));
+        //if(mCircle)  this.imageView.setImageDrawable(getResources().getDrawable(R.drawable.circle_shape));
+        if(mPlaceHolder!=null)  this.imageView.setBackground(mPlaceHolder);
+
         if(!mShowProgressBar) this.progressBar.setVisibility(GONE);
+
 
     }
 
