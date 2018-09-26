@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
 import com.shamildev.retro.R;
 import com.shamildev.retro.domain.core.MediaItem;
 import com.shamildev.retro.domain.models.ResultWrapper;
@@ -53,13 +54,15 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
     RetroProfileImageView mRetroProfileImageView;
 
 
-    @BindView(R.id.retroprofile_circleimageview)
-    RetroProfileCircleImageView mRetroProfileCircleImageView;
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+
+
         return inflater.inflate(R.layout.fragment_splash, container, false);
+
     }
 
 
@@ -84,7 +87,7 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
 
 
 
-        return mRetroProfileCircleImageView;
+        return null;
     }
 
     @Override
@@ -110,7 +113,10 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
     public void onClickCustomSignin(Button button) {
         navigator.navigateToSignIn(application);
     }
-
+    @OnClick(R.id.signout)
+    public void onClickSigninOut(Button button) {
+        presenter.signout();
+    }
 
 
     @Override

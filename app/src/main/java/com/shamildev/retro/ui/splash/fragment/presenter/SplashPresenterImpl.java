@@ -94,8 +94,12 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
     @Override
     public void finishPreload(HashMap<String, ResultWrapper> map) {
         toast("FINISH PRELOAD");
-        appConfig.setPreloadDataMap(map);
-        preloadSliderTeaserImages(map);
+
+
+        view.getProfileView()
+                .src("https://graph.facebook.com//10215197067952270/picture?type=large",retroImage);
+       // appConfig.setPreloadDataMap(map);
+       // preloadSliderTeaserImages(map);
 
     }
 
@@ -168,13 +172,17 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
                 });
 
 
-        view.getProfileCircleView()
-                .src(mediaItem,retroImage);
+
 
         view.getProfileView()
                 .src(mediaItem,retroImage);
 
 
+    }
+
+    @Override
+    public void signout() {
+        model.signout();
     }
 
     @Override

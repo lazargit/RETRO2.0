@@ -96,7 +96,26 @@ public final class FirebaseRepository implements BaseRepository {
 
     @Override
     public Flowable<AppUser> checkUser() {
-        return null;
+        return Flowable.create(e -> {
+            try {
+                 if (mFUser != null) {
+                     String photoPath = null;
+                     if(mFUser.getPhotoUrl() != null){
+                         photoPath = mFUser.getPhotoUrl().getPath();
+                     }
+                     appUser.setFirebaseUser(mFUser.getUid(), mFUser.getEmail(), mFUser.getDisplayName(),mFUser.getProviderId(),photoPath);
+                     e.onNext(appUser);
+                     e.onComplete();
+                 }else{
+                     e.onComplete();
+                 }
+            } catch (Exception t) {
+                e.onError(t);
+            }
+
+
+        }, BackpressureStrategy.BUFFER);
+
     }
 
     @Override
@@ -230,7 +249,6 @@ public final class FirebaseRepository implements BaseRepository {
 
     }
 
-
     @Override
     public Flowable<AppUser> signIn(String token) {
         return null;
@@ -271,10 +289,10 @@ public final class FirebaseRepository implements BaseRepository {
                     // firebaseMapper.map(appUser,user);
                     String photoPath = null;
                     if(mFUser.getPhotoUrl() != null){
-                        photoPath = mFUser.getPhotoUrl().getPath();
+                        photoPath = "https://graph.facebook.com/"+mFUser.getPhotoUrl().getPath()+"?type=large";
                     }
 
-                    Log.e("TAG",appUser.toString());
+                    Log.e("TAG>","> "+mFUser.getDisplayName());
                     appUser.setFirebaseUser(mFUser.getUid(), mFUser.getEmail(), mFUser.getDisplayName(),mFUser.getProviderId(),photoPath);
                     e.onNext(appUser);
                     e.onComplete();

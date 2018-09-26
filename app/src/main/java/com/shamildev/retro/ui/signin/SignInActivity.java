@@ -59,12 +59,7 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
 
         facebookLoginCall();
 
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(BuildConfig.TWITTER_API_TOKEN, BuildConfig.TWITTER_API_SECRET_TOKEN))
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
+
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();

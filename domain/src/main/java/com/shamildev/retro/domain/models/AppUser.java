@@ -9,7 +9,7 @@ import com.shamildev.retro.domain.util.Pair;
  */
 public class AppUser implements DomainObject {
 
-    private static final String anonymus = "anonymus";
+
     private String name;
     private String language;
     private String user_id;
@@ -17,10 +17,11 @@ public class AppUser implements DomainObject {
     private Long tmdb_expires_at;
     private String email;
     private String uid;
-    private Boolean isLoggedIn;
+    private Boolean isLoggedIn = false;
     private String fbtoken;
     private Pair<String, String> twtoken;
     private String photoUrl;
+    private byte[] profilePic;
     private String sigin_provider;
     private SignInType signintype;
 
@@ -35,7 +36,7 @@ public class AppUser implements DomainObject {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getLanguage() {
@@ -43,7 +44,9 @@ public class AppUser implements DomainObject {
     }
 
     public void setName(String name) {
+        System.out.println("TAG>> "+name);
         this.name = name;
+        System.out.println("TAG< "+this.name);
     }
 
     public void setLanguage(String language) {
@@ -91,17 +94,19 @@ public class AppUser implements DomainObject {
     }
 
     public void setUser(User user) {
+        System.out.println("setUser> ");
+        setUser_id(user.user_id());
         setName(user.name());
         setLanguage(user.language());
         setTmdb_guest_session(user.tmdb_guest_session());
         setTmdb_expires_at(user.tmdb_expires_at());
     }
 
-    public void setFirebaseUser(String uid, String email, String name, String providerId, String photoUrl) {
-
+    public void setFirebaseUser(String uid, String email, String fName, String providerId, String photoUrl) {
+        System.out.println("TAG> "+fName);
         setUid(uid);
         setEmail(email);
-        setName(name);
+        setName(fName);
         setSigin_provider(providerId);
         setPhotoUrl(photoUrl);
         setLoggedIn(true);
@@ -146,7 +151,7 @@ public class AppUser implements DomainObject {
     @Override
     public String toString() {
         return "AppUser{" +
-                "name='" + name + '\'' +
+                "name=='" + this.name + '\'' +
                 ", language='" + language + '\'' +
                 ", user_id='" + user_id + '\'' +
                 ", tmdb_guest_session='" + tmdb_guest_session + '\'' +
@@ -156,6 +161,7 @@ public class AppUser implements DomainObject {
                 ", isLoggedIn=" + isLoggedIn +
                 ", photoUrl='" + photoUrl + '\'' +
                 ", sigin_provider='" + sigin_provider + '\'' +
+                ", fbtoken='" + fbtoken + '\'' +
                 '}';
     }
 

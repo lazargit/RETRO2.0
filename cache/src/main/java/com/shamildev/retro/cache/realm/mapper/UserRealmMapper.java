@@ -45,6 +45,7 @@ final class UserRealmMapper implements RealmMapper<User, UserRealm> {
     public User map(UserRealm entity) {
         return User.builder()
                 .user_id(entity.getUser_id())
+                .name(entity.getName())
                 .language(entity.getLanguage())
                 .tmdb_guest_session(entity.getTmdb_guest_session())
                 .tmdb_expires_at(entity.getExpires_at())

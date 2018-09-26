@@ -1,6 +1,7 @@
 package com.shamildev.retro.retroimage.bitmap;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -9,6 +10,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.shamildev.retro.R;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by Shamil Lazar on 23.09.2018.
@@ -73,6 +76,25 @@ public class BitmapConverter {
                 new Rect(0, 0, targetWidth, targetHeight), paint);
 
         return targetBitmap;
+    }
+
+    static public byte[] DrawableToByteArray(Drawable drawable){
+
+        Bitmap bitmap1;
+        ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+
+        bitmap1 = ((BitmapDrawable)drawable).getBitmap();
+
+        bitmap1.compress(Bitmap.CompressFormat.JPEG,70,bytearrayoutputstream);
+
+        return bytearrayoutputstream.toByteArray();
+
+    }
+
+    static public Bitmap ByteArrayToBitmap(byte[] byteArray){
+
+        return BitmapFactory.decodeByteArray(byteArray,0,byteArray.length);
+
     }
 
 }

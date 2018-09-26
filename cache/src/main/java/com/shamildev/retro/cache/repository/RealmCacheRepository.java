@@ -53,15 +53,21 @@ public final class RealmCacheRepository implements CacheRepository {
 
     @Override
     public Flowable<User> fetchUser() {
+        System.out.println("...fetchUser... ");
+
         return Flowable.create(e -> {
             Realm realm = realmProvider.get();
             RealmQuery<UserRealm> query = realm.where(UserRealm.class);
             RealmResults<UserRealm> result = query.findAll();
+            System.out.println("...fetchUser...> "+result.size());
             if (result.size() == 0) {
                 e.onComplete();
+
             }else {
                 UserRealm realmObj  = result.get(0);
+                System.out.println("...fetchUser...>> "+realmObj.getUser_id());
                 User map = realmMapperHolder.userRealmMapper().map(realmObj);
+                System.out.println("...fetchUser...>> "+map);
                 e.onNext(map);
                 e.onComplete();
             }

@@ -27,4 +27,6 @@ public interface SplashPresenter extends Presenter {
     void configRetroImage(Configuration configuration);
 
     void setTestPerson(ResultWrapper wrapper);
+
+    void signout();
 }

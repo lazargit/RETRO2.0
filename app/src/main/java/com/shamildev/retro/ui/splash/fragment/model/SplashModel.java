@@ -15,4 +15,5 @@ public abstract class SplashModel extends BaseModel<SplashPresenter> {
      public abstract void initConfiguration();
      public abstract void initTables();
 
+    public abstract void signout();
 }

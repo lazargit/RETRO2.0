@@ -23,7 +23,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import com.shamildev.retro.domain.core.MediaItem;
-import com.shamildev.retro.glide.RetroGlide;
+
 import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
 import com.shamildev.retro.retroimage.bitmap.ConvolutionMatrix;
 import com.shamildev.retro.retroimage.core.RetroImageRequest;
@@ -188,12 +188,16 @@ public class RetroImageLoadingHandler {
 
         } else if (obj instanceof String) {
             String urlPath = (String) obj;
-            Pattern p = Pattern.compile("(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)");//. represents single character
+            Pattern p = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");//. represents single character
+
+
+
             Matcher match = p.matcher(obj.toString());
+
             if (match.matches()) {
                 return urlPath;
             } else {
-                throw new IllegalStateException("illegal url path for image loading");
+                throw new IllegalStateException("illegal url path");
             }
 
         }else if(obj instanceof Drawable){
@@ -225,7 +229,7 @@ public class RetroImageLoadingHandler {
 
 
 
-                        .transition(DrawableTransitionOptions.withCrossFade(1500))
+                        .transition(DrawableTransitionOptions.withCrossFade(1000))
 
                         .listener(new RequestListener<Drawable>() {
 

@@ -2,10 +2,13 @@ package com.shamildev.retro.ui.splash.fragment.model;
 
 import android.util.Log;
 
+import com.facebook.AccessToken;
+import com.google.firebase.auth.FirebaseAuth;
 import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.domain.core.AppConfig;
 import com.shamildev.retro.domain.core.DataConfig;
 import com.shamildev.retro.domain.core.usecase.UseCaseHandler;
+import com.shamildev.retro.domain.interactor.usecases.base.USECASE_LogoutUser;
 import com.shamildev.retro.domain.interactor.usecases.base.USECASE_authUser;
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetGenre;
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetNowPlayingMovies;
@@ -15,11 +18,16 @@ import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetTMDBConfig
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetTopRatedMovies;
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetUpcomingMovies;
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_InitTables;
+import com.shamildev.retro.domain.interactor.usecases.user.USECASE_GetUser;
 import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.domain.models.Configuration;
 import com.shamildev.retro.domain.models.Genre;
 import com.shamildev.retro.domain.models.ResultWrapper;
+import com.shamildev.retro.domain.models.User;
 import com.shamildev.retro.ui.splash.fragment.presenter.SplashPresenter;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +35,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.subscribers.DisposableSubscriber;
 
 /**
@@ -50,6 +59,8 @@ public class SplashModelImpl extends SplashModel{
     private final USECASE_GetUpcomingMovies usecase_getUpcomingMovies;
     private final USECASE_GetTopRatedMovies usecase_getTopRatedMovies;
     private final USECASE_GetPopularPerson usecase_getPopularPerson;
+    private final USECASE_GetUser usecase_getUser;
+    private final USECASE_LogoutUser usecase_logoutUser;
 
     private  UseCaseHandler useCaseHandler;
 
@@ -68,6 +79,8 @@ public class SplashModelImpl extends SplashModel{
                            USECASE_GetGenre usecase_getGenre,
                            USECASE_GetTMDBConfiguration getTMDBConfiguration,
                            USECASE_authUser usecase_authUser,
+                           USECASE_LogoutUser usecase_logoutUser,
+                           USECASE_GetUser usecase_getUser,
                            USECASE_InitTables usecase_initTables,
                            USECASE_GetNowPlayingMovies usecase_getNowPlayingMovies,
                            USECASE_GetNowPlayingTVShows usecase_getNowPlayingTVShows,
@@ -79,6 +92,8 @@ public class SplashModelImpl extends SplashModel{
         this.usecase_getGenre = usecase_getGenre;
         this.usecase_getTMDBConfiguration = getTMDBConfiguration;
         this.usecase_authUser = usecase_authUser;
+        this.usecase_getUser = usecase_getUser;
+        this.usecase_logoutUser = usecase_logoutUser;
         this.usecase_initTables = usecase_initTables;
         this.usecase_getNowPlayingMovies = usecase_getNowPlayingMovies;
         this.usecase_getNowPlayingTVShows = usecase_getNowPlayingTVShows;
@@ -164,7 +179,7 @@ public class SplashModelImpl extends SplashModel{
 
                     @Override
                     public void onComplete() {
-
+                        initGenres();
                     }
 
                 });
@@ -197,9 +212,52 @@ public class SplashModelImpl extends SplashModel{
 
     @Override
     public void initUser() {
-            //TODO check user usecase
-        loadNextTopic();
 
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        String token=null;
+        if (accessToken != null) {
+            token = accessToken.getToken();
+        }
+                useCaseHandler.execute(usecase_getUser,  USECASE_GetUser.Params.with(token), new DisposableSubscriber<AppUser>() {
+                    @Override
+                    public void onNext(AppUser user) {
+                        Log.e("usecase_getUser","next "+user.toString());
+
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Log.e("usecase_getUser","error"+t);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("usecase_getUser","complete");
+                        presenter.finishPreload(map);
+
+                    }
+                });
+
+        //loadNextTopic();
+
+    }
+
+    @Override
+    public void signout() {
+        useCaseHandler.execute(usecase_logoutUser, USECASE_LogoutUser.Params.with(0),
+                new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        Log.e("SIGNOUT ","user "+appUser.toString());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("SIGNOUT ","onError "+e);
+                    }
+                }
+       );
     }
 
     private void loadNextTopic() {

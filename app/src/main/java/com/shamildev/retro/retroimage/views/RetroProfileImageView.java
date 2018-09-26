@@ -13,7 +13,8 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.load.engine.GlideException;
 import com.shamildev.retro.R;
 import com.shamildev.retro.domain.core.MediaItem;
-import com.shamildev.retro.glide.RetroGlide;
+
+import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
 import com.shamildev.retro.retroimage.core.RetroImage;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 
@@ -76,10 +77,8 @@ public class RetroProfileImageView extends RelativeLayout {
 
 
             inflate(getContext(), R.layout.view_retro_profile, this);
-           // this.image_circle =  findViewById(R.id.image_circle);
             this.retroimage_view =  findViewById(R.id.retroimage_view);
-         //   this.profileimage_view =  findViewById(R.id.profile_image);
-           // this.retroimage_view.setVisibility(INVISIBLE);
+
         }
 
 
@@ -94,10 +93,7 @@ public class RetroProfileImageView extends RelativeLayout {
     public void src(MediaItem mediaItem, RetroImage retroImg){
 
         if (mediaItem!=null) {
-
-
-
-            retroImg
+                    retroImg
                     .load(mediaItem)
                     .Profile()
                     .w185()
@@ -111,20 +107,41 @@ public class RetroProfileImageView extends RelativeLayout {
                         @Override
                         public boolean onResourceReady(Drawable resource) {
                             Log.e("TAG","IMAGE PROFILE LOAD...!");
-                           // profileimage_view.setImageDrawable(resource);
-                          //  retroimage_view.setVisibility(View.VISIBLE);
-                            return false;
+
+                            return true;
                         }
                     });
 
         } else {
             throw new IllegalStateException("no mediaItem found !");
         }
-
-
-
     }
+    public void src(String url , RetroImage retroImg){
 
+        if (!url.equals("")) {
+            retroImg
+                    .load(url)
+
+                    .into(this.retroimage_view,new RetroImageRequestListener() {
+                        @Override
+                        public boolean onLoadFailed(GlideException e) {
+                            Log.e("TAG","IMAGE FACEBOOK PROFILE LOAD FAILED.");
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource) {
+                            Log.e("TAG","IMAGE FACEBOOK PROFILE LOAD...! "+BitmapConverter.DrawableToByteArray(resource));
+
+
+                            return true;
+                        }
+                    });
+
+        } else {
+            throw new IllegalStateException("no mediaItem found !");
+        }
+    }
 
 }
 

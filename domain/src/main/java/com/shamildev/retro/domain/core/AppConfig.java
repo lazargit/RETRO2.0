@@ -1,5 +1,6 @@
 package com.shamildev.retro.domain.core;
 
+import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.domain.models.Configuration;
 import com.shamildev.retro.domain.models.Genre;
 import com.shamildev.retro.domain.models.ResultWrapper;
@@ -44,6 +45,8 @@ public class AppConfig {
 
     private final Pair<Integer, Integer> screenSizes;
     private List<MediaItem> homeGalleryList;
+    private Pair<String, String> twitterCache;
+    private String facebookToken;
 
 
     public AppConfig(Pair<Integer, Integer> screenSizes, Boolean firststart) {
@@ -52,6 +55,24 @@ public class AppConfig {
 
 
     }
+
+    public void setTwitterToken(String token, String secret) {
+        twitterCache = new Pair<>(token, secret);
+
+    }
+
+    public Pair<String, String> getTwitterToken() {
+        return twitterCache;
+    }
+
+    public void setFacebookToken(String token) {
+        facebookToken = token;
+    }
+
+    public String getFacebookToken() {
+        return facebookToken;
+    }
+
 
     public String getImageUrl() {
         return imageUrl;

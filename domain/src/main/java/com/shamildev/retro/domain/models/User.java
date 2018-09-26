@@ -3,8 +3,13 @@ package com.shamildev.retro.domain.models;
 
 import com.google.auto.value.AutoValue;
 import com.shamildev.retro.domain.core.DomainObject;
+import com.shamildev.retro.domain.util.DateUtil;
 
+import java.util.UUID;
+
+import io.reactivex.Flowable;
 import io.reactivex.annotations.Nullable;
+import sun.rmi.runtime.Log;
 
 /**
  * Created by Shamil Lazar.
@@ -23,6 +28,7 @@ import io.reactivex.annotations.Nullable;
 
 
         public static final String anonymus  = "anonymus";
+        private static final String user_id = UUID.randomUUID().toString();
 
         @Nullable
         public abstract String user_id();
@@ -45,6 +51,16 @@ import io.reactivex.annotations.Nullable;
                 ;
     }
 
+
+    public static User create(String language) {
+        System.out.println("userid "+user_id);
+        return builder()
+                .user_id(user_id)
+                .name(anonymus)
+                .language(language)
+                .build();
+    }
+
     public static User create(String user_id, String name, String language, String tmdb_guest_session, Long tmdb_expires_at) {
         return builder()
                 .user_id(user_id)
@@ -52,6 +68,14 @@ import io.reactivex.annotations.Nullable;
                 .language(language)
                 .tmdb_guest_session(tmdb_guest_session)
                 .tmdb_expires_at(tmdb_expires_at)
+                .build();
+    }
+
+    public User setSession(GuestSession guestSession) {
+
+        return getBuilder()
+                .tmdb_guest_session(guestSession.getGuestSessionId())
+                .tmdb_expires_at(DateUtil.convertStringUtcToMilSec(guestSession.getExpiresAt()))
                 .build();
     }
 
@@ -68,6 +92,8 @@ import io.reactivex.annotations.Nullable;
     }
 
 
+
+
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Builder user_id(String user_id);
@@ -82,6 +108,7 @@ import io.reactivex.annotations.Nullable;
 
         public abstract User build();
     }
+
 
 
 }
