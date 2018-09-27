@@ -5,6 +5,8 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -12,28 +14,43 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.TwitterAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.shamildev.retro.domain.error.BaseError;
 import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.domain.repository.BaseRepository;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import dagger.Reusable;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 
 /**
  * An implementation of {@link FirebaseRepository}.
  */
-@Reusable
+
 public final class FirebaseRepository implements BaseRepository {
 
 
-
+    private static final String KEY_TITLE = "key_title";
+    private static final String KEY_DESCRIPTION = "key_description";
     private final FirebaseUser mFUser;
+    private final FirebaseFirestore db;
+    private final DocumentReference noteRef;
+    private  ListenerRegistration listenerRegistration;
 
     private  FirebaseAuth mAuth;
     //private  FirebaseAuth mAuthinstance;
@@ -49,7 +66,8 @@ public final class FirebaseRepository implements BaseRepository {
 
         this.mAuth = FirebaseAuth.getInstance();
         this.mFUser = mAuth.getCurrentUser();
-
+        this.db = FirebaseFirestore.getInstance();
+        noteRef = db.collection("Notebook").document("My First Note");
 
         Log.e("TAG", "FirebaseAuth "+this.mAuth);
         Log.e("TAG", "FirebaseUser "+this.mFUser);
@@ -373,5 +391,82 @@ public final class FirebaseRepository implements BaseRepository {
         });
 
 
+    }
+
+
+    @Override
+    public Completable testSaveData() {
+
+        Map<String,Object> note = new HashMap<>();
+        note.put(KEY_TITLE,"testtitle");
+        note.put(KEY_DESCRIPTION,"description");
+
+        return Completable.create(e -> noteRef.set(note)
+                                       .addOnSuccessListener(aVoid -> e.onComplete())
+                                       .addOnFailureListener(e::onError));
+    }
+
+    @Override
+    public Flowable<AppUser> testReadData() {
+        return Flowable.create(e -> {
+            try {
+             noteRef.get()
+                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                         @Override
+                         public void onSuccess(DocumentSnapshot documentSnapshot) {
+                             if(documentSnapshot.exists()){
+                                 appUser.setName(documentSnapshot.getString(KEY_TITLE));
+                                 e.onNext(appUser);
+                                 e.onComplete();
+                             }else{
+                                 e.onComplete();
+                             }
+                         }
+                     })
+                     .addOnFailureListener(new OnFailureListener() {
+                         @Override
+                         public void onFailure(@NonNull Exception error) {
+                             e.onError(error);
+                         }
+                     });
+
+            } catch (Exception t) {
+                e.onError(t);
+            }
+
+
+        }, BackpressureStrategy.BUFFER);
+    }
+
+    @Override
+    public Flowable<AppUser> testListenerData() {
+
+        return Flowable.create(e -> {
+
+            try {
+                listenerRegistration = noteRef
+                        .addSnapshotListener((documentSnapshot, error) -> {
+                            if (error != null) {
+                                e.onError(error);
+                            } else {
+                                if (documentSnapshot.exists()) {
+                                    appUser.setName(documentSnapshot.getString(KEY_TITLE));
+                                    e.onNext(appUser);
+
+                                } else {
+                                    e.onComplete();
+                                }
+                            }
+
+                        });;
+
+
+            } catch (Exception t) {
+                e.onError(t);
+
+            }
+           // e.setCancellable(listenerRegistration.remove());
+
+        }, BackpressureStrategy.BUFFER);
     }
 }

@@ -26,6 +26,7 @@ import com.shamildev.retro.domain.core.MediaItem;
 
 import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
 import com.shamildev.retro.retroimage.bitmap.ConvolutionMatrix;
+import com.shamildev.retro.retroimage.core.ByteArray;
 import com.shamildev.retro.retroimage.core.RetroImageRequest;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 import com.shamildev.retro.retroimage.views.RetroImageView;
@@ -66,8 +67,11 @@ public class RetroImageLoadingHandler {
     }
 
     public void startLoad(View imageView) {
-
+        Log.e("TAG", "startLoad "+imageRequest.getItems());
         if (!imageRequest.getItems().isEmpty()) {
+           // Log.e("TAG", "startLoad "+(imageRequest.getItems().get(0) instanceof byte));
+
+
             for (Object obj : imageRequest.getItems()) {
                // if (!prepareRequest(obj).isEmpty()) {
                     this.map.put(obj, prepareRequest(obj));
@@ -191,77 +195,113 @@ public class RetroImageLoadingHandler {
             Pattern p = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");//. represents single character
 
 
-
             Matcher match = p.matcher(obj.toString());
 
             if (match.matches()) {
                 return urlPath;
             } else {
+
                 throw new IllegalStateException("illegal url path");
             }
 
+
+        }else if(obj instanceof ByteArray){
+            Log.e("TAG", "instanceof ByteArray"+obj);
+
+            return obj;
         }else if(obj instanceof Drawable){
 
         }else if(obj instanceof Integer){
             return obj;
          }
-        return null;
+        return obj;
     }
 
 
     @SuppressLint("CheckResult")
     public RequestBuilder<Drawable> loadFile(Object obj) {
 
-        Log.e("TAG", "LOAD FILE.....>># " + prepareRequest(obj) + " " + obj.hashCode());
+        Log.e("TAG", "LOAD FILE.....>>### " + (obj instanceof ByteArray) + " " + obj.hashCode());
+
+
+        if(obj instanceof ByteArray){
+            Log.e("TAG", "LOAD BYTEARRAY....>>### "+BitmapConverter.ByteArrayToBitmap((((ByteArray) obj).getBytes())));
+            return
+                    imageRequest.requestManager
+
+
+                            .load(BitmapConverter.ByteArrayToBitmap((((ByteArray) obj).getBytes())))
 
 
 
 
 
+                            .transition(DrawableTransitionOptions.withCrossFade(1000))
 
-        return
-                imageRequest.requestManager
+                            .listener(new RequestListener<Drawable>() {
 
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    Log.e("TAG", "onLoadFailed.." + obj.hashCode());
+                                    imageLoadFailed(e, obj);
 
-                        .load(prepareRequest(obj))
+                                    return false;
+                                }
 
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    Log.e("TAG", "glide load file>>>>.*." + isFirstResource + "##" + resource.getMinimumWidth());
 
-
-
-
-                        .transition(DrawableTransitionOptions.withCrossFade(1000))
-
-                        .listener(new RequestListener<Drawable>() {
-
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                Log.e("TAG", "onLoadFailed.." + obj.hashCode());
-                                imageLoadFailed(e, obj);
-
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                Log.e("TAG", "glide load file>>>>.*." + isFirstResource + "##" + resource.getMinimumWidth());
-
-                                imageLoadSuccessful(resource, obj);
-                                return false;
-                            }
+                                    imageLoadSuccessful(resource, obj);
+                                    return false;
+                                }
 
 
-                        });
+                            });
+
+        }else{
+
+            return
+                    imageRequest.requestManager
+
+
+                            .load(prepareRequest(obj))
+
+
+
+
+
+                            .transition(DrawableTransitionOptions.withCrossFade(1000))
+
+                            .listener(new RequestListener<Drawable>() {
+
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    Log.e("TAG", "onLoadFailed.." + obj.hashCode());
+                                    imageLoadFailed(e, obj);
+
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    Log.e("TAG", "glide load file>>>>.*." + isFirstResource + "##" + resource.getMinimumWidth());
+
+                                    imageLoadSuccessful(resource, obj);
+                                    return false;
+                                }
+
+
+                            });
+
+
+        }
+
+
+
+
 
     }
 
-    public Bitmap applySmoothEffect(Bitmap src, double value) {
-        //create convolution matrix instance
-        ConvolutionMatrix convMatrix = new ConvolutionMatrix(3);
-        convMatrix.setAll(1);
-        convMatrix.Matrix[1][1] = value;
-        // set weight of factor and offset
-        convMatrix.Factor = value + 8;
-        convMatrix.Offset = 1;
-        return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
-    }
+
 }

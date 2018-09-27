@@ -31,6 +31,7 @@ final class UserRealmMapper implements RealmMapper<User, UserRealm> {
         userRealm.setLanguage(model.language());
         userRealm.setTmdb_guest_session(model.tmdb_guest_session());
         userRealm.setExpires_at(model.tmdb_expires_at());
+        userRealm.setPic(model.pic());
 
         return userRealm;
 
@@ -48,6 +49,7 @@ final class UserRealmMapper implements RealmMapper<User, UserRealm> {
                 .name(entity.getName())
                 .language(entity.getLanguage())
                 .tmdb_guest_session(entity.getTmdb_guest_session())
+                .pic(entity.getPic())
                 .tmdb_expires_at(entity.getExpires_at())
                 .build();
     }

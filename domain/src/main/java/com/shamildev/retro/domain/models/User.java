@@ -34,12 +34,13 @@ import sun.rmi.runtime.Log;
         public abstract String user_id();
         @Nullable
         public abstract String name();
-
         public abstract String language();
         @Nullable
         public abstract String tmdb_guest_session();
         @Nullable
         public abstract Long tmdb_expires_at();
+        @Nullable
+        public abstract byte[] pic();
 
     private User.Builder getBuilder() {
         return builder()
@@ -47,27 +48,29 @@ import sun.rmi.runtime.Log;
                 .name(name())
                 .language(language())
                 .tmdb_guest_session(tmdb_guest_session())
+                .pic(pic())
                 .tmdb_expires_at(tmdb_expires_at())
                 ;
     }
 
-
-    public static User create(String language) {
-        System.out.println("userid "+user_id);
-        return builder()
-                .user_id(user_id)
-                .name(anonymus)
-                .language(language)
-                .build();
-    }
-
-    public static User create(String user_id, String name, String language, String tmdb_guest_session, Long tmdb_expires_at) {
+    public static User create(String user_id, String name, String language, String tmdb_guest_session, Long tmdb_expires_at, byte[] pic) {
         return builder()
                 .user_id(user_id)
                 .name(name)
                 .language(language)
                 .tmdb_guest_session(tmdb_guest_session)
                 .tmdb_expires_at(tmdb_expires_at)
+                .pic(pic)
+                .build();
+    }
+
+
+    public static User createNewUser(String language) {
+        System.out.println("userid "+user_id);
+        return builder()
+                .user_id(user_id)
+                .name(anonymus)
+                .language(language)
                 .build();
     }
 
@@ -79,6 +82,16 @@ import sun.rmi.runtime.Log;
                 .build();
     }
 
+    public User setPic(byte[] pic) {
+        return getBuilder()
+                .pic(pic)
+                .build();
+    }
+    public User setName(String userName) {
+        return getBuilder()
+                .name(userName)
+                .build();
+    }
     public User setSession(String guest_session, Long expired_at) {
 
         return getBuilder()
@@ -105,6 +118,8 @@ import sun.rmi.runtime.Log;
         public abstract Builder tmdb_guest_session(String tmdb_guest_session);
 
         public abstract Builder tmdb_expires_at(Long tmdb_expires_at);
+
+        public abstract Builder pic(byte[] pic);
 
         public abstract User build();
     }

@@ -1,7 +1,9 @@
 package com.shamildev.retro.ui.splash.fragment.model;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.bumptech.glide.load.engine.GlideException;
 import com.facebook.AccessToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.shamildev.retro.di.scope.PerFragment;
@@ -9,6 +11,8 @@ import com.shamildev.retro.domain.core.AppConfig;
 import com.shamildev.retro.domain.core.DataConfig;
 import com.shamildev.retro.domain.core.usecase.UseCaseHandler;
 import com.shamildev.retro.domain.interactor.usecases.base.USECASE_LogoutUser;
+import com.shamildev.retro.domain.interactor.usecases.base.USECASE_TestFirestore;
+import com.shamildev.retro.domain.interactor.usecases.base.USECASE_TestFirestoreRead;
 import com.shamildev.retro.domain.interactor.usecases.base.USECASE_authUser;
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetGenre;
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetNowPlayingMovies;
@@ -19,11 +23,15 @@ import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetTopRatedMo
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_GetUpcomingMovies;
 import com.shamildev.retro.domain.interactor.usecases.tmdb.USECASE_InitTables;
 import com.shamildev.retro.domain.interactor.usecases.user.USECASE_GetUser;
+import com.shamildev.retro.domain.interactor.usecases.user.USECASE_SaveUser;
 import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.domain.models.Configuration;
 import com.shamildev.retro.domain.models.Genre;
 import com.shamildev.retro.domain.models.ResultWrapper;
 import com.shamildev.retro.domain.models.User;
+import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
+import com.shamildev.retro.retroimage.core.RetroImage;
+import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 import com.shamildev.retro.ui.splash.fragment.presenter.SplashPresenter;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterCore;
@@ -61,6 +69,9 @@ public class SplashModelImpl extends SplashModel{
     private final USECASE_GetPopularPerson usecase_getPopularPerson;
     private final USECASE_GetUser usecase_getUser;
     private final USECASE_LogoutUser usecase_logoutUser;
+    private final USECASE_SaveUser usecase_saveUser;
+    private final USECASE_TestFirestore usecase_testFirestore;
+    private final USECASE_TestFirestoreRead usecase_testFirestoreRead;
 
     private  UseCaseHandler useCaseHandler;
 
@@ -72,6 +83,7 @@ public class SplashModelImpl extends SplashModel{
     @Inject protected AppConfig appConfig;
     @Inject protected DataConfig dataConfig;
     @Inject protected AppUser appUser;
+    @Inject protected RetroImage retroImage;
 
     @Inject
     public SplashModelImpl(
@@ -81,6 +93,9 @@ public class SplashModelImpl extends SplashModel{
                            USECASE_authUser usecase_authUser,
                            USECASE_LogoutUser usecase_logoutUser,
                            USECASE_GetUser usecase_getUser,
+                           USECASE_SaveUser usecase_saveUser,
+                           USECASE_TestFirestore usecase_testFirestore,
+                           USECASE_TestFirestoreRead usecase_testFirestoreRead,
                            USECASE_InitTables usecase_initTables,
                            USECASE_GetNowPlayingMovies usecase_getNowPlayingMovies,
                            USECASE_GetNowPlayingTVShows usecase_getNowPlayingTVShows,
@@ -93,6 +108,9 @@ public class SplashModelImpl extends SplashModel{
         this.usecase_getTMDBConfiguration = getTMDBConfiguration;
         this.usecase_authUser = usecase_authUser;
         this.usecase_getUser = usecase_getUser;
+        this.usecase_saveUser = usecase_saveUser;
+        this.usecase_testFirestore = usecase_testFirestore;
+        this.usecase_testFirestoreRead = usecase_testFirestoreRead;
         this.usecase_logoutUser = usecase_logoutUser;
         this.usecase_initTables = usecase_initTables;
         this.usecase_getNowPlayingMovies = usecase_getNowPlayingMovies;
@@ -223,6 +241,7 @@ public class SplashModelImpl extends SplashModel{
                     @Override
                     public void onNext(AppUser user) {
                         Log.e("usecase_getUser","next "+user.toString());
+                        saveUser(user);
 
                     }
 
@@ -240,6 +259,92 @@ public class SplashModelImpl extends SplashModel{
                 });
 
         //loadNextTopic();
+
+    }
+
+    private void saveUser(AppUser appUser){
+        String path = "https://pbs.twimg.com/profile_images/853321507979882496/UMAwVI3j_normal.jpg";
+        String pathfb = "https://graph.facebook.com//10215197067952270/picture?type=large";
+        User user = appUser.getUser();
+        retroImage.load(path)
+                .preload(new RetroImageRequestListener() {
+                    @Override
+                    public boolean onLoadFailed(GlideException e) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource) {
+                       User us =  user.setPic(BitmapConverter.DrawableToByteArray(resource)).setName("Schamil");
+
+                        useCaseHandler.execute(usecase_saveUser,  USECASE_SaveUser.Params.user(us), new DisposableSubscriber<AppUser>() {
+                            @Override
+                            public void onNext(AppUser user) {
+                                Log.e("usecase_saveUser","next "+user.getUser().pic());
+                                // presenter.setByteArrayPis(user.getUser().pic());
+                                 presenter.setByteArray(user.getUser().pic());
+
+
+                            }
+
+                            @Override
+                            public void onError(Throwable t) {
+                                Log.e("usecase_saveUser","error"+t);
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.e("usecase_saveUser","complete");
+                                testFireStore();
+                              //  presenter.finishPreload(map);
+
+                            }
+                        });
+
+                        return true;
+                    }
+                });
+
+    }
+
+
+    private void testFireStore(){
+        useCaseHandler.execute(usecase_testFirestore,
+                 USECASE_TestFirestore.Params.withEmailAndPassword(AppUser.SignInType.twitter, "dfasf", "123456"),
+                 new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        Log.e("usecase_testFirestore","Success");
+                        testFireStoreRead();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("usecase_testFirestore","error"+e);
+                    }
+                });
+
+    }
+
+    private void testFireStoreRead(){
+        useCaseHandler.execute(usecase_testFirestoreRead,
+                USECASE_TestFirestoreRead.Params.withEmailAndPassword(AppUser.SignInType.twitter, "dfasf", "123456"),
+                new DisposableSubscriber<AppUser>() {
+                    @Override
+                    public void onNext(AppUser appUser) {
+                        Log.e("testFirestoreRead","Success"+appUser);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Log.e("testFirestoreRead","onError"+t);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("testFirestoreRead","onComplete");
+                    }
+                });
 
     }
 

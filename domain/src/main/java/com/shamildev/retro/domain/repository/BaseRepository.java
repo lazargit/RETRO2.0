@@ -18,5 +18,10 @@ public interface BaseRepository {
     Flowable<AppUser> signInWithTwitter();
     Completable signOut();
 
+    Completable testSaveData();
 
+
+    Flowable<AppUser> testReadData();
+
+    Flowable<AppUser> testListenerData();
 }

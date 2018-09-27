@@ -1,5 +1,6 @@
 package com.shamildev.retro.ui.splash;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 
 import com.shamildev.retro.BuildConfig;

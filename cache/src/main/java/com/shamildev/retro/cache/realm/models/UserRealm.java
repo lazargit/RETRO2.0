@@ -1,5 +1,7 @@
 package com.shamildev.retro.cache.realm.models;
 
+import android.util.Log;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -18,6 +20,7 @@ public class UserRealm extends RealmObject {
     private String language;
     private String tmdb_guest_session;
     private long expires_at;
+    private byte[] pic;
     private long last_update;
 
 
@@ -65,6 +68,16 @@ public class UserRealm extends RealmObject {
 
     public void setExpires_at(long expires_at) {
         this.expires_at = expires_at;
+    }
+
+    public byte[] getPic() {
+        Log.e("REALM","getpic "+pic);
+        return pic;
+    }
+
+    public void setPic(byte[] pic) {
+        Log.e("REALM","setpic "+pic);
+        this.pic = pic;
     }
 
     public long getLast_update() {

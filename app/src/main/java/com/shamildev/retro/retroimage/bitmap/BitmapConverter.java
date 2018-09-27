@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Base64;
 
 import com.shamildev.retro.R;
 
@@ -38,6 +39,29 @@ public class BitmapConverter {
         drawable.draw(canvas);
         return bitmap;
     }
+
+    public static String drawableToString(Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return BitmapConverter.BitMapToString(bitmapDrawable.getBitmap());
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return BitmapConverter.BitMapToString(bitmap);
+    }
+
 
     static public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
         int targetWidth =(int) 220;//mContext.getResources().getDimension(R.dimen.prof_pic_diameter);
@@ -80,14 +104,16 @@ public class BitmapConverter {
 
     static public byte[] DrawableToByteArray(Drawable drawable){
 
-        Bitmap bitmap1;
-        ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 
-        bitmap1 = ((BitmapDrawable)drawable).getBitmap();
+        Bitmap bitmap1 = ((BitmapDrawable)drawable).getBitmap();
 
-        bitmap1.compress(Bitmap.CompressFormat.JPEG,70,bytearrayoutputstream);
 
-        return bytearrayoutputstream.toByteArray();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        return data;
 
     }
 
@@ -97,4 +123,37 @@ public class BitmapConverter {
 
     }
 
+    public static String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp=Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+    /**
+     * @param encodedString
+     * @return bitmap (from given string)
+     */
+    public static Bitmap StringToBitMap(String encodedString){
+        try{
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        }catch(Exception e){
+            e.getMessage();
+            return null;
+        }
+    }
+
+   static public Bitmap applySmoothEffect(Bitmap src, double value) {
+        //create convolution matrix instance
+        ConvolutionMatrix convMatrix = new ConvolutionMatrix(3);
+        convMatrix.setAll(1);
+        convMatrix.Matrix[1][1] = value;
+        // set weight of factor and offset
+        convMatrix.Factor = value + 8;
+        convMatrix.Offset = 1;
+        return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
+    }
 }

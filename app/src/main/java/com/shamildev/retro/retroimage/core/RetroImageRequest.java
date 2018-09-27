@@ -1,6 +1,9 @@
 package com.shamildev.retro.retroimage.core;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -90,6 +93,19 @@ public class RetroImageRequest {
 
     }
     public RetroImageRequest(RetroImage retroImage, Integer item, RequestManager requestManager) {
+        this.retroImage = retroImage;
+        this.requestManager = requestManager;
+        this.items.add(item);
+
+    }
+    public RetroImageRequest(RetroImage retroImage, byte[] item, RequestManager requestManager) {
+        this.retroImage = retroImage;
+        this.requestManager = requestManager;
+        this.items.add(new ByteArray(item));
+        Log.e("TAG","RetroImageRequest"+ this.items);
+
+    }
+    public RetroImageRequest(RetroImage retroImage, Bitmap item, RequestManager requestManager) {
         this.retroImage = retroImage;
         this.requestManager = requestManager;
         this.items.add(item);

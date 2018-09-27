@@ -1,5 +1,6 @@
 package com.shamildev.retro.retroimage.core;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
@@ -80,5 +81,12 @@ public class RetroImage {
         this.imageRequest = new RetroImageRequest(this, drawable, this.requestManager);
         return new RetroImageCloseVariant1(this.imageRequest);
     }
-
+    public RetroImageCloseVariant1 load(byte[] bytes) {
+        this.imageRequest = new RetroImageRequest(this, bytes, this.requestManager);
+        return new RetroImageCloseVariant1(this.imageRequest);
+    }
+    public RetroImageCloseVariant1 load(Bitmap bitmap) {
+        this.imageRequest = new RetroImageRequest(this, bitmap, this.requestManager);
+        return new RetroImageCloseVariant1(this.imageRequest);
+    }
 }

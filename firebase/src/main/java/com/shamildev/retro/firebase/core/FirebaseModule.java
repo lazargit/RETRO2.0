@@ -43,8 +43,9 @@ import dagger.Reusable;
 public abstract class FirebaseModule {
 
     @Binds
-    @Reusable
     abstract BaseRepository firebaseRepository(FirebaseRepository repository);
+
+
 
 
 

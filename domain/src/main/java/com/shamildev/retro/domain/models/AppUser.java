@@ -9,7 +9,7 @@ import com.shamildev.retro.domain.util.Pair;
  */
 public class AppUser implements DomainObject {
 
-
+    private User user;
     private String name;
     private String language;
     private String user_id;
@@ -94,12 +94,17 @@ public class AppUser implements DomainObject {
     }
 
     public void setUser(User user) {
+        this.user = user;
         System.out.println("setUser> ");
         setUser_id(user.user_id());
         setName(user.name());
         setLanguage(user.language());
         setTmdb_guest_session(user.tmdb_guest_session());
         setTmdb_expires_at(user.tmdb_expires_at());
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void setFirebaseUser(String uid, String email, String fName, String providerId, String photoUrl) {

@@ -143,5 +143,33 @@ public class RetroProfileImageView extends RelativeLayout {
         }
     }
 
+    public void src(byte[] bytes , RetroImage retroImg){
+
+        if (!bytes.equals("")) {
+            retroImg
+                    .load(bytes)
+
+                    .into(this.retroimage_view,new RetroImageRequestListener() {
+                        @Override
+                        public boolean onLoadFailed(GlideException e) {
+                            Log.e("TAG","IMAGE BYTES PROFILE LOAD FAILED."+e);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource) {
+                            Log.e("TAG","IMAGE BYTES PROFILE LOAD...! ");
+
+
+                            return true;
+                        }
+                    });
+
+        } else {
+            throw new IllegalStateException("no mediaItem found !");
+        }
+    }
+
+
 }
 

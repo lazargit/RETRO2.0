@@ -26,6 +26,7 @@ public class WatchListRealm extends RealmObject {
     private String overview;
     private String release_date;
     private RealmList<Integer> genre_ids;
+    private byte[] pic;
     private long last_update;
 
     public WatchListRealm() {
@@ -145,6 +146,14 @@ public class WatchListRealm extends RealmObject {
 
     public void setGenre_ids(RealmList<Integer> genre_ids) {
         this.genre_ids = genre_ids;
+    }
+
+    public byte[] getPic() {
+        return pic;
+    }
+
+    public void setPic(byte[] pic) {
+        this.pic = pic;
     }
 
     public long getLast_update() {

@@ -29,4 +29,8 @@ public interface SplashPresenter extends Presenter {
     void setTestPerson(ResultWrapper wrapper);
 
     void signout();
+
+    void setByteArrayPis(byte[] pic);
+
+    void setByteArray(byte[] bytes);
 }
