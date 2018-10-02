@@ -44,6 +44,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subscribers.DisposableSubscriber;
 
 /**
@@ -73,13 +74,14 @@ public class SplashModelImpl extends SplashModel{
     private final USECASE_TestFirestore usecase_testFirestore;
     private final USECASE_TestFirestoreRead usecase_testFirestoreRead;
 
-    private  UseCaseHandler useCaseHandler;
+
 
     private  SplashPresenter pres;
     private HashMap<String,ResultWrapper> map = new HashMap<>();
     private final ArrayList<String> mListTopic = new ArrayList<String>();
 
 
+    @Inject protected UseCaseHandler useCaseHandler;
     @Inject protected AppConfig appConfig;
     @Inject protected DataConfig dataConfig;
     @Inject protected AppUser appUser;
@@ -87,7 +89,7 @@ public class SplashModelImpl extends SplashModel{
 
     @Inject
     public SplashModelImpl(
-                           UseCaseHandler useCaseHandler,
+
                            USECASE_GetGenre usecase_getGenre,
                            USECASE_GetTMDBConfiguration getTMDBConfiguration,
                            USECASE_authUser usecase_authUser,
@@ -103,7 +105,7 @@ public class SplashModelImpl extends SplashModel{
                            USECASE_GetTopRatedMovies usecase_getTopRatedMovies,
                            USECASE_GetPopularPerson usecase_getPopularPerson
                        ) {
-        this.useCaseHandler = useCaseHandler;
+
         this.usecase_getGenre = usecase_getGenre;
         this.usecase_getTMDBConfiguration = getTMDBConfiguration;
         this.usecase_authUser = usecase_authUser;
@@ -253,7 +255,7 @@ public class SplashModelImpl extends SplashModel{
                     @Override
                     public void onComplete() {
                         Log.e("usecase_getUser","complete");
-                        presenter.finishPreload(map);
+                      //  presenter.finishPreload(map);
 
                     }
                 });
@@ -315,7 +317,7 @@ public class SplashModelImpl extends SplashModel{
                     @Override
                     public void onComplete() {
                         Log.e("usecase_testFirestore","Success");
-                        testFireStoreRead();
+
                     }
 
                     @Override
@@ -326,23 +328,24 @@ public class SplashModelImpl extends SplashModel{
 
     }
 
-    private void testFireStoreRead(){
+    @Override
+    public void testFireStoreRead(){
         useCaseHandler.execute(usecase_testFirestoreRead,
                 USECASE_TestFirestoreRead.Params.withEmailAndPassword(AppUser.SignInType.twitter, "dfasf", "123456"),
-                new DisposableSubscriber<AppUser>() {
+                new DisposableObserver<AppUser>() {
                     @Override
                     public void onNext(AppUser appUser) {
-                        Log.e("testFirestoreRead","Success"+appUser);
+                        Log.e("FirestoreRead ","user "+appUser.toString());
                     }
 
                     @Override
-                    public void onError(Throwable t) {
-                        Log.e("testFirestoreRead","onError"+t);
+                    public void onError(Throwable e) {
+                        Log.e("FirestoreRead ","error "+e);
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.e("testFirestoreRead","onComplete");
+                        Log.e("FirestoreRead ","onComplete ");
                     }
                 });
 
@@ -424,5 +427,8 @@ public class SplashModelImpl extends SplashModel{
         }
     }
 
-
+    @Override
+    public UseCaseHandler getUseCaseHandler() {
+        return useCaseHandler;
+    }
 }

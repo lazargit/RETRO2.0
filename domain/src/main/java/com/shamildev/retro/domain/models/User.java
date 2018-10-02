@@ -41,6 +41,8 @@ import sun.rmi.runtime.Log;
         public abstract Long tmdb_expires_at();
         @Nullable
         public abstract byte[] pic();
+        @Nullable
+        public abstract String lastLogin();
 
     private User.Builder getBuilder() {
         return builder()
@@ -53,7 +55,7 @@ import sun.rmi.runtime.Log;
                 ;
     }
 
-    public static User create(String user_id, String name, String language, String tmdb_guest_session, Long tmdb_expires_at, byte[] pic) {
+    public static User create(String user_id, String name, String language, String tmdb_guest_session, Long tmdb_expires_at, byte[] pic, String lastLogin) {
         return builder()
                 .user_id(user_id)
                 .name(name)
@@ -61,6 +63,7 @@ import sun.rmi.runtime.Log;
                 .tmdb_guest_session(tmdb_guest_session)
                 .tmdb_expires_at(tmdb_expires_at)
                 .pic(pic)
+                .lastLogin(lastLogin)
                 .build();
     }
 
@@ -79,6 +82,12 @@ import sun.rmi.runtime.Log;
         return getBuilder()
                 .tmdb_guest_session(guestSession.getGuestSessionId())
                 .tmdb_expires_at(DateUtil.convertStringUtcToMilSec(guestSession.getExpiresAt()))
+                .build();
+    }
+
+    public User setLastLogin(AppUser.SignInType type) {
+        return getBuilder()
+                .lastLogin(type.toString())
                 .build();
     }
 
@@ -119,7 +128,10 @@ import sun.rmi.runtime.Log;
 
         public abstract Builder tmdb_expires_at(Long tmdb_expires_at);
 
+
         public abstract Builder pic(byte[] pic);
+
+        public abstract Builder lastLogin(String lastLogin);
 
         public abstract User build();
     }

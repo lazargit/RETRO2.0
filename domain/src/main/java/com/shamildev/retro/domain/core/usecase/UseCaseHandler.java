@@ -51,7 +51,9 @@ public final class UseCaseHandler {
                // .subscribeOn(executionThread.scheduler())
                 //.observeOn(postExecutionThread.scheduler())
                 .subscribeWith(observer);
-        disposables.add(disposable);
+        if(disposables != null) {
+            disposables.add(disposable);
+        }
     }
 
 
@@ -112,6 +114,7 @@ public final class UseCaseHandler {
     public void clear() {
         // clear only and not dispose the composite to enable composite reuse
         disposables.clear();
+
     }
 
     private void setLastUseCase(UseCase previousUseCase, @Nullable Object previousUseCaseParams) {

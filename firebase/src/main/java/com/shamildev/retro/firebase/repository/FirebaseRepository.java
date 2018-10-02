@@ -2,7 +2,6 @@ package com.shamildev.retro.firebase.repository;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.util.Pair;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -14,27 +13,30 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.TwitterAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.shamildev.retro.domain.core.AppConfig;
 import com.shamildev.retro.domain.error.BaseError;
 import com.shamildev.retro.domain.models.AppUser;
+import com.shamildev.retro.domain.models.User;
 import com.shamildev.retro.domain.repository.BaseRepository;
+import com.shamildev.retro.firebase.exceptions.FirebaseSignInException;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import dagger.Reusable;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.Observable;
 
 
@@ -47,6 +49,7 @@ public final class FirebaseRepository implements BaseRepository {
 
     private static final String KEY_TITLE = "key_title";
     private static final String KEY_DESCRIPTION = "key_description";
+    private final CollectionReference collections_users;
     private final FirebaseUser mFUser;
     private final FirebaseFirestore db;
     private final DocumentReference noteRef;
@@ -55,6 +58,9 @@ public final class FirebaseRepository implements BaseRepository {
     private  FirebaseAuth mAuth;
     //private  FirebaseAuth mAuthinstance;
     private AppUser appUser;
+
+    @Inject
+    AppConfig appConfig;
 
 //    @Inject
 //    FirebaseAuth mAuth;
@@ -68,6 +74,8 @@ public final class FirebaseRepository implements BaseRepository {
         this.mFUser = mAuth.getCurrentUser();
         this.db = FirebaseFirestore.getInstance();
         noteRef = db.collection("Notebook").document("My First Note");
+
+        collections_users = db.collection("users");
 
         Log.e("TAG", "FirebaseAuth "+this.mAuth);
         Log.e("TAG", "FirebaseUser "+this.mFUser);
@@ -116,15 +124,21 @@ public final class FirebaseRepository implements BaseRepository {
     public Flowable<AppUser> checkUser() {
         return Flowable.create(e -> {
             try {
+
                  if (mFUser != null) {
                      String photoPath = null;
+
                      if(mFUser.getPhotoUrl() != null){
                          photoPath = mFUser.getPhotoUrl().getPath();
+                     }
+                     if(mFUser.isAnonymous()){
+                         Log.e("CHECK USER", "ist anonym: "+mFUser.isAnonymous()+" uid: "+mFUser.getUid()+" "+mFUser.getProviders().size());
                      }
                      appUser.setFirebaseUser(mFUser.getUid(), mFUser.getEmail(), mFUser.getDisplayName(),mFUser.getProviderId(),photoPath);
                      e.onNext(appUser);
                      e.onComplete();
                  }else{
+
                      e.onComplete();
                  }
             } catch (Exception t) {
@@ -144,6 +158,7 @@ public final class FirebaseRepository implements BaseRepository {
             try {
                 if (mFUser == null) {
                     mAuth.signInWithEmailAndPassword(email, password)
+
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -272,12 +287,97 @@ public final class FirebaseRepository implements BaseRepository {
         return null;
     }
 
+
+
+
+    @Override
+    public Maybe<AppUser> signInAnonymously() {
+        return Maybe.create(emitter -> mAuth.signInAnonymously()
+                .addOnSuccessListener(authResult -> {
+                    Log.e("ANONYM","uid: "+authResult.getUser().getUid()+" name: "+authResult.getUser().getDisplayName()+" isanonymous "+authResult.getUser().isAnonymous());
+
+                })
+                .addOnFailureListener(emitter::onError));
+    }
+
+
+    @Override
+    public Flowable<AppUser> signInAnonym() {
+
+
+
+
+        return Flowable.create(e -> {
+            try {
+
+                if (mFUser == null) {
+
+                    mAuth.signInAnonymously()
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                        e.onNext(appUser);
+                                        e.onComplete();
+
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    e.onError(new FirebaseSignInException());
+                                    e.onComplete();
+
+
+                                }
+                                }
+                            });
+
+//                            .addOnCompleteListener(this, (OnCompleteListener<AuthResult>) task -> {
+//                                if (task.isSuccessful()) {
+//                                    // Sign in success, update UI with the signed-in user's information
+//                                        e.onNext(appUser);
+//                                        e.onComplete();
+//
+//                                } else {
+//                                    // If sign in fails, display a message to the user.
+//                                    e.onError(new Exception("sign in fails"));
+//                                    e.onComplete();
+//
+//
+//                                }
+//
+//
+//                            });
+
+
+
+                }else{
+                    // firebaseMapper.map(appUser,user);
+                    String photoPath = null;
+                    if(mFUser.getPhotoUrl() != null){
+                        photoPath = "https://graph.facebook.com/"+mFUser.getPhotoUrl().getPath()+"?type=large";
+                    }
+
+                    Log.e("TAG>","> "+mFUser.getDisplayName());
+                    appUser.setFirebaseUser(mFUser.getUid(), mFUser.getEmail(), mFUser.getDisplayName(),mFUser.getProviderId(),photoPath);
+                    e.onNext(appUser);
+                    e.onComplete();
+                }
+
+
+            } catch (Exception t) {
+                e.onError(t);
+            }
+
+
+        }, BackpressureStrategy.BUFFER);
+    }
+
     @Override
     public Flowable<AppUser> signInWithFacebook() {
          return Flowable.create(e -> {
             try {
-                AuthCredential credential = FacebookAuthProvider.getCredential(appUser.getFbtoken());
-                if (mFUser == null) {
+                AuthCredential credential = FacebookAuthProvider.getCredential( appConfig.getFacebookToken());
+                if (mFUser == null || mFUser.isAnonymous()) {
 
                     mAuth.signInWithCredential(credential)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -328,7 +428,7 @@ public final class FirebaseRepository implements BaseRepository {
     public Flowable<AppUser> signInWithTwitter() {
         return Flowable.create(e -> {
             try {
-                AuthCredential credential = TwitterAuthProvider.getCredential(appUser.getTwtoken().key,appUser.getTwtoken().value);
+                AuthCredential credential = TwitterAuthProvider.getCredential(appConfig.getTwitterToken().key,appConfig.getTwitterToken().value);
 
                 if (mFUser == null) {
 
@@ -439,13 +539,14 @@ public final class FirebaseRepository implements BaseRepository {
     }
 
     @Override
-    public Flowable<AppUser> testListenerData() {
+    public Observable<AppUser> testListenerData() {
 
-        return Flowable.create(e -> {
+        return Observable.create(e -> {
 
-            try {
+
                 listenerRegistration = noteRef
                         .addSnapshotListener((documentSnapshot, error) -> {
+
                             if (error != null) {
                                 e.onError(error);
                             } else {
@@ -455,18 +556,22 @@ public final class FirebaseRepository implements BaseRepository {
 
                                 } else {
                                     e.onComplete();
+
                                 }
                             }
 
-                        });;
+                        });
 
 
-            } catch (Exception t) {
-                e.onError(t);
+            e.setCancellable(() -> listenerRegistration.remove());
 
-            }
-           // e.setCancellable(listenerRegistration.remove());
 
-        }, BackpressureStrategy.BUFFER);
+        });
+    }
+
+
+    @Override
+    public Completable insertUser() {
+        return null;
     }
 }

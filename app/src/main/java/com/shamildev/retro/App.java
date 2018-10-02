@@ -113,6 +113,8 @@ public class App extends Application implements HasActivityInjector {
 
         if(!authToken.token.equals("") && !authToken.secret.equals("")){
             appConfig.setTwitterToken(authToken.token,authToken.secret);
+        }else{
+            appConfig.setTwitterToken(null,null);
         }
         Log.e("APP", "TW->toke: "+ appConfig.getTwitterToken().key+" secret: "+appConfig.getTwitterToken().value);
 
@@ -122,6 +124,8 @@ public class App extends Application implements HasActivityInjector {
 
         if (accessToken != null && !accessToken.isExpired()) {
             appConfig.setFacebookToken(accessToken.getToken());
+        }else{
+            appConfig.setFacebookToken(null);
         }
 
         Log.e("APP", "FB->token: "+ appConfig.getFacebookToken());

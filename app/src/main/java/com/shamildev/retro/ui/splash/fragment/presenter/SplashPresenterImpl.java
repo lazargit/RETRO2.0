@@ -86,7 +86,25 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        model.testFireStoreRead();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("ONPAUSE ","ONPAUSE ");
+        model.getUseCaseHandler().clear();
+    }
+
+    @Override
+    public void onEnd() {
+        super.onEnd();
+        Log.e("ONEND ","ONEDND ");
+
+    }
 
     @Override
     public void onError(Throwable t) {

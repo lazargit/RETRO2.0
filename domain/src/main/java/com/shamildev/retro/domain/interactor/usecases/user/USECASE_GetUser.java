@@ -26,6 +26,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
+import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -64,7 +65,7 @@ public final class USECASE_GetUser implements UseCaseFlowable<ParamsBasic, AppUs
 
 
 
-        return cache.fetchUser()
+        return   cache.fetchUser()
                 .switchIfEmpty(initNewUser())
                 .flatMap(user->  Flowable.just(appUser)
                              .map(appUser -> {
@@ -73,7 +74,9 @@ public final class USECASE_GetUser implements UseCaseFlowable<ParamsBasic, AppUs
                              })
                 )
                 .map(u->appUser)
+
                 .flatMap(appUser -> baseRepository.checkUser())
+               // .switchIfEmpty(baseRepository.signInAnonymously().toFlowable())
                 .switchIfEmpty(Flowable.just(appUser))
 //                .flatMap(appUser ->{
 //                         if(!facebookToken.equals("")){
@@ -113,7 +116,10 @@ public final class USECASE_GetUser implements UseCaseFlowable<ParamsBasic, AppUs
         return Flowable.just(dataConfig.language())
                 .map(User::createNewUser)
                 .flatMap(u -> Flowable.just(u.setSession(fetchGuestSession().blockingSingle())))
-                .flatMap(this::saveToCache);
+                .flatMap(this::saveToCache)
+
+
+               ;
     }
 
     private Flowable<GuestSession> fetchGuestSession() {

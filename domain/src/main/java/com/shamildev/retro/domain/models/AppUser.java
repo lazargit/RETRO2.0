@@ -24,6 +24,7 @@ public class AppUser implements DomainObject {
     private byte[] profilePic;
     private String sigin_provider;
     private SignInType signintype;
+    private String lastLogin;
 
     public enum SignInType
     {
@@ -44,9 +45,9 @@ public class AppUser implements DomainObject {
     }
 
     public void setName(String name) {
-        System.out.println("TAG>> "+name);
+
         this.name = name;
-        System.out.println("TAG< "+this.name);
+
     }
 
     public void setLanguage(String language) {
@@ -101,6 +102,15 @@ public class AppUser implements DomainObject {
         setLanguage(user.language());
         setTmdb_guest_session(user.tmdb_guest_session());
         setTmdb_expires_at(user.tmdb_expires_at());
+        setLastLogin(user.lastLogin());
+    }
+
+    private void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public String getLastLogin() {
+        return lastLogin;
     }
 
     public User getUser() {
@@ -153,22 +163,7 @@ public class AppUser implements DomainObject {
         this.sigin_provider = sigin_provider;
     }
 
-    @Override
-    public String toString() {
-        return "AppUser{" +
-                "name=='" + this.name + '\'' +
-                ", language='" + language + '\'' +
-                ", user_id='" + user_id + '\'' +
-                ", tmdb_guest_session='" + tmdb_guest_session + '\'' +
-                ", tmdb_expires_at=" + tmdb_expires_at +
-                ", email='" + email + '\'' +
-                ", uid='" + uid + '\'' +
-                ", isLoggedIn=" + isLoggedIn +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", sigin_provider='" + sigin_provider + '\'' +
-                ", fbtoken='" + fbtoken + '\'' +
-                '}';
-    }
+
 
     public void setFBToken(String token) {
         fbtoken = token;
@@ -191,4 +186,48 @@ public class AppUser implements DomainObject {
     public SignInType getSignintype() {
         return signintype;
     }
+
+    public void setSignintype(SignInType signintype) {
+        this.signintype = signintype;
+    }
+
+    private String userToString(){
+        if(user!=null) {
+            StringBuilder str = new StringBuilder("User: ").append("\n");
+            if (user.name() != null) {
+                str.append("userid: "+user.user_id()).append("\n");
+            }
+            if (user.name() != null) {
+                str.append("name: "+user.name()).append("\n");
+            }
+
+            if (user.lastLogin() != null) {
+                str.append("lastlogin: "+user.lastLogin()).append("\n");
+            }
+
+            return str.toString();
+        }
+        return "no user";
+
+    }
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "name=='" + this.name + '\'' +
+                ", language='" + language + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", tmdb_guest_session='" + tmdb_guest_session + '\'' +
+                ", tmdb_expires_at=" + tmdb_expires_at +
+                ", email='" + email + '\'' +
+                ", uid='" + uid + '\'' +
+                ", isLoggedIn=" + isLoggedIn +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", sigin_provider='" + sigin_provider + '\'' +
+                ", user='" + userToString() + '\'' +
+
+
+                '}';
+    }
+
 }

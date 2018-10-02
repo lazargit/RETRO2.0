@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -50,6 +51,8 @@ public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> im
     @Inject
     AppUser appUser;
 
+    @Inject SignInActivity signInActivity;
+
     @BindView(R.id.textinput_email)
     TextInputEditText mTextInputEditText_email;
 
@@ -87,29 +90,23 @@ public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> im
         String email = mTextInputEditText_email.getText().toString();
         String password = mTextInputEditText_password.getText().toString();
 
-        presenter.firebaseLogin(email,password);
+        presenter.prepareEmailLogin(email,password);
 
     }
     @OnClick(R.id.button_facebook_signin)
     public void onClickFacebookSignIn(Button button) {
-        ((SignInActivity)getActivity()).loginFacebook();
+        presenter.prepareFacebookLogin();
+
     }
     @OnClick(R.id.button_twitter_signin)
     public void onClickTwitterSignIn(Button button) {
-        ((SignInActivity)getActivity()).loginTwitter();
+       presenter.prepareTwitterLogin();
     }
 
-    public void test(){
-        presenter.firebaseLogin();
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("onResume", "appUser"+appUser.getFbtoken());
-        if(appUser.getFbtoken()!=null){
-            presenter.fbLogin(appUser.getFbtoken());
-        }
 
 
     }
@@ -139,18 +136,31 @@ public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> im
     }
 
     @Override
-    public void loginFb() {
-
+    public void loginFacebook() {
+        signInActivity.loginFacebook();
+    }
+    @Override
+    public void loginTwitter() {
+        signInActivity.loginTwitter();
     }
 
     @Override
     public void loadDialog() {
-       // onMessageListener.onLoadDialog("Loading. Please wait...");
+      onMessageListener.onLoadDialog("Loading. Please wait...");
 
     }
 
     @Override
     public void removeDialog() {
         onMessageListener.onRemoveDialog();
+    }
+
+    @Override
+    public void showSnackBar(Object obj) {
+
+
+        Snackbar snackbar = Snackbar
+                .make( signInActivity.getCoordinator(), "www.journaldev.com", Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 }

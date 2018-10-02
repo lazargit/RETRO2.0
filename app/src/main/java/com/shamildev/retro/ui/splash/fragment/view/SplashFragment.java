@@ -120,6 +120,11 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
     }
 
 
+    @OnClick(R.id.btn_account)
+    public void onClickBtnAccount(Button button) {
+        navigator.navigateToAccount(application);
+    }
+
     @Override
     public void makeToast(String message) {
         showToastMessage(message);

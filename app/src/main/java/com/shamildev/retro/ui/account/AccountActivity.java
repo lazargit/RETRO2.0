@@ -37,7 +37,7 @@ public class AccountActivity extends BaseActivitySupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_account);
         //printhashkey();
 
         if (savedInstanceState == null) {

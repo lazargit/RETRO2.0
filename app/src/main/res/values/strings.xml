@@ -18,6 +18,10 @@
     <string name="register">create account</string>
     <string name="activity_watchlist">Watchlist</string>
     <string name="activity_search">Search</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_watchlist">Watchlist</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_account">Account</string>
 
 
 </resources>

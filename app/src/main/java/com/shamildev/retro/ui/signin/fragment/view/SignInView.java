@@ -15,8 +15,11 @@ public interface SignInView extends MVPView {
     Button getButton_signin();
     Button getButton_facebook_signin();
     Button getButton_twitter_signin();
-    void loginFb();
+    void loginFacebook();
+    void loginTwitter();
 
     void loadDialog();
     void removeDialog();
+
+    void showSnackBar(Object obj);
 }

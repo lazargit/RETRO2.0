@@ -11,12 +11,18 @@ import com.shamildev.retro.ui.common.presenter.Presenter;
  */
 public interface SignInPresenter extends Presenter {
     void toast(Object obj);
-    void login();
+    void snackbar(Object obj);
+
     void logout();
     void onError(Throwable t);
     void logoutSuccesfull();
     void signSuccesfull();
-    void fbLogin(String token);
-    void firebaseLogin();
-    void firebaseLogin(String email,String password);
+
+
+
+
+    void prepareFacebookLogin();
+    void prepareTwitterLogin();
+
+    void prepareEmailLogin(String email, String password);
 }

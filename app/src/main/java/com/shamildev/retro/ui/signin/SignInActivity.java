@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.util.Log;
+import android.view.View;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -14,17 +15,13 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.shamildev.retro.BuildConfig;
 import com.shamildev.retro.R;
+import com.shamildev.retro.domain.core.AppConfig;
 import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.ui.common.BaseActivitySupport;
 import com.shamildev.retro.ui.signin.fragment.view.SignInFragment;
 import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
@@ -42,8 +39,8 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
 
     private int RC_SIGN_IN = 123;
     private CallbackManager mCallbackManager;
-    @Inject
-    AppUser appUser;
+    @Inject AppUser appUser;
+    @Inject AppConfig appConfig;
     TwitterAuthClient mTwitterAuthClient;
     ProgressDialog dialog;
 
@@ -57,13 +54,16 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
-        facebookLoginCall();
+
 
 
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        Log.d("Success", "accessToken not isExpired " + isLoggedIn);
+        boolean isFacebookTokenValid = accessToken != null && !accessToken.isExpired();
+        Log.d("Success", "accessToken not isExpired " + isFacebookTokenValid);
+
+            facebookLoginCall();
+
         setContentView(R.layout.activity_signin);
 
         if (savedInstanceState == null) {
@@ -109,7 +109,7 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
     private void signInFragment() {
         SignInFragment signInFragment = (SignInFragment) getFragmentById(R.id.fragmentContainer);
         if (signInFragment != null) {
-            signInFragment.test();
+
         }
     }
 
@@ -122,7 +122,9 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
                     public void onSuccess(LoginResult loginResult) {
                         AccessToken accessToken = loginResult.getAccessToken();
                         Log.d("Success", "Login" + accessToken.getToken() + " " + loginResult.getRecentlyDeniedPermissions().toString());
-                        appUser.setFBToken(accessToken.getToken());
+
+                        appConfig.setFacebookToken(accessToken.getToken());
+
                         signInFragment();
                     }
 
@@ -188,5 +190,9 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+
+    public View getCoordinator() {
+       return findViewById(R.id.coordinator);
     }
 }

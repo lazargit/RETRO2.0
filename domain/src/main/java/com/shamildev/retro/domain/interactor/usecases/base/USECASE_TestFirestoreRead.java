@@ -1,6 +1,7 @@
 package com.shamildev.retro.domain.interactor.usecases.base;
 
 import com.shamildev.retro.domain.core.AppConfig;
+import com.shamildev.retro.domain.core.usecase.UseCase;
 import com.shamildev.retro.domain.core.usecase.UseCaseCompletable;
 import com.shamildev.retro.domain.core.usecase.UseCaseFlowable;
 import com.shamildev.retro.domain.interactor.params.ParamsBasic;
@@ -11,12 +12,13 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 
 /**
  * Use case for getting a businesses with a given id.
  */
-public final class USECASE_TestFirestoreRead implements UseCaseFlowable<ParamsBasic,AppUser> {
+public final class USECASE_TestFirestoreRead implements UseCase<ParamsBasic,AppUser> {
 
     private final BaseRepository baseRepository;
 
@@ -36,7 +38,7 @@ public final class USECASE_TestFirestoreRead implements UseCaseFlowable<ParamsBa
 
 
     @Override
-    public Flowable<AppUser> execute(ParamsBasic params) {
+    public Observable<AppUser> execute(ParamsBasic params) {
 
 
 

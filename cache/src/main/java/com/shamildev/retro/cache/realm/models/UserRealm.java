@@ -21,6 +21,7 @@ public class UserRealm extends RealmObject {
     private String tmdb_guest_session;
     private long expires_at;
     private byte[] pic;
+    private String last_login;
     private long last_update;
 
 
@@ -78,6 +79,14 @@ public class UserRealm extends RealmObject {
     public void setPic(byte[] pic) {
         Log.e("REALM","setpic "+pic);
         this.pic = pic;
+    }
+
+    public String getLast_login() {
+        return last_login;
+    }
+
+    public void setLast_login(String last_login) {
+        this.last_login = last_login;
     }
 
     public long getLast_update() {

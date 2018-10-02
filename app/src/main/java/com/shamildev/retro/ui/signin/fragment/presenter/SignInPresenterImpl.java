@@ -2,22 +2,13 @@ package com.shamildev.retro.ui.signin.fragment.presenter;
 
 
 import android.app.Application;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.shamildev.retro.R;
 import com.shamildev.retro.data.net.NetworkManager;
-import com.shamildev.retro.data.net.error.BaseError;
 import com.shamildev.retro.data.net.error.TMDBError;
 import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.domain.core.AppConfig;
@@ -96,32 +87,43 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
 
     }
 
-    @Override
-    public void login() {
-        view.loadDialog();
-        model.signInUser();
-    }
+
+
+
+
+
+
+
+
 
     @Override
-    public void fbLogin(String token) {
-        Log.d("facebook#", "facebook:login ");
+    public void prepareEmailLogin(String email, String password) {
         view.loadDialog();
-        model.signInUser();
-    }
-
-    @Override
-    public void firebaseLogin() {
-        view.loadDialog();
-        model.signInUser();
-    }
-
-    @Override
-    public void firebaseLogin(String email, String password) {
         model.signInUserWithEmailAndPassword(email,password);
     }
 
+    @Override
+    public void prepareFacebookLogin() {
+        view.loadDialog();
+        appUser.setSignintype(AppUser.SignInType.facebook);
+        if(appConfig.getFacebookToken()!=null){
+            model.signInUser();
+        }else{
+            view.loginFacebook();
+        }
 
+    }
 
+    @Override
+    public void prepareTwitterLogin() {
+        view.loadDialog();
+        appUser.setSignintype(AppUser.SignInType.twitter);
+        if(appConfig.getTwitterToken().key!=null && appConfig.getTwitterToken().value!=null){
+            model.signInUser();
+        }else{
+            view.loginTwitter();
+        }
+    }
 
     @Override
     public void logout() {
@@ -138,6 +140,7 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
     @Override
     public void signSuccesfull() {
         toast("Sign Succesfull !!");
+        view.removeDialog();
         if(mAuth.getCurrentUser()!=null){
             navigator.navigateToAccount(application);
         }
@@ -151,11 +154,17 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
             Log.d("onError", "<<<<< " + error.getResponseCode() + " : " + error.getMessage() + " : " + error.getStatusCode() + " : " + error.getSuccess());
 
         }
-        if (t instanceof BaseError) {
-            BaseError error = (BaseError) t;
-            Log.d("onError", "<<<<< " + error.getMessage());
+        if (t instanceof com.shamildev.retro.domain.error.BaseError) {
+            Log.d("onError", "<<<<< " + t.getMessage());
+
+            view.removeDialog();
+            view.showSnackBar("Hallo");
+
+
+
         }
-        Log.d("onError", t.getMessage() + "---" + t);
+
+        Log.e("onError", t + "---" + t);
     }
 
 
@@ -175,7 +184,8 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
         Log.d("test", "refreshData");
     }
 
-
-
-
+    @Override
+    public void snackbar(Object obj) {
+        view.showSnackBar(obj);
+    }
 }

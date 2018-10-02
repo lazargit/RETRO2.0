@@ -7,35 +7,35 @@ import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.domain.models.Genre;
 import com.shamildev.retro.domain.models.User;
 import com.shamildev.retro.domain.repository.BaseRepository;
+import com.shamildev.retro.domain.repository.CacheRepository;
 import com.shamildev.retro.domain.repository.RemoteRepository;
+
+import org.reactivestreams.Publisher;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
+import io.reactivex.functions.Function;
 
 
 /**
  * Use case for getting a businesses with a given id.
  */
-public final class USECASE_authUser implements UseCaseFlowable<ParamsBasic,AppUser> {
+public final class USECASE_authUser implements UseCaseFlowable<ParamsBasic, AppUser> {
 
     private final BaseRepository baseRepository;
-
+    private final CacheRepository cache;
 
     @Inject
     AppConfig appConfig;
 
     @Inject
-    USECASE_authUser(BaseRepository repository
-             ) {
+    USECASE_authUser(BaseRepository repository, CacheRepository cacheRepository) {
         this.baseRepository = repository;
-
-
+        this.cache = cacheRepository;
     }
-
-
 
 
     @Override
@@ -43,30 +43,57 @@ public final class USECASE_authUser implements UseCaseFlowable<ParamsBasic,AppUs
 
         final AppUser.SignInType type = ((Params) params).type;
 
-        if(type == AppUser.SignInType.facebook){
-            return this.baseRepository.signInWithFacebook();
+        if (type == AppUser.SignInType.facebook) {
+            return signIn(this.baseRepository.signInWithFacebook(), type);
         }
-        if(type == AppUser.SignInType.twitter){
-            return this.baseRepository.signInWithTwitter();
+        if (type == AppUser.SignInType.twitter) {
+            return signIn(this.baseRepository.signInWithTwitter(), type);
         }
-        if(type == AppUser.SignInType.email){
-            return this.baseRepository.signInWithEmailAndPassword(((Params) params).email,((Params) params).password);
+        if (type == AppUser.SignInType.email) {
+            return signIn(this.baseRepository.signInWithEmailAndPassword(((Params) params).email, ((Params) params).password), type);
+
         }
 
         return Flowable.empty();
     }
 
+    private Flowable<AppUser> signIn(Flowable<AppUser> appUserFlowable, AppUser.SignInType type) {
+        return appUserFlowable
+                .flatMap(appUser -> Flowable.just(type)
+                        .map(appUser.getUser()::setLastLogin)
+                        .flatMap(this::saveToCache)
+                        .flatMap(user -> {
+                            appUser.setUser(user);
+                            return Flowable.just(appUser);
+                        }));
+    }
 
 
+    public Flowable<User> saveToCache(User model) {
+
+        return Flowable.defer(() -> {
+            try {
+                return Flowable.just(model)
+                        .flatMap(userModel -> Flowable.just(userModel)
+                                .flatMapCompletable(cache::saveUser)
+                                .toFlowable()
+                                .startWith(userModel)
+                        ).cast(User.class);
+            } catch (Exception e) {
+                return Flowable.error(e);
+
+            }
+        });
 
 
+    }
 
 
     public static final class Params implements ParamsBasic {
 
-        private  String password;
-        private  String email;
-        private  AppUser.SignInType type;
+        private String password;
+        private String email;
+        private AppUser.SignInType type;
 
 
         public Params(AppUser.SignInType type) {
@@ -83,8 +110,8 @@ public final class USECASE_authUser implements UseCaseFlowable<ParamsBasic,AppUs
             return new Params(type);
         }
 
-        public static Params withEmailAndPassword(AppUser.SignInType type,String email, String password) {
-            return new Params(type,email,password);
+        public static Params withEmailAndPassword(AppUser.SignInType type, String email, String password) {
+            return new Params(type, email, password);
         }
 
 
