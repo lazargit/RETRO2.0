@@ -1,6 +1,7 @@
 package com.shamildev.retro.ui.search;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.shamildev.retro.di.scope.PerActivity;
 import com.shamildev.retro.di.scope.PerFragment;
@@ -43,5 +44,5 @@ public abstract class SearchActivityModule {
      */
     @Binds
     @PerActivity
-    abstract Activity activity(SearchActivity activity);
+    abstract AppCompatActivity activity(SearchActivity activity);
 }

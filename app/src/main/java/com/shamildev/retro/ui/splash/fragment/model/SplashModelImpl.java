@@ -297,8 +297,8 @@ public class SplashModelImpl extends SplashModel{
                             @Override
                             public void onComplete() {
                                 Log.e("usecase_saveUser","complete");
-                                testFireStore();
-                              //  presenter.finishPreload(map);
+                              //  testFireStore();
+                                presenter.goHome();
 
                             }
                         });

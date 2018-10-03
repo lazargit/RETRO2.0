@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.shamildev.retro.R;
 import com.shamildev.retro.navigation.Navigator;
 import com.shamildev.retro.ui.common.view.BaseViewFragment;
+import com.shamildev.retro.ui.common.view.BaseViewFragmentV4;
 import com.shamildev.retro.ui.search.fragment.presenter.SearchPresenter;
 
 import javax.inject.Inject;
@@ -18,7 +19,7 @@ import javax.inject.Inject;
  * <p>
  * A fragment implementation of {@link SearchView}.
  */
-public final class SearchFragment extends BaseViewFragment<SearchPresenter> implements SearchView {
+public final class SearchFragment extends BaseViewFragmentV4<SearchPresenter> implements SearchView {
 
 
     @Inject

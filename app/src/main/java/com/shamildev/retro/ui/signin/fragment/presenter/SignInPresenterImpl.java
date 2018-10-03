@@ -142,7 +142,7 @@ public final class SignInPresenterImpl extends BasePresenter<SignInView, SignInM
         toast("Sign Succesfull !!");
         view.removeDialog();
         if(mAuth.getCurrentUser()!=null){
-            navigator.navigateToAccount(application);
+            navigator.navigateToAccount(application,null);
         }
     }
 

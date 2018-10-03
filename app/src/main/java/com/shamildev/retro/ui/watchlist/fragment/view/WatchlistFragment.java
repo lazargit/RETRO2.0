@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 
 import com.shamildev.retro.R;
 import com.shamildev.retro.navigation.Navigator;
-import com.shamildev.retro.ui.common.view.BaseViewFragment;
+
+import com.shamildev.retro.ui.common.view.BaseViewFragmentV4;
 import com.shamildev.retro.ui.watchlist.fragment.presenter.WatchlistPresenter;
 
 import javax.inject.Inject;
@@ -18,7 +19,7 @@ import javax.inject.Inject;
  * <p>
  * A fragment implementation of {@link WatchlistView}.
  */
-public final class WatchlistFragment extends BaseViewFragment<WatchlistPresenter> implements WatchlistView {
+public final class WatchlistFragment extends BaseViewFragmentV4<WatchlistPresenter> implements WatchlistView {
 
 
     @Inject

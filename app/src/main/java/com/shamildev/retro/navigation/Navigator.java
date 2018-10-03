@@ -1,7 +1,10 @@
 package com.shamildev.retro.navigation;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
+import com.shamildev.retro.R;
 import com.shamildev.retro.ui.account.AccountActivity;
 import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivity;
 import com.shamildev.retro.ui.home.HomeActivity;
@@ -10,8 +13,6 @@ import com.shamildev.retro.ui.search.SearchActivity;
 import com.shamildev.retro.ui.signin.SignInActivity;
 import com.shamildev.retro.ui.watchlist.WatchlistActivity;
 
-
-import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -31,11 +32,15 @@ public final class Navigator {
     }
 
 
-    public void navigateToHome(Context context) {
+    public void navigateToHome(Context context,Activity callActivity) {
         if (context != null) {
             Intent intent = HomeActivity.getCallingIntent(context);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+            if(callActivity!=null) {
+                callActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+
         }
     }
 
@@ -44,7 +49,8 @@ public final class Navigator {
         if (context != null) {
             Intent intent = SignInActivity.getCallingIntent(context);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+
+
         }
     }
     public void navigateToRegister(Context context) {
@@ -56,21 +62,29 @@ public final class Navigator {
         }
     }
 
-    public void navigateToWatchlist(Context context) {
+    public void navigateToWatchlist(Context context,Activity callActivity) {
 
         if (context != null) {
             Intent intent = WatchlistActivity.getCallingIntent(context);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+            if(callActivity!=null) {
+                callActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+
         }
     }
 
-    public void navigateToSearch(Context context) {
+    public void navigateToSearch(Context context,Activity callActivity) {
 
         if (context != null) {
             Intent intent = SearchActivity.getCallingIntent(context);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+            if(callActivity!=null) {
+                callActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+
         }
     }
 
@@ -83,12 +97,15 @@ public final class Navigator {
         }
     }
 
-    public void navigateToAccount(Context context) {
+    public void navigateToAccount(Context context,Activity callActivity) {
 
         if (context != null) {
             Intent intent = AccountActivity.getCallingIntent(context);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+            if(callActivity!=null) {
+                callActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
         }
     }
 

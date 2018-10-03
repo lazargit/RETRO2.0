@@ -58,7 +58,7 @@ public final class HomePresenterImpl extends BasePresenter<HomeView, HomeModel> 
 
     @Override
     public void onStart(@Nullable Bundle savedInstanceState) {
-        Log.e("HOME ",">>> "+this.appConfig.getPreloadDataMap().get(AppConfig.NOWPLAYINGKEY).results().size());
+       // Log.e("HOME ",">>> "+this.appConfig.getPreloadDataMap().get(AppConfig.NOWPLAYINGKEY).results().size());
 
     }
 

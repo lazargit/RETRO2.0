@@ -55,14 +55,25 @@
     </android.support.design.widget.AppBarLayout>
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+
+
+
+
+
+
+        <!--BottomNavigation-->
+        <include layout="@layout/layout_bottom_navigation_view"/>
+
+    </RelativeLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

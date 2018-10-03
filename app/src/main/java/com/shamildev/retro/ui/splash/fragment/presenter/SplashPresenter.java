@@ -22,6 +22,8 @@ public interface SplashPresenter extends Presenter {
 
     void finishPreload(HashMap<String, ResultWrapper> map);
 
+    void goHome();
+
     void setBgTeaser(ResultWrapper wrapper);
 
     void configRetroImage(Configuration configuration);

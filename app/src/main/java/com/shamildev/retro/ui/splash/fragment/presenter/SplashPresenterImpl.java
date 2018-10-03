@@ -2,22 +2,16 @@ package com.shamildev.retro.ui.splash.fragment.presenter;
 
 
 import android.app.Application;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Base64;
 import android.util.Log;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.shamildev.retro.R;
 import com.shamildev.retro.data.net.error.TMDBError;
 import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.domain.core.AppConfig;
@@ -27,10 +21,10 @@ import com.shamildev.retro.domain.helper.ProcessData;
 import com.shamildev.retro.domain.models.Configuration;
 import com.shamildev.retro.domain.models.ResultWrapper;
 import com.shamildev.retro.navigation.Navigator;
-import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
 import com.shamildev.retro.retroimage.core.RetroImage;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 import com.shamildev.retro.ui.common.presenter.BasePresenter;
+import com.shamildev.retro.ui.home.HomeActivity;
 import com.shamildev.retro.ui.splash.fragment.model.SplashModel;
 import com.shamildev.retro.ui.splash.fragment.view.SplashView;
 
@@ -121,6 +115,11 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
     }
 
     @Override
+    public void goHome() {
+        navigator.navigateToHome(application,null);
+    }
+
+    @Override
     public void finishPreload(HashMap<String, ResultWrapper> map) {
         toast("FINISH PRELOAD");
 
@@ -208,7 +207,7 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
 
                     @Override
                     public boolean onResourceReady(Drawable resource) {
-                         navigator.navigateToHome(application);
+                         navigator.navigateToHome(application,null);
                         return false;
                     }
                 });

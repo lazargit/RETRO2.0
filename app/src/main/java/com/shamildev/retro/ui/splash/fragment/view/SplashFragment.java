@@ -1,21 +1,14 @@
 package com.shamildev.retro.ui.splash.fragment.view;
 
 import android.app.Application;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.bumptech.glide.Glide;
-import com.facebook.AccessToken;
 import com.shamildev.retro.R;
-import com.shamildev.retro.domain.core.MediaItem;
 import com.shamildev.retro.domain.models.ResultWrapper;
-import com.shamildev.retro.glide.RetroGlide;
 import com.shamildev.retro.navigation.Navigator;
 import com.shamildev.retro.retroimage.views.RetroImageView;
 import com.shamildev.retro.retroimage.views.RetroProfileCircleImageView;
@@ -107,7 +100,7 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
 
     @OnClick(R.id.button2)
     public void onClickAccount(Button button) {
-        navigator.navigateToAccount(application);
+        navigator.navigateToAccount(application,null);
     }
 
     @OnClick(R.id.button3)
@@ -122,7 +115,7 @@ public final class SplashFragment extends BaseViewFragment<SplashPresenter> impl
 
     @OnClick(R.id.btn_account)
     public void onClickBtnAccount(Button button) {
-        navigator.navigateToAccount(application);
+        navigator.navigateToAccount(application,null);
     }
 
     @Override

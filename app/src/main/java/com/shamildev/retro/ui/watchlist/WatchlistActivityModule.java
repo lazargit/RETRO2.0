@@ -1,6 +1,7 @@
 package com.shamildev.retro.ui.watchlist;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.shamildev.retro.di.scope.PerActivity;
 import com.shamildev.retro.di.scope.PerFragment;
@@ -43,5 +44,5 @@ public abstract class WatchlistActivityModule {
      */
     @Binds
     @PerActivity
-    abstract Activity activity(WatchlistActivity activity);
+    abstract AppCompatActivity activity(WatchlistActivity activity);
 }

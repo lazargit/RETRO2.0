@@ -7,13 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.util.Log;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +17,6 @@ import com.shamildev.retro.R;
 import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.navigation.Navigator;
 import com.shamildev.retro.ui.common.BaseActivitySupport;
-import com.shamildev.retro.ui.signin.fragment.view.SignInFragment;
 
 import java.util.Arrays;
 import java.util.List;
@@ -72,7 +65,7 @@ public class FirebaseUiSignInActivity extends BaseActivitySupport {
         // Create and launch sign-in intent
 
         if(FirebaseAuth.getInstance().getCurrentUser()!=null){
-            navigator.navigateToAccount(application);
+            navigator.navigateToAccount(application,this);
 
         }else {
             startActivityForResult(
