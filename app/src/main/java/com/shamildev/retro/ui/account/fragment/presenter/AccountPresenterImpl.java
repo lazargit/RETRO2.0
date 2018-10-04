@@ -91,7 +91,7 @@ public final class AccountPresenterImpl extends BasePresenter<AccountView, Accou
 
         }
 
-
+        model.initData();
 
     }
 
@@ -206,18 +206,18 @@ public final class AccountPresenterImpl extends BasePresenter<AccountView, Accou
     }
 
     private void logOutState(){
-
+        String info =appUser.getName();
         view.getTextView_UserEmail().setText(R.string.notloggedin);
-        view.getButton_logout().setVisibility(View.GONE);
-        view.getButton_signin().setVisibility(View.VISIBLE);
+        //view.getButton_logout().setVisibility(View.GONE);
+        //view.getButton_signin().setVisibility(View.VISIBLE);
 
 
     }
     private void signInState(){
        // view.getTextView_UserEmail().setText( mAuth.getCurrentUser().getEmail());
         view.getTextView_UserEmail().setText("eingelogt");
-        view.getButton_signin().setVisibility(View.GONE);
-        view.getButton_logout().setVisibility(View.VISIBLE);
+       // view.getButton_signin().setVisibility(View.GONE);
+       // view.getButton_logout().setVisibility(View.VISIBLE);
 
     }
 

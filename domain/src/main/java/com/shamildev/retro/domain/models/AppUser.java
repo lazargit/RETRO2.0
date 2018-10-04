@@ -99,6 +99,7 @@ public class AppUser implements DomainObject {
         System.out.println("setUser> ");
         setUser_id(user.user_id());
         setName(user.name());
+        profilePic=user.pic();
         setLanguage(user.language());
         setTmdb_guest_session(user.tmdb_guest_session());
         setTmdb_expires_at(user.tmdb_expires_at());
@@ -153,6 +154,10 @@ public class AppUser implements DomainObject {
 
     public String getPhotoUrl() {
         return photoUrl;
+    }
+
+    public byte[] getProfilePic() {
+        return profilePic;
     }
 
     public String getSigin_provider() {

@@ -1,29 +1,27 @@
-package com.shamildev.retro.ui.account.fragment.view;
+package com.shamildev.retro.fragments.account_header.fragment.view;
 
 import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.shamildev.retro.R;
+import com.shamildev.retro.fragments.account_header.fragment.presenter.AccountHeaderPresenter;
 import com.shamildev.retro.navigation.Navigator;
-import com.shamildev.retro.ui.account.fragment.presenter.AccountPresenter;
 import com.shamildev.retro.ui.common.view.BaseViewFragmentV4;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Shamil Lazar.
  * <p>
- * A fragment implementation of {@link AccountView}.
+ * A fragment implementation of {@link AccountHeaderView}.
  */
-public final class AccountFragment extends BaseViewFragmentV4<AccountPresenter> implements AccountView {
+public final class AccountHeaderFragment extends BaseViewFragmentV4<AccountHeaderPresenter> implements AccountHeaderView {
 
 
     @Inject
@@ -31,18 +29,16 @@ public final class AccountFragment extends BaseViewFragmentV4<AccountPresenter> 
     @Inject
     Application application;
 
-    @BindView(R.id.textview_name)
-    TextView mTextView_name;
+    @BindView(R.id.tv_name)
+    TextView mTv_name;
 
-    @BindView(R.id.textview_name_details)
-    TextView mTextView_name_details;
-
-
+    @BindView(R.id.tv_details)
+    TextView mTv_details;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        return inflater.inflate(R.layout.fragment_account_header, container, false);
     }
 
 
@@ -57,9 +53,12 @@ public final class AccountFragment extends BaseViewFragmentV4<AccountPresenter> 
     }
 
     @Override
-    public TextView getTextView_UserEmail() {
-        return mTextView_name;
+    public TextView tv_name() {
+        return mTv_name;
     }
 
-
+    @Override
+    public TextView tv_details() {
+        return mTv_details;
+    }
 }

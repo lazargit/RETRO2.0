@@ -48,6 +48,8 @@ public class HomeActivity extends BaseActivitySupport {
     @Inject AppConfig appConfig;
     @Inject HomeActivity mContext;
     @BindView(R.id.toolbar) Toolbar toolbar;
+
+
     @BindView(R.id.img_slider) ImageSliderView img_slider;
 
     public static Intent getCallingIntent(Context context) {
@@ -70,6 +72,7 @@ public class HomeActivity extends BaseActivitySupport {
         if (savedInstanceState == null) {
             addFragment(R.id.fragmentContainer, new HomeFragment());
         }
+
         setupBottomNavigation();
     }
 

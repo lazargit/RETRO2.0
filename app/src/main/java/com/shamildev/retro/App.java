@@ -109,26 +109,33 @@ public class App extends Application implements HasActivityInjector {
                 .build();
         Twitter.initialize(config);
         TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
-        TwitterAuthToken authToken = session.getAuthToken();
-
-        if(!authToken.token.equals("") && !authToken.secret.equals("")){
-            appConfig.setTwitterToken(authToken.token,authToken.secret);
-        }else{
-            appConfig.setTwitterToken(null,null);
+        if(session!=null){
+            TwitterAuthToken authToken = session.getAuthToken();
+            if(!authToken.token.equals("") && !authToken.secret.equals("")){
+                appConfig.setTwitterToken(authToken.token,authToken.secret);
+            }else{
+                appConfig.setTwitterToken(null,null);
+            }
+            Log.e("APP", "TW->toke: "+ appConfig.getTwitterToken().key+" secret: "+appConfig.getTwitterToken().value);
         }
-        Log.e("APP", "TW->toke: "+ appConfig.getTwitterToken().key+" secret: "+appConfig.getTwitterToken().value);
+
+
+
 
     }
     private void initialiseFacebook() {
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
-        if (accessToken != null && !accessToken.isExpired()) {
-            appConfig.setFacebookToken(accessToken.getToken());
-        }else{
-            appConfig.setFacebookToken(null);
-        }
+if(AccessToken.getCurrentAccessToken()!=null){
+    AccessToken accessToken = AccessToken.getCurrentAccessToken();
+    if (accessToken != null && !accessToken.isExpired()) {
+        appConfig.setFacebookToken(accessToken.getToken());
+    }else{
+        appConfig.setFacebookToken(null);
+    }
 
-        Log.e("APP", "FB->token: "+ appConfig.getFacebookToken());
+    Log.e("APP", "FB->token: "+ appConfig.getFacebookToken());
+}
+
     }
 
 }

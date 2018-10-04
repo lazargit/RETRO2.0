@@ -22,6 +22,8 @@
     <string name="nav_watchlist">Watchlist</string>
     <string name="nav_search">Search</string>
     <string name="nav_account">Account</string>
+    <string name="title_name">Shamil Lazar</string>
+    <string name="subtitle_details">from Berlin asdasdasda</string>
 
 
 </resources>

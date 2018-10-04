@@ -13,6 +13,5 @@ import com.shamildev.retro.ui.common.view.MVPView;
 public interface AccountView extends MVPView {
 
     TextView getTextView_UserEmail();
-    Button getButton_logout();
-    Button getButton_signin();
+
 }

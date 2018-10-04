@@ -1,26 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context=".ui.account.AccountActivity">
+
+<android.support.design.widget.AppBarLayout
+    android:id="@+id/app_bar"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_spring_behavior"
+    >
+
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|snap">
+
+        ​<FrameLayout
+        android:id="@+id/fragmentContainerHeader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            />
+
+
+    </android.support.design.widget.CollapsingToolbarLayout>
+    <LinearLayout
+        android:id="@+id/materialup.title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:gravity="center"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        >
+        ​<FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+        ​
+    </LinearLayout>
+
+</android.support.design.widget.AppBarLayout>
+
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.account.AccountActivity">
+    >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:id="@+id/fragmentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <include layout="@layout/layout_bottom_navigation_view"/>
 
 
 
-        <!--BottomNavigation-->
-        <include layout="@layout/layout_bottom_navigation_view"/>
 
-    </RelativeLayout>
+</RelativeLayout>
 
+
+
+    <com.shamildev.retro.retroimage.views.RetroProfileImageView
+        android:id="@+id/profile_image"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_anchor="@id/materialup.title_container"
+        android:elevation="8dp"
+
+        app:layout_scrollFlags="scroll"
+        app:layout_anchorGravity="top|center_horizontal"
+
+        />
 
 </android.support.design.widget.CoordinatorLayout>

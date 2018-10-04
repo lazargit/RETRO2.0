@@ -8,6 +8,7 @@ import com.shamildev.retro.domain.core.DataConfig;
 import com.shamildev.retro.domain.core.usecase.UseCaseHandler;
 import com.shamildev.retro.domain.interactor.usecases.base.USECASE_LogoutUser;
 import com.shamildev.retro.domain.models.AppUser;
+import com.shamildev.retro.ui.account.AccountActivity;
 
 import javax.inject.Inject;
 
@@ -37,6 +38,9 @@ public class AccountModelImpl extends AccountModel {
     AppUser appUser;
 
     @Inject
+    AccountActivity accountActivity;
+
+    @Inject
     public AccountModelImpl(
             UseCaseHandler useCaseHandler,
             USECASE_LogoutUser usecase_logoutUser
@@ -49,8 +53,9 @@ public class AccountModelImpl extends AccountModel {
 
     @Override
     public void initData() {
-        Log.e(TAG, "" + appUser.getEmail());
+        Log.e(TAG, "" + appUser.getProfilePic());
         presenter.toast(appUser.getEmail());
+        accountActivity.setPic(appUser.getProfilePic());
     }
 
     @Override
