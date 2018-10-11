@@ -420,15 +420,15 @@ public class ImageSliderView extends RelativeLayout {
                     .w780()
                     .into(retroImageView, new RetroImageRequestListener() {
                         @Override
-                        public boolean onLoadFailed(GlideException e) {
+                        public GlideException onLoadFailed(GlideException e) {
                             Log.e("onLoadFailed",">>>>>>>>>>>>>>>> "+position);
-                            return false;
+                            return e;
                         }
 
                         @Override
-                        public boolean onResourceReady(Drawable resource) {
+                        public Drawable onResourceReady(Drawable resource) {
                             Log.e("onResourceReady",">>>>>>>>>>>>>>>> "+position);
-                            return false;
+                            return resource;
                         }
                     });
 

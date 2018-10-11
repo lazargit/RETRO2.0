@@ -103,6 +103,13 @@ public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> im
        presenter.prepareTwitterLogin();
     }
 
+    @OnClick(R.id.button_goto_register)
+    public void onClickGoToRegister(Button button) {
+       navigator.navigateToRegister(application);
+    }
+
+
+
 
     @Override
     public void onResume() {
@@ -134,6 +141,9 @@ public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> im
     public Button getButton_twitter_signin() {
         return mButton_twitter_signin;
     }
+
+
+
 
     @Override
     public void loginFacebook() {

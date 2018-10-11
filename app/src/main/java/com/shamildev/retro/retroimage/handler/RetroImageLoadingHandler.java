@@ -236,7 +236,7 @@ public class RetroImageLoadingHandler {
 
 
 
-                            .transition(DrawableTransitionOptions.withCrossFade(1000))
+                          //  .transition(DrawableTransitionOptions.withCrossFade(500))
 
                             .listener(new RequestListener<Drawable>() {
 
@@ -271,7 +271,7 @@ public class RetroImageLoadingHandler {
 
 
 
-                            .transition(DrawableTransitionOptions.withCrossFade(1000))
+                           //.transition(DrawableTransitionOptions.withCrossFade(500))
 
                             .listener(new RequestListener<Drawable>() {
 

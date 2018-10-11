@@ -25,6 +25,8 @@ public class AppUser implements DomainObject {
     private String sigin_provider;
     private SignInType signintype;
     private String lastLogin;
+    private int followerCount;
+    private int followedCount;
 
     public enum SignInType
     {

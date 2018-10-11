@@ -10,24 +10,33 @@
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginBottom="120dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:text="name"
+        app:layout_constraintBottom_toTopOf="@+id/tv_details"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <TextView
         android:id="@+id/tv_details"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.shamildev.retro.retroimage.views.RetroImageView
+        android:id="@+id/rimg_account_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:showProgressBar="false"
+        app:scaleType="FIT_XY"
+        />
 </android.support.constraint.ConstraintLayout>

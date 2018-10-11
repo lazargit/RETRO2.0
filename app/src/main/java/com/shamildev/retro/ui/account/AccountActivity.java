@@ -1,40 +1,47 @@
 package com.shamildev.retro.ui.account;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.AppBarLayoutSpringBehavior;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+
+
+import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.widget.Toolbar;
+
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 
 import com.bumptech.glide.load.engine.GlideException;
-import com.facebook.CallbackManager;
-import com.facebook.login.LoginManager;
-import com.firebase.ui.auth.IdpResponse;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.shamildev.retro.R;
+import com.shamildev.retro.domain.models.AppUser;
 import com.shamildev.retro.fragments.account_header.fragment.view.AccountHeaderFragment;
 import com.shamildev.retro.retroimage.core.RetroImage;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 import com.shamildev.retro.retroimage.views.RetroProfileImageView;
 import com.shamildev.retro.ui.account.fragment.view.AccountFragment;
 import com.shamildev.retro.ui.common.BaseActivitySupport;
-import com.shamildev.retro.ui.home.HomeActivity;
 import com.shamildev.retro.util.BottomNavigationViewHelper;
+import com.shamildev.retro.util.RetroAnimation;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -52,50 +59,134 @@ public class AccountActivity extends BaseActivitySupport {
     private static final String TAG = "AccountActivity";
     private static final int ACTIVITY_NUM = 2;
     private int mMaxScrollSize;
-    private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
+    private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 30;
     private boolean mIsAvatarShown = true;
     @Inject
     RetroImage retroImage;
     @Inject
     AccountActivity mContext;
+    @Inject
+    AppUser appUser;
+
     @BindView(R.id.profile_image)
     RetroProfileImageView mProfileImage;
+
     @BindView(R.id.app_bar)
     AppBarLayout appbarLayout;
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout mToolbar_layout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+
+    private State state;
+    private OnStateChangeListener onStateChangeListener;
     private Unbinder butterKnifeUnbinder;
+    private CircularProgressDrawable mProgress;
+    private boolean fragments_set = false;
 
+    public interface OnStateChangeListener {
+        void onStateChange(State toolbarChange);
+    }
 
+    public enum State {
+        COLLAPSED,
+        EXPANDED,
+        IDLE
+    }
     public static Intent getCallingIntent(Context context) {
         Intent intent = new Intent(context, AccountActivity.class);
         return intent;
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e(TAG, "onPause: start");
+    }
+
+    @Override
+    protected void onStart() {
+        Log.e(TAG, "onStart: start");
+        super.onStart();
+
+    }
+
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        Log.e(TAG, "onActivityReenter: start");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        setupWindowAnimations();
         setContentView(R.layout.activity_account);
+
         butterKnifeUnbinder = ButterKnife.bind(this);
-        //printhashkey();
 
-        Log.d(TAG, "onCreate: starting");
 
+
+       // setSupportActionBar(mToolbar);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mToolbar.inflateMenu(R.menu.profile_settings);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override public boolean onMenuItemClick(MenuItem item) {
+              //  Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_REPO_URL));
+              //  startActivity(browserIntent);
+                navigator.navigateToSettings(mContext,mContext);
+                return true;
+            }
+        });
+
+
+
+        Log.e(TAG, "onCreate: starting "+savedInstanceState);
+
+
+        mToolbar_layout.setTitle(appUser.getName());
+       // mToolbar_layout.setLayoutParams(new AppBarLayout.LayoutParams(COLLAPS));
 
         appbarLayout.addOnOffsetChangedListener(this);
         mMaxScrollSize = appbarLayout.getTotalScrollRange();
         setupBottomNavigation();
+
         if (savedInstanceState == null) {
-            addFragment(R.id.fragmentContainer, new AccountFragment());
+
+
             addFragment(R.id.fragmentContainerHeader, new AccountHeaderFragment());
+            addFragment(R.id.fragmentContainer, new AccountFragment());
+
+
+
+
+
         }
 
 
-        AppBarLayoutSpringBehavior springBehavior = (AppBarLayoutSpringBehavior) ((CoordinatorLayout.LayoutParams) appbarLayout.getLayoutParams()).getBehavior();
-        springBehavior.setSpringOffsetCallback(new AppBarLayoutSpringBehavior.SpringOffsetCallback() {
+        mProfileImage.setScaleX(0);
+        mProfileImage.setScaleY(0);
+      // final RealtimeBlurView realtimeBlurView = (RealtimeBlurView) findViewById(R.id.blur_view);
+      //  realtimeBlurView.setBlurRadius(15);
+        AppBarLayoutSpringBehavior behavior = (AppBarLayoutSpringBehavior) ((CoordinatorLayout.LayoutParams) appbarLayout.getLayoutParams()).getBehavior();
+        behavior.setSpringOffsetCallback(new AppBarLayoutSpringBehavior.SpringOffsetCallback() {
             @Override
             public void springCallback(int offset) {
-                int radius = 20 * (240 - offset > 0 ? 240 - offset : 0) / 240;
-                //realtimeBlurView.setBlurRadius(radius);
+                int div = 220+offset;
+                int radius = 15 * (div - offset > 0 ? div - offset : 0) / div;
+                int dr = (15-radius);
+              // realtimeBlurView.setBlurRadius(radius);
+
+                      //  Log.e("HEIGHT", "> "+div+" radius: "+radius+" dr"+dr);
+                if(offset>120){
+                  //  createProgressView();
+                }
+
+
             }
         });
 
@@ -109,30 +200,13 @@ public class AccountActivity extends BaseActivitySupport {
 //                />
     }
 
-    public void printhashkey(){
-
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.shamildev.retro",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-
-    }
-
 
 
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+
+        changeState(appBarLayout, i);
 
         if (mMaxScrollSize == 0)
             mMaxScrollSize = appBarLayout.getTotalScrollRange();
@@ -141,29 +215,53 @@ public class AccountActivity extends BaseActivitySupport {
 
         if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mIsAvatarShown) {
             mIsAvatarShown = false;
-
-            mProfileImage.animate()
-                    .scaleY(0).scaleX(0)
-                    .setDuration(200)
+            RetroAnimation
+                    .PopAway(mProfileImage)
                     .start();
         }
 
         if (percentage <= PERCENTAGE_TO_ANIMATE_AVATAR && !mIsAvatarShown) {
             mIsAvatarShown = true;
-
-            mProfileImage.animate()
-                    .scaleY(1).scaleX(1)
+            RetroAnimation
+                    .PopUp(mProfileImage)
                     .start();
+
         }
 
 
     }
+
+    private void changeState(AppBarLayout appBarLayout, int i) {
+        if (i == 0) {
+            if (onStateChangeListener != null && state != State.EXPANDED) {
+                onStateChangeListener.onStateChange(State.EXPANDED);
+            }
+            state = State.EXPANDED;
+        } else if (Math.abs(i) >= appBarLayout.getTotalScrollRange()) {
+            if (onStateChangeListener != null && state != State.COLLAPSED) {
+                onStateChangeListener.onStateChange(State.COLLAPSED);
+            }
+            state = State.COLLAPSED;
+        } else {
+            if (onStateChangeListener != null && state != State.IDLE) {
+                onStateChangeListener.onStateChange(State.IDLE);
+            }
+            state = State.IDLE;
+        }
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
     }
+
+    public void setOnStateChangeListener(OnStateChangeListener listener) {
+        this.onStateChangeListener = listener;
+    }
+
 
 
     /*
@@ -181,7 +279,41 @@ public class AccountActivity extends BaseActivitySupport {
     }
 
     public void setPic(byte[] profilePic) {
-        mProfileImage.src(profilePic,retroImage);
+        mProfileImage
+                .src(profilePic, retroImage, new RetroImageRequestListener() {
+            @Override
+            public GlideException onLoadFailed(GlideException e) {
+                return e;
+            }
+
+            @Override
+            public Drawable onResourceReady(Drawable resource) {
+               RetroAnimation
+                       .PopUp(mProfileImage)
+                       .start();
+
+
+                return resource;
+            }
+        });
 
     }
+
+
+
+    private void setupWindowAnimations() {
+        if (Build.VERSION.SDK_INT < 21) return;
+        Transition slide = TransitionInflater.from(this).inflateTransition(R.transition.slide_left_out);
+
+        slide.excludeTarget(android.R.id.statusBarBackground, true);
+        slide.excludeTarget(android.R.id.navigationBarBackground, true);
+        slide.excludeTarget(R.id.toolbar, true);
+        Window window = getWindow();
+        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        window.setExitTransition(slide);
+    }
+
+
+
 }
+

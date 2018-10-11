@@ -1,21 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     android:id="@+id/coordinator"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:nestedScrollingEnabled="true">
-
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
+    <RelativeLayout
+        android:id="@+id/layout_topbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</ScrollView>
+        android:layout_height="50dp">
+        <include  layout="@layout/layout_topbar"/>
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_topbar">
 
 
-</android.support.design.widget.CoordinatorLayout>
+                <FrameLayout
+                    android:id="@+id/fragmentContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+        </RelativeLayout>
+
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignBottom="@+id/signin_toolbar"-->
+            <!--android:nestedScrollingEnabled="true">-->
+
+            <!--<FrameLayout-->
+                <!--android:id="@+id/fragmentContainer"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
+        <!--</ScrollView>-->
+
+    <!--</RelativeLayout>-->
+
+
+
+
+</RelativeLayout>

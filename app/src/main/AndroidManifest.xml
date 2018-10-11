@@ -31,6 +31,7 @@
         <activity android:name=".ui.register.RegisterActivity"  android:label="@string/activity_register"/>
         <activity android:name=".ui.watchlist.WatchlistActivity"  android:label="@string/activity_watchlist"/>
         <activity android:name=".ui.search.SearchActivity"  android:label="@string/activity_search"/>
+        <activity android:name=".ui.settings.SettingsActivity"  android:label="@string/settings"/>
 
     </application>
 

@@ -74,16 +74,18 @@ public final class AccountPresenterImpl extends BasePresenter<AccountView, Accou
 
     @Override
     public void onStart(@Nullable Bundle savedInstanceState) {
-                if(mAuth.getCurrentUser()==null){
-                    navigator.navigateToSignIn(application);
-                }
+//                if(mAuth.getCurrentUser()==null){
+//                   // navigator.navigateToSignIn(application);
+//                }
+//
+         model.initData();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        if(mAuth.getCurrentUser()!=null){
+Log.e(TAG,"> "+appUser.toString());
+        if(appUser.isLoggedIn()){
             toast("u r logged in!");
             signInState();
         }else{
@@ -91,7 +93,7 @@ public final class AccountPresenterImpl extends BasePresenter<AccountView, Accou
 
         }
 
-        model.initData();
+
 
     }
 
@@ -207,15 +209,20 @@ public final class AccountPresenterImpl extends BasePresenter<AccountView, Accou
 
     private void logOutState(){
         String info =appUser.getName();
-        view.getTextView_UserEmail().setText(R.string.notloggedin);
+        view.getTextView_UserName().setText(R.string.notloggedin);
+        view.getButton_signin().setVisibility(View.VISIBLE);
+
         //view.getButton_logout().setVisibility(View.GONE);
-        //view.getButton_signin().setVisibility(View.VISIBLE);
+        //
 
 
     }
     private void signInState(){
+
        // view.getTextView_UserEmail().setText( mAuth.getCurrentUser().getEmail());
-        view.getTextView_UserEmail().setText("eingelogt");
+        view.getButton_signin().setVisibility(View.GONE);
+        view.getTextView_UserName().setText("eingelogt");
+
        // view.getButton_signin().setVisibility(View.GONE);
        // view.getButton_logout().setVisibility(View.VISIBLE);
 

@@ -8,13 +8,16 @@
     tools:layout_editor_absoluteY="81dp"
     android:background="@color/white">
 
+
+
+
     <TextView
         android:id="@+id/text_view_create_an_account"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/spacing_double"
+        android:layout_marginStart="@dimen/spacing_double"
+        android:layout_marginTop="@dimen/spacing_double"
         android:text="@string/create_an_account"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -23,16 +26,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+    <com.shamildev.retro.retroimage.views.RetroProfileImageView
+        android:id="@+id/retroProfileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout_username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_create_an_account">
+
+    </com.shamildev.retro.retroimage.views.RetroProfileImageView>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout_username"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="@dimen/spacing_double"
+        android:layout_marginStart="@dimen/spacing_double"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/retroProfileImage">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/textinput_username"
@@ -48,9 +70,10 @@
         android:id="@+id/textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/spacing_double"
+        android:layout_marginStart="@dimen/spacing_double"
+        android:layout_marginTop="@dimen/spacing_double"
+        android:textColorHint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout_username">
@@ -69,9 +92,10 @@
         android:id="@+id/textInputLayoutPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/spacing_double"
+        android:layout_marginStart="@dimen/spacing_double"
+        android:layout_marginTop="@dimen/spacing_double"
+        android:textColorHint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,13 +115,13 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/button_register"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_button"
+        android:layout_marginEnd="@dimen/spacing_huge"
+        android:layout_marginStart="@dimen/spacing_huge"
+        android:layout_marginTop="@dimen/spacing_double"
         android:enabled="true"
+        style="@style/RoundedCornerButtonFill"
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

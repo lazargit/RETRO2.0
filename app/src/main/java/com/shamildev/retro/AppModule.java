@@ -23,6 +23,8 @@ import com.shamildev.retro.ui.register.RegisterActivity;
 import com.shamildev.retro.ui.register.RegisterActivityModule;
 import com.shamildev.retro.ui.search.SearchActivity;
 import com.shamildev.retro.ui.search.SearchActivityModule;
+import com.shamildev.retro.ui.settings.SettingsActivity;
+import com.shamildev.retro.ui.settings.SettingsActivityModule;
 import com.shamildev.retro.ui.signin.SignInActivity;
 import com.shamildev.retro.ui.signin.SignInActivityModule;
 import com.shamildev.retro.ui.splash.SplashActivity;
@@ -114,6 +116,10 @@ public abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = AccountActivityModule.class)
     abstract AccountActivity accountActivityInjector();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = SettingsActivityModule.class)
+    abstract SettingsActivity settingsActivityInjector();
 
     @PerActivity
     @ContributesAndroidInjector(modules = WatchlistActivityModule.class)

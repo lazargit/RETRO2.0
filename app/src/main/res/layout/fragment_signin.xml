@@ -1,153 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_editor_absoluteY="81dp"
+
     android:background="@color/white">
 
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout"
+    <android.support.v7.widget.CardView
+        android:id="@+id/layout_emailsignin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_margin="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_double"
+        android:contentDescription="jhjgh"
+        app:cardCornerRadius="5dp">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/textinput_email"
+
+        <android.support.constraint.ConstraintLayout
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:maxLines="1" />
+            android:background="@color/white"
+            tools:layout_editor_absoluteY="81dp">
 
-    </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayoutPassword"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColorHint="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/textinput_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_double"
+                android:layout_marginStart="@dimen/spacing_double"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:textColorHint="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+                app:passwordToggleEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/textinput_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/passoword"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/button_goto_register"
+                style="@style/RoundedCornerButton"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+
+
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="@dimen/spacing_normal"
+                android:paddingRight="@dimen/spacing_normal"
+                android:text="@string/register"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/button_signin"
+                app:layout_constraintStart_toStartOf="@+id/button_signin"
+                app:layout_constraintTop_toBottomOf="@+id/button_signin" />
+
+
+            <Button
+                android:id="@+id/button_signin"
+                style="@style/RoundedCornerButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="8dp"
+                android:enabled="true"
+                android:text="@string/login"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayoutPassword"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayoutPassword"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/layout_socialsignin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        app:passwordToggleEnabled="true">
+        android:layout_below="@id/layout_emailsignin"
+        android:layout_margin="@dimen/spacing_normal">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/textinput_password"
-            android:layout_width="match_parent"
+    <android.support.constraint.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/passoword"
-            android:inputType="textPassword"
-            android:maxLines="1" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/no_account"
-        app:layout_constraintBottom_toBottomOf="@+id/button_signin"
-        app:layout_constraintEnd_toStartOf="@+id/button_signin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword"
-        app:layout_constraintVertical_bias="0.6" />
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/or_sign_in_with"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button_signin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_button"
-        android:enabled="true"
-        android:text="@string/login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword" />
+        <Button
+            android:id="@+id/button_facebook_signin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/round_button_facebook"
+            android:drawableStart="@drawable/facebook_icon"
+            android:paddingEnd="30dp"
+            android:paddingStart="18dp"
+            android:text="facebook"
+            android:textAlignment="textEnd"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="or"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_signin" />
+        <Button
+            android:id="@+id/button_twitter_signin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/round_button_twitter"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/twitter_icon"
+            android:paddingEnd="30dp"
+            android:paddingStart="15dp"
+            android:text="twitter"
+            android:textAlignment="textEnd"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toTopOf="@+id/button_facebook_signin" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
 
 
-    <Button
-        android:id="@+id/button_facebook_signin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/round_button_facebook"
-        android:drawableStart="@drawable/facebook_icon"
-        android:paddingEnd="30dp"
-        android:paddingStart="18dp"
-        android:text="facebook"
-        android:textAlignment="textEnd"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-
-    <Button
-        android:id="@+id/button_twitter_signin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/round_button_twitter"
-        android:drawablePadding="5dp"
-        android:drawableStart="@drawable/twitter_icon"
-        android:paddingEnd="30dp"
-        android:paddingStart="15dp"
-        android:text="twitter"
-        android:textAlignment="textEnd"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_facebook_signin" />
-
-    <!--<ImageView-->
-    <!--android:layout_width="50dp"-->
-    <!--android:layout_height="50dp"-->
-    <!--android:layout_marginBottom="8dp"-->
-    <!--android:layout_marginStart="8dp"-->
-    <!--android:layout_marginTop="28dp"-->
-    <!--android:scaleType="fitXY"-->
-    <!--android:src="@drawable/facebook_icon"-->
-    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/button_signin" />-->
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

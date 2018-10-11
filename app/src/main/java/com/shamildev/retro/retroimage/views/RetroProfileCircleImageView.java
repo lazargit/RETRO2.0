@@ -101,17 +101,17 @@ public class RetroProfileCircleImageView extends RelativeLayout {
                     .w185()
                     .preload(new RetroImageRequestListener() {
                         @Override
-                        public boolean onLoadFailed(GlideException e) {
+                        public GlideException onLoadFailed(GlideException e) {
                             Log.e("TAG","IMAGE PROFILE LOAD FAILED.");
-                            return false;
+                            return e;
                         }
 
                         @Override
-                        public boolean onResourceReady(Drawable resource) {
+                        public Drawable onResourceReady(Drawable resource) {
                             Log.e("TAG","IMAGE PROFILE LOAD...!");
-                           profileimage_view.setImageDrawable(resource);
+                             profileimage_view.setImageDrawable(resource);
                           //  retroimage_view.setVisibility(View.VISIBLE);
-                            return false;
+                            return resource;
                         }
                     });
 

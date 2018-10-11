@@ -1,20 +1,26 @@
 package com.shamildev.retro.ui.common;
 
 
-
-
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.transition.TransitionInflater;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
 
+import android.view.View;
+
+import com.shamildev.retro.R;
+import com.shamildev.retro.core.TransitionHelper;
 import com.shamildev.retro.navigation.Navigator;
 
 import javax.inject.Inject;
@@ -122,5 +128,15 @@ public abstract class BaseActivitySupport extends AppCompatActivity implements H
 
 
     }
+
+
+    @SuppressWarnings("unchecked") void transitionTo(Intent i) {
+        final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants(this, true);
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this, pairs);
+        startActivity(i, transitionActivityOptions.toBundle());
+    }
+
+
+
 
 }

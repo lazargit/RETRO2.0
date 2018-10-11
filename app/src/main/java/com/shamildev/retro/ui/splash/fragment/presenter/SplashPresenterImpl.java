@@ -24,7 +24,6 @@ import com.shamildev.retro.navigation.Navigator;
 import com.shamildev.retro.retroimage.core.RetroImage;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 import com.shamildev.retro.ui.common.presenter.BasePresenter;
-import com.shamildev.retro.ui.home.HomeActivity;
 import com.shamildev.retro.ui.splash.fragment.model.SplashModel;
 import com.shamildev.retro.ui.splash.fragment.view.SplashView;
 
@@ -138,13 +137,13 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
 
                 .preload(new RetroImageRequestListener() {
                     @Override
-                    public boolean onLoadFailed(GlideException e) {
+                    public GlideException onLoadFailed(GlideException e) {
                         Log.e("TAG","IMAGE PROFILE LOAD FAILED.");
-                        return false;
+                        return e;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource) {
+                    public Drawable onResourceReady(Drawable resource) {
 
 //                        byteimage[0] = BitmapConverter.DrawableToByteArray(resource);
 //                        Log.e("TAG","IMAGE PROFILE LOAD...!"+byteimage[0].toString());
@@ -182,7 +181,7 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
 //                        }
 
 
-                        return false;
+                        return resource;
                     }
                 });
 
@@ -201,14 +200,14 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
                 .w780()
                 .preload(new RetroImageRequestListener() {
                     @Override
-                    public boolean onLoadFailed(GlideException e) {
-                        return false;
+                    public GlideException onLoadFailed(GlideException e) {
+                        return e;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource) {
+                    public Drawable onResourceReady(Drawable resource) {
                          navigator.navigateToHome(application,null);
-                        return false;
+                        return resource;
                     }
                 });
 
@@ -224,16 +223,16 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
                 .w780()
                 .into(view.getSplashBg(),new RetroImageRequestListener() {
                     @Override
-                    public boolean onLoadFailed(GlideException e) {
+                    public GlideException onLoadFailed(GlideException e) {
                         Log.e("TAG","IMAGES LOAD FAILED.");
-                        return false;
+                        return e;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource) {
+                    public Drawable onResourceReady(Drawable resource) {
                         Log.e("TAG","ALL IMAGES PRELOADED...!");
 
-                        return false;
+                        return resource;
                     }
                 });
     }
@@ -258,15 +257,15 @@ public final class SplashPresenterImpl extends BasePresenter<SplashView, SplashM
                 .load(bytes)
                 .into(view.getPersonImage(),new RetroImageRequestListener() {
                     @Override
-                    public boolean onLoadFailed(GlideException e) {
+                    public GlideException onLoadFailed(GlideException e) {
                         Log.e("BYTETEST>>", "onLoadFailed.." + e);
-                        return false;
+                        return e;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource) {
+                    public Drawable onResourceReady(Drawable resource) {
                         Log.e("BYTETEST>>", "onResourceReady.." + resource);
-                        return false;
+                        return resource;
                     }
                 });
     }

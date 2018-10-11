@@ -1,6 +1,7 @@
 package com.shamildev.retro.navigation;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 
@@ -10,6 +11,7 @@ import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivity;
 import com.shamildev.retro.ui.home.HomeActivity;
 import com.shamildev.retro.ui.register.RegisterActivity;
 import com.shamildev.retro.ui.search.SearchActivity;
+import com.shamildev.retro.ui.settings.SettingsActivity;
 import com.shamildev.retro.ui.signin.SignInActivity;
 import com.shamildev.retro.ui.watchlist.WatchlistActivity;
 
@@ -49,6 +51,7 @@ public final class Navigator {
         if (context != null) {
             Intent intent = SignInActivity.getCallingIntent(context);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
 
 
         }
@@ -110,4 +113,11 @@ public final class Navigator {
     }
 
 
+    public void navigateToSettings(Context context,Activity callActivity) {
+        if (context != null) {
+            Intent intent = SettingsActivity.getCallingIntent(context);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(callActivity).toBundle());
+        }
+    }
 }

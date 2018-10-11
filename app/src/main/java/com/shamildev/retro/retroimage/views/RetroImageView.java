@@ -3,9 +3,12 @@ package com.shamildev.retro.retroimage.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -76,6 +79,19 @@ public class RetroImageView extends RelativeLayout {
         this.imageView =  findViewById(R.id.image_custom);
         this.progressBar =  findViewById(R.id.progressbar_image);
         this.imageView.setScaleType(this.scaleType(scaleType));
+//        this.imageView.setLayoutParams(new CollapsingToolbarLayout.LayoutParams(new LayoutParams()))
+//
+//        ViewGroup.LayoutParams params = toolbar.getLayoutParams();
+//        CollapsingToolbarLayout.LayoutParams newParams;
+//        if (params instanceof CollapsingToolbarLayout.LayoutParams) {
+//            newParams = (CollapsingToolbarLayout.LayoutParams)params;
+//        } else {
+//            newParams = new CollapsingToolbarLayout.LayoutParams(params);
+//        }
+//        newParams.setCollapseMode(CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_OFF);
+
+
+      //  this.imageView.layout_collapseMode
         //if(mCircle)  this.imageView.setImageDrawable(getResources().getDrawable(R.drawable.circle_shape));
         if(mPlaceHolder!=null)  this.imageView.setBackground(mPlaceHolder);
 
@@ -96,7 +112,7 @@ public class RetroImageView extends RelativeLayout {
             case 5: return ImageView.ScaleType.FIT_START;
             case 6: return ImageView.ScaleType.FIT_XY;
             case 7: return ImageView.ScaleType.MATRIX;
-            default: return ImageView.ScaleType.CENTER_CROP;
+            default: return ImageView.ScaleType.CENTER;
 
         }
 

@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -30,6 +32,10 @@ import java.util.Arrays;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by Schamil Lazar.
  */
@@ -41,8 +47,13 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
     private CallbackManager mCallbackManager;
     @Inject AppUser appUser;
     @Inject AppConfig appConfig;
+
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     TwitterAuthClient mTwitterAuthClient;
     ProgressDialog dialog;
+    private Unbinder butterKnifeUnbinder;
 
     public static Intent getCallingIntent(Context context) {
         Intent intent = new Intent(context, SignInActivity.class);
@@ -64,8 +75,11 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
 
             facebookLoginCall();
 
-        setContentView(R.layout.activity_signin);
 
+
+        setContentView(R.layout.activity_signin);
+        butterKnifeUnbinder = ButterKnife.bind(this);
+        setupToolBar();
         if (savedInstanceState == null) {
             addFragment(R.id.fragmentContainer, new SignInFragment());
         }
@@ -82,6 +96,19 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
 //
 //                        .build(),
 //                RC_SIGN_IN);
+
+
+    }
+
+    private void setupToolBar() {
+        setSupportActionBar(toolbar);
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle(R.string.activity_signin);
+            toolbar.setNavigationOnClickListener(arrow -> onBackPressed());
+        }
 
 
     }
@@ -152,12 +179,13 @@ public class SignInActivity extends BaseActivitySupport implements SignInFragmen
     @Override
     public void onBackPressed() {
         Log.e("BACKPRESSED ", "getBackStackEntryCount " + getSupportFragmentManager().getBackStackEntryCount());
-        moveTaskToBack(true);
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            // triggerFragmentBackPress(getSupportFragmentManager().getBackStackEntryCount());
-        } else {
-            finish();
-        }
+      //  moveTaskToBack(true);
+//        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+//            // triggerFragmentBackPress(getSupportFragmentManager().getBackStackEntryCount());
+//        } else {
+//
+//        }
+        finish();
     }
 
 

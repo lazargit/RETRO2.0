@@ -10,7 +10,7 @@ import com.bumptech.glide.load.engine.GlideException;
 
 public interface RetroImageRequestListener {
 
-    boolean onLoadFailed(GlideException e);
-    boolean onResourceReady(Drawable resource);
+    GlideException onLoadFailed(GlideException e);
+    Drawable onResourceReady(Drawable resource);
 
 }

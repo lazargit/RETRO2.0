@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.bumptech.glide.load.engine.GlideException;
 import com.facebook.AccessToken;
-import com.google.firebase.auth.FirebaseAuth;
 import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.domain.core.AppConfig;
 import com.shamildev.retro.domain.core.DataConfig;
@@ -33,9 +32,6 @@ import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
 import com.shamildev.retro.retroimage.core.RetroImage;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 import com.shamildev.retro.ui.splash.fragment.presenter.SplashPresenter;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterCore;
-import com.twitter.sdk.android.core.TwitterSession;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -271,12 +267,12 @@ public class SplashModelImpl extends SplashModel{
         retroImage.load(path)
                 .preload(new RetroImageRequestListener() {
                     @Override
-                    public boolean onLoadFailed(GlideException e) {
-                        return false;
+                    public GlideException onLoadFailed(GlideException e) {
+                        return e;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource) {
+                    public Drawable onResourceReady(Drawable resource) {
                        User us =  user.setPic(BitmapConverter.DrawableToByteArray(resource)).setName("Schamil");
 
                         useCaseHandler.execute(usecase_saveUser,  USECASE_SaveUser.Params.user(us), new DisposableSubscriber<AppUser>() {
@@ -303,7 +299,7 @@ public class SplashModelImpl extends SplashModel{
                             }
                         });
 
-                        return true;
+                        return resource;
                     }
                 });
 

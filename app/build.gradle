@@ -13,11 +13,12 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.shamildev.retro"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        renderscriptSupportModeEnabled true
 
 //        javaCompileOptions {
 //            annotationProcessorOptions {
@@ -121,6 +122,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
     implementation 'com.github.todou:appbarspring:1.0.7'
+    implementation 'com.github.mmin18:realtimeblurview:1.1.2'
+    implementation 'com.github.medyo:fancybuttons:1.9.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

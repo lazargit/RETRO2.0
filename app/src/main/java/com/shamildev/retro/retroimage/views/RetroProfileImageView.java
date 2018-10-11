@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -17,8 +16,6 @@ import com.shamildev.retro.domain.core.MediaItem;
 import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
 import com.shamildev.retro.retroimage.core.RetroImage;
 import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Shamil Lazar on 08.05.2018.
@@ -37,7 +34,7 @@ public class RetroProfileImageView extends RelativeLayout {
 
     private ImageView image_circle;
     private RetroImageView retroimage_view;
-    private CircleImageView profileimage_view;
+
 
 
     public RetroProfileImageView(Context context) {
@@ -79,6 +76,7 @@ public class RetroProfileImageView extends RelativeLayout {
             inflate(getContext(), R.layout.view_retro_profile, this);
             this.retroimage_view =  findViewById(R.id.retroimage_view);
 
+
         }
 
 
@@ -99,16 +97,16 @@ public class RetroProfileImageView extends RelativeLayout {
                     .w185()
                     .into(this.retroimage_view,new RetroImageRequestListener() {
                         @Override
-                        public boolean onLoadFailed(GlideException e) {
+                        public GlideException onLoadFailed(GlideException e) {
                             Log.e("TAG","IMAGE PROFILE LOAD FAILED.");
-                            return false;
+                            return e;
                         }
 
                         @Override
-                        public boolean onResourceReady(Drawable resource) {
+                        public Drawable onResourceReady(Drawable resource) {
                             Log.e("TAG","IMAGE PROFILE LOAD...!");
 
-                            return true;
+                            return resource;
                         }
                     });
 
@@ -121,20 +119,19 @@ public class RetroProfileImageView extends RelativeLayout {
         if (!url.equals("")) {
             retroImg
                     .load(url)
-
                     .into(this.retroimage_view,new RetroImageRequestListener() {
                         @Override
-                        public boolean onLoadFailed(GlideException e) {
+                        public GlideException onLoadFailed(GlideException e) {
                             Log.e("TAG","IMAGE FACEBOOK PROFILE LOAD FAILED.");
-                            return false;
+                            return e;
                         }
 
                         @Override
-                        public boolean onResourceReady(Drawable resource) {
+                        public Drawable onResourceReady(Drawable resource) {
                             Log.e("TAG","IMAGE FACEBOOK PROFILE LOAD...! "+BitmapConverter.DrawableToByteArray(resource));
 
 
-                            return true;
+                            return resource;
                         }
                     });
 
@@ -143,27 +140,28 @@ public class RetroProfileImageView extends RelativeLayout {
         }
     }
 
-    public void src(byte[] bytes , RetroImage retroImg){
+    public void src(byte[] bytes , RetroImage retroImg, RetroImageRequestListener listener){
 
         if (!bytes.equals("")) {
             retroImg
                     .load(bytes)
+                    .into(this.retroimage_view,listener);
 
-                    .into(this.retroimage_view,new RetroImageRequestListener() {
-                        @Override
-                        public boolean onLoadFailed(GlideException e) {
-                            Log.e("TAG","IMAGE BYTES PROFILE LOAD FAILED."+e);
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource) {
-                            Log.e("TAG","IMAGE BYTES PROFILE LOAD...! ");
-
-
-                            return true;
-                        }
-                    });
+//                    .into(this.retroimage_view,new RetroImageRequestListener() {
+//                        @Override
+//                        public boolean onLoadFailed(GlideException e) {
+//                            Log.e("TAG","IMAGE BYTES PROFILE LOAD FAILED."+e);
+//                            return false;
+//                        }
+//
+//                        @Override
+//                        public Drawable onResourceReady(Drawable resource) {
+//                            Log.e("TAG","IMAGE BYTES PROFILE LOAD...! ");
+//
+//
+//                            return resource;
+//                        }
+//                    });
 
         } else {
             throw new IllegalStateException("no mediaItem found !");
