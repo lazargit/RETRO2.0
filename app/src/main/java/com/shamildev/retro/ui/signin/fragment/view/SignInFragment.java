@@ -167,8 +167,6 @@ public final class SignInFragment extends BaseViewFragmentV4<SignInPresenter> im
 
     @Override
     public void showSnackBar(Object obj) {
-
-
         Snackbar snackbar = Snackbar
                 .make( signInActivity.getCoordinator(), "www.journaldev.com", Snackbar.LENGTH_LONG);
         snackbar.show();

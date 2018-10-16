@@ -19,6 +19,8 @@ import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivity;
 import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivityModule;
 import com.shamildev.retro.ui.home.HomeActivity;
 import com.shamildev.retro.ui.home.HomeActivityModule;
+import com.shamildev.retro.ui.photogallery.PhotoGalleryActivity;
+import com.shamildev.retro.ui.photogallery.PhotoGalleryActivityModule;
 import com.shamildev.retro.ui.register.RegisterActivity;
 import com.shamildev.retro.ui.register.RegisterActivityModule;
 import com.shamildev.retro.ui.search.SearchActivity;
@@ -129,6 +131,10 @@ public abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = SearchActivityModule.class)
     abstract SearchActivity searchActivityInjector();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = PhotoGalleryActivityModule.class)
+    abstract PhotoGalleryActivity photogalleryActivityInjector();
 
 
     @PerActivity

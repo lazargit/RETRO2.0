@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+
+    <Button
+        android:clickable="true"
+        android:id="@+id/btn_launch_camera"
+        style="@style/RoundedCornerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+        android:text="@string/open_cam"
+        android:layout_marginTop="@dimen/spacing_double"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginRight="@dimen/spacing_normal"
+        />
+
+
+</RelativeLayout>

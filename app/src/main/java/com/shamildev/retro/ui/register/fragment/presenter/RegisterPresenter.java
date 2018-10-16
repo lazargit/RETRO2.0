@@ -5,13 +5,20 @@ package com.shamildev.retro.ui.register.fragment.presenter;
  */
 
 
+import android.text.Editable;
+
 import com.shamildev.retro.ui.common.presenter.Presenter;
 
 /**
  * A {@link Presenter} that does some work and shows the results.
  */
 public interface RegisterPresenter extends Presenter {
-    void toast(Object obj);
+    void pasteImage(byte[] bytes);
 
+    void toast(Object obj);
     void onError(Throwable t);
+
+    void checkInput(String username, String email, String password);
+
+    void uploadImage(byte[] bytes);
 }

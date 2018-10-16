@@ -8,13 +8,13 @@
     <string name="logout">Logout</string>
     <string name="notloggedin">You are not logged in!</string>
     <string name="email">Email</string>
-    <string name="passoword">Passoword</string>
+    <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="no_account">create account</string>
     <string name="activity_home">Home</string>
     <string name="activity_register">Register</string>
     <string name="create_an_account">create a new account</string>
-    <string name="username">username</string>
+    <string name="username">User name</string>
     <string name="register">create account</string>
     <string name="activity_watchlist">Watchlist</string>
     <string name="activity_search">Search</string>
@@ -47,6 +47,9 @@
 	</string>
     <string name="log_out">log out</string>
     <string name="or_sign_in_with">or sign in with</string>
+    <string name="open_cam">open cam</string>
+    <string name="gallery">GALLERY</string>
+    <string name="photo">PHOTO</string>
 
 
 </resources>

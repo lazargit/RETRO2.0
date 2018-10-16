@@ -1,6 +1,7 @@
 package com.shamildev.retro.ui.register;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.shamildev.retro.di.scope.PerActivity;
 import com.shamildev.retro.di.scope.PerFragment;
@@ -42,5 +43,5 @@ public abstract class RegisterActivityModule {
      */
     @Binds
     @PerActivity
-    abstract Activity activity(RegisterActivity activity);
+    abstract AppCompatActivity activity(RegisterActivity activity);
 }

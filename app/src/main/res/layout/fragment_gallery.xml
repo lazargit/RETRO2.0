@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relLayout1">
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="100"
+        android:layout_below="@id/relLayout1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="60">
+
+            <com.shamildev.retro.retroimage.views.RetroImageView
+                android:id="@+id/galleryImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.shamildev.retro.retroimage.views.RetroImageView>
+
+
+        </RelativeLayout>
+
+        <GridView
+            android:id="@+id/grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:numColumns="4"
+            android:horizontalSpacing="@dimen/spacing_micro"
+            android:verticalSpacing="@dimen/spacing_micro"
+            android:stretchMode="none"
+            android:gravity="center"
+
+
+            >
+
+        </GridView>
+
+    </LinearLayout>
+
+</RelativeLayout>

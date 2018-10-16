@@ -1,5 +1,7 @@
 package com.shamildev.retro.domain.repository;
 
+import android.support.annotation.NonNull;
+
 import com.shamildev.retro.domain.models.AppUser;
 
 import io.reactivex.Completable;
@@ -27,10 +29,18 @@ public interface BaseRepository {
     Flowable<AppUser> signInWithTwitter();
     Completable signOut();
 
+
+
+    @NonNull
+    Maybe<byte[]> getBytes(@NonNull String storageRefString, long maxDownloadSizeBytes);
+
     Completable testSaveData();
 
     Completable insertUser();
     Flowable<AppUser> testReadData();
 
     Observable<AppUser> testListenerData();
+
+    Flowable<Object> uploadImage(byte[] bytes);
+    Flowable<Object> downloadImage();
 }

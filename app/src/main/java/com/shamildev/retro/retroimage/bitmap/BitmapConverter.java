@@ -10,8 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Base64;
 
-import com.shamildev.retro.R;
-
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -155,5 +153,12 @@ public class BitmapConverter {
         convMatrix.Factor = value + 8;
         convMatrix.Offset = 1;
         return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
+    }
+
+    public static byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,70, baos);
+        byte [] b=baos.toByteArray();
+        return b;
     }
 }

@@ -220,7 +220,7 @@ Log.e(TAG,"> "+appUser.toString());
     private void signInState(){
 
        // view.getTextView_UserEmail().setText( mAuth.getCurrentUser().getEmail());
-        view.getButton_signin().setVisibility(View.GONE);
+        view.getButton_signin().setVisibility(View.VISIBLE);
         view.getTextView_UserName().setText("eingelogt");
 
        // view.getButton_signin().setVisibility(View.GONE);

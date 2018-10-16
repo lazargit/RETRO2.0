@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.shamildev.retro.R;
 import com.shamildev.retro.ui.account.AccountActivity;
 import com.shamildev.retro.ui.firebaseui.FirebaseUiSignInActivity;
 import com.shamildev.retro.ui.home.HomeActivity;
+import com.shamildev.retro.ui.photogallery.PhotoGalleryActivity;
 import com.shamildev.retro.ui.register.RegisterActivity;
 import com.shamildev.retro.ui.search.SearchActivity;
 import com.shamildev.retro.ui.settings.SettingsActivity;
@@ -25,9 +27,13 @@ import javax.inject.Inject;
 public final class Navigator {
 
 
+
     /**
      * Provides methods to navigate to the different activities in the application.
      */
+
+    private static final String TAG = "Navigator";
+    public static final int SUB_ACTIVITY_CREATE_USER = 16;
 
     @Inject
     Navigator() {
@@ -120,4 +126,18 @@ public final class Navigator {
             context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(callActivity).toBundle());
         }
     }
+
+    public void navigateToPhotoGallery(Context context,Activity callActivity) {
+        if (context != null) {
+            Intent intent = PhotoGalleryActivity.getCallingIntent(context);
+          //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          //  PhotoGalleryActivity.startActivityForResult(intent, SUB_ACTIVITY_CREATE_USER);
+            callActivity.startActivityForResult(intent,SUB_ACTIVITY_CREATE_USER);
+            if(callActivity!=null) {
+                callActivity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            }
+
+        }
+    }
+
 }

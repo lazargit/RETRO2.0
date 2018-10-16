@@ -1,6 +1,8 @@
 package com.shamildev.retro.ui.register.fragment.modul;
 
-import android.app.Fragment;
+
+
+import android.support.v4.app.Fragment;
 
 import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.ui.common.view.BaseFragmentModule;
@@ -25,7 +27,7 @@ public abstract class RegisterFragmentModule {
 
 
     @Binds
-    @Named(BaseFragmentModule.FRAGMENT)
+    @Named(BaseFragmentModule.FRAGMENT_V4)
     @PerFragment
     abstract Fragment fragment(RegisterFragment fragment);
 

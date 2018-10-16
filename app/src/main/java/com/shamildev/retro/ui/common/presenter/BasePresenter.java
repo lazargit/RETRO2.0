@@ -31,27 +31,27 @@ public abstract class BasePresenter<T extends MVPView, M extends BaseModel> impl
 
     @Override
     public void onStart(@Nullable Bundle savedInstanceState) {
-        Log.e("BasePresenter","onStart");
+
     }
 
     @Override
     public void onResume() {
-        Log.e("BasePresenter","onResume");
+
 
     }
 
     @Override
     public void onPause() {
-        Log.e("BasePresenter","onPause");
+
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Log.e("BasePresenter","onSaveInstanceState");
+
     }
 
     @Override
     public void onEnd() {
-        Log.e("BasePresenter","onEnd");
+
     }
 }

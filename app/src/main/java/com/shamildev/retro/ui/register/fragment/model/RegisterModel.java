@@ -10,6 +10,6 @@ import com.shamildev.retro.ui.register.fragment.presenter.RegisterPresenter;
 
 public abstract class RegisterModel extends BaseModel<RegisterPresenter> {
 
-    public abstract void createUser();
+    public abstract void createUser(byte[] bytes);
 
 }

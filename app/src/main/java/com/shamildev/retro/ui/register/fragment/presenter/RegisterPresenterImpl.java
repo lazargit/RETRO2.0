@@ -1,15 +1,19 @@
 package com.shamildev.retro.ui.register.fragment.presenter;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.bumptech.glide.load.engine.GlideException;
 import com.shamildev.retro.data.net.error.TMDBError;
 import com.shamildev.retro.di.scope.PerFragment;
 import com.shamildev.retro.domain.core.AppConfig;
 import com.shamildev.retro.domain.core.DataConfig;
+import com.shamildev.retro.retroimage.bitmap.BitmapConverter;
 import com.shamildev.retro.retroimage.core.RetroImage;
+import com.shamildev.retro.retroimage.core.RetroImageRequestListener;
 import com.shamildev.retro.ui.common.presenter.BasePresenter;
 import com.shamildev.retro.ui.home.fragment.model.HomeModel;
 import com.shamildev.retro.ui.home.fragment.view.HomeView;
@@ -46,10 +50,6 @@ public final class RegisterPresenterImpl extends BasePresenter<RegisterView, Reg
             RegisterModel model,
             DataConfig dataConfig) {
         super(view, model);
-        //       this.networkManager = networkManager;
-        //      this.networkManager.add(toString(), this::refreshData);
-//            this.bootstrap = bootstrap;
-//            this.bootstrap.setUp(this);
         this.dataConfig = dataConfig;
         this.appConfig = appConfig;
 
@@ -76,6 +76,43 @@ public final class RegisterPresenterImpl extends BasePresenter<RegisterView, Reg
         Log.d("onError", t.getMessage());
     }
 
+    @Override
+    public void checkInput(String username, String email, String password) {
+        if(username.equals("") || email.equals("") || password.equals("")){
+            view.showSnackBar("complete your details!");
+        }
+
+    }
+
+    @Override
+    public void uploadImage(byte[] bytes) {
+        model.createUser(bytes);
+    }
+
+    @Override
+    public void pasteImage(byte[] bytes) {
+        view.profileImage()
+                .src(bytes, retroImage, new RetroImageRequestListener() {
+                    @Override
+                    public GlideException onLoadFailed(GlideException e) {
+                        return null;
+                    }
+
+                    @Override
+                    public Drawable onResourceReady(Drawable resource) {
+
+
+                        return null;
+                    }
+        });
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null)
+            return false;
+
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
 
     @Override
     public void toast(Object obj) {
