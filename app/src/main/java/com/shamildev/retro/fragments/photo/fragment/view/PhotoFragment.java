@@ -57,8 +57,8 @@ public final class PhotoFragment extends BaseViewFragmentV4<PhotoPresenter> impl
 
     @OnClick(R.id.btn_launch_camera)
     public void onClick_ButtonLaunchCamera(Button button) {
-        Log.d(TAG, "onClick_ButtonLaunchCamera: click "+((PhotoGalleryActivity)getActivity()).getCurrentTabNum());
-        if(((PhotoGalleryActivity)getActivity()).getCurrentTabNum() == PHOTO_FRAMENT_NUM){
+      //  Log.d(TAG, "onClick_ButtonLaunchCamera: click "+((PhotoGalleryActivity)getActivity()).getCurrentTabNum());
+       // if(((PhotoGalleryActivity)getActivity()).getCurrentTabNum() == PHOTO_FRAMENT_NUM){
 
             /*
              if camera permission ok
@@ -74,7 +74,7 @@ public final class PhotoFragment extends BaseViewFragmentV4<PhotoPresenter> impl
                 startActivity(intent);
 
             }
-        }
+       // }
 
     }
 

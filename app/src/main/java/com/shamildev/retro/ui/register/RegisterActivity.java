@@ -43,7 +43,11 @@ public class RegisterActivity extends BaseActivitySupport implements DialogListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_register);
+          //  supportStartPostponedEnterTransition();
+      //  supportPostponeEnterTransition();
+     //   postponeEnterTransition();
         Log.e(TAG, "onCreate: started");
 
         if (savedInstanceState == null) {
@@ -83,7 +87,7 @@ public class RegisterActivity extends BaseActivitySupport implements DialogListe
         Intent intent = getIntent();
         Log.d(TAG, "getIncomingIntent: ");
         if (intent != null) {
-            String image = intent.getStringExtra("image");
+            String image = intent.getStringExtra("keyName");
             Log.d(TAG, "getIncomingIntent: "+image);
         }
 
@@ -131,6 +135,17 @@ public class RegisterActivity extends BaseActivitySupport implements DialogListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, "onActivityResult: "+requestCode+" "+resultCode+" == "+Activity.RESULT_OK);
+
+        if(resultCode == PhotoGalleryActivity.RESULT_CODE){
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Log.e(TAG, "onActivityResult:  extras: "+ extras.getString("keyName"));
+               // Log.e(TAG, "onActivityResult:  extras: "+ extras.getParcelable("bitmap"));
+              //  byte[] b = extras.getByteArray("bitmap");
+             //   Log.e(TAG, "onActivityResult:  extras: "+ b.length);
+                getFragmentById(R.id.fragmentContainer).onActivityResult(requestCode,resultCode,data);
+            }
+        }
 
         if (requestCode == Navigator.SUB_ACTIVITY_CREATE_USER && resultCode == PhotoGalleryActivity.RESULT_CODE) {
             Bundle extras = data.getExtras();

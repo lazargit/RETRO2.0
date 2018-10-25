@@ -128,16 +128,27 @@ public final class Navigator {
     }
 
     public void navigateToPhotoGallery(Context context,Activity callActivity) {
+
         if (context != null) {
             Intent intent = PhotoGalleryActivity.getCallingIntent(context);
-          //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-          //  PhotoGalleryActivity.startActivityForResult(intent, SUB_ACTIVITY_CREATE_USER);
-            callActivity.startActivityForResult(intent,SUB_ACTIVITY_CREATE_USER);
-            if(callActivity!=null) {
-                callActivity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-            }
 
+
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(callActivity).toBundle());
         }
+
+
+//        if (context != null) {
+//            Intent intent = PhotoGalleryActivity.getCallingIntent(context);
+//          //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//          //  PhotoGalleryActivity.startActivityForResult(intent, SUB_ACTIVITY_CREATE_USER);
+//            callActivity.startActivityForResult(intent,SUB_ACTIVITY_CREATE_USER);
+//            if(callActivity!=null) {
+//                callActivity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//            }
+//
+//        }
     }
 
 }

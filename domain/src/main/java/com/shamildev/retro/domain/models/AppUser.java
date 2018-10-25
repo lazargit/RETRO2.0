@@ -162,6 +162,10 @@ public class AppUser implements DomainObject {
         return profilePic;
     }
 
+    public void setProfilePic(byte[] profilePic) {
+        this.profilePic = profilePic;
+    }
+
     public String getSigin_provider() {
         return sigin_provider;
     }

@@ -1,38 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
-    <RelativeLayout
+
+
+    <com.shamildev.retro.retroimage.views.RetroProfileImageView
+        android:id="@+id/retroProfileImage"
+
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:transitionName="profile"
+        tools:ignore="UnusedAttribute"
+
+        />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        ​<FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal|center_vertical"
 
-        <RelativeLayout
-            android:id="@+id/relLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="50dp">
-            <include layout="@layout/layout_center_viewpager" />
+        >
+    <com.shamildev.retro.views.CircleButton
+        android:id="@+id/button_circle_camera"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:background="@drawable/circle_camera_button"
 
-        </RelativeLayout>
+        />
+    <com.shamildev.retro.views.CircleButton
+        android:id="@+id/button_circle_gallery"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:background="@drawable/circle_imagelib_button"
 
-        <RelativeLayout
-            android:id="@+id/relLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <include layout="@layout/layout_bottom_tab" />
-
-        </RelativeLayout>
-
-
-    </RelativeLayout>
-
-
+        />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
